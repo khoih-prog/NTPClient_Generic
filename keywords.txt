@@ -1,0 +1,73 @@
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+NTPClient	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setPoolServerName	KEYWORD2
+getPoolServerName KEYWORD2
+setPoolServerIP KEYWORD2
+getPoolServerIP KEYWORD2
+begin	KEYWORD2
+update	KEYWORD2
+updated	KEYWORD2
+setUpdateCallback KEYWORD2
+forceUpdate	KEYWORD2
+getUTCYear  KEYWORD2
+getUTCMonthStr  KEYWORD2
+getUTCMonth KEYWORD2
+getUTCDoW KEYWORD2
+getUTCDay KEYWORD2
+getUTCHours KEYWORD2
+getUTCMinutes KEYWORD2
+getUTCSeconds KEYWORD2
+getUTCStrHours  KEYWORD2
+getUTCStrMinutes  KEYWORD2
+getUTCStrSeconds  KEYWORD2
+getYear KEYWORD2
+getMonthStr KEYWORD2
+getMonth  KEYWORD2
+getDoW  KEYWORD2
+getDay  KEYWORD2
+getHours  KEYWORD2
+getMinutes  KEYWORD2
+getSeconds  KEYWORD2
+getStrHours KEYWORD2
+getStrMinutes KEYWORD2
+getStrSeconds KEYWORD2
+setTimeOffset	KEYWORD2
+setUpdateInterval	KEYWORD2
+setRetryInterval  KEYWORD2
+createFormattedTime KEYWORD2
+getFormattedTime	KEYWORD2
+getFormattedUTCTime KEYWORD2
+getFormattedDateTime  KEYWORD2
+getFormattedUTCDateTime KEYWORD2
+getUTCEpochTime KEYWORD2
+getEpochTime	KEYWORD2
+getUTCEpochMillis KEYWORD2
+getEpochMillis  KEYWORD2
+end	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+SECS_IN_DAY LITERAL1
+SECS_IN_HR  LITERAL1
+SECS_IN_MIN LITERAL1
+SEVENTYYEARS  LITERAL1
+FRACTIONSPERMILLI LITERAL1
+NTP_PACKET_SIZE LITERAL1
+NTP_DEFAULT_LOCAL_PORT  LITERAL1
+NTP_SEVER_PORT  LITERAL1
+NTP_DBG_PORT  LITERAL1
+_NTP_LOGLEVEL_  LITERAL1
+
+
+
+

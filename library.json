@@ -1,0 +1,36 @@
+{
+  "name": "NTPClient_Generic",
+  "version": "3.2.1",
+  "keywords": "Timing, Device, Control, NTP, RTC, wifi, wi-fi, WiFiNINA, ethernet, ntp, client, time",
+  "description": "Library for NTPClient to connect to an NTP time-server. Get time from a NTP time-server and keep it in sync. For ESP8266/ESP32, nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi",
+  "authors":
+  [
+    {
+      "name": "Fabrice Weinberg",
+      "email": "fabrice@weinberg.me"
+    },
+    {
+      "name":  "Khoi Hoang",
+      "url":   "https://github.com/khoih-prog",
+      "email": "khoih.prog@gmail.com",
+      "maintainer": true
+    }  
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/khoih-prog/NTPClient_Generic.git"
+  },
+  "homepage": "https://github.com/khoih-prog/NTPClient_Generic",
+  "export": {
+    "exclude": [
+      "linux",
+      "extras",
+      "tests"
+    ]
+  },
+  "frameworks": "*",
+  "platforms": "*",
+  "examples": "examples/*/*/*.ino",
+  "license": "MIT"
+}
