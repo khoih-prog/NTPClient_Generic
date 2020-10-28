@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
-  RTC_Ethernet_NTPClient_STM32.ino
+  BI_RTC_Alarm_Ethernet_NTPClient_STM32.ino
 
-  Self-adjusting clock for one time zone using an external DS3231 RTC
+  Self-adjusting clock for one time zone using Built-in STM32 RTC
 
   For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
@@ -25,14 +25,34 @@
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
  *****************************************************************************************************************************/
-
+/****************************************************************************************************************************
+  STM32 has five clock sources: HSI, HSE, LSI, LSE, PLL.
+  
+  (1) HSI is a high-speed internal clock, RC oscillator, with a frequency of 8MHz and low accuracy.
+  (2) HSE is a high-speed external clock, which can be connected with quartz/ceramic resonator or external clock source. 
+      Its frequency range is from 4MHz to 16MHz.
+  (3) LSI is a low-speed internal clock, RC oscillator, with a frequency of 40 kHz, providing a low-power clock. 　
+  (4) LSE is a low-speed external clock connected to 32.768 kHz quartz crystal.
+  (5) PLL is the frequency doubling output of PLL, and its clock input source can be HSI/2, HSE or HSE/2. 
+      Frequency doubling can be chosen as 2 to 16 times, but the maximum output frequency should not exceed 72MHz.
+      
+  The system clock SYSCLK can be derived from three clock sources:
+  (1) HSI oscillator clock
+  (2) HSE oscillator clock
+  (3) PLL Clock
+  STM32 can choose a clock signal to output to MCO foot (PA8), and can choose 2-frequency, HSI, HSE, or system clock for PLL output.
+  Before any peripheral can be used, its corresponding clock must be enabled first.
+ *****************************************************************************************************************************/
+ 
 #include "defines.h"
 
 #include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
 
-#include <DS323x_Generic.h>               // https://github.com/khoih-prog/DS323x_Generic
+#include <STM32RTC.h>                     // https://github.com/stm32duino/STM32RTC
 
-DS323x rtc;
+/* Get the rtc object */
+STM32RTC& rtc = STM32RTC::getInstance();
+
 
 //////////////////////////////////////////
 
@@ -91,21 +111,59 @@ void update_RTC(void)
   // Just get the correct time once
   if (timeClient.updated())
   {
+    // Update RTC
+    Serial.println("\nUpdating Time for STM32 RTC");
     Serial.println("********UPDATED********");
-    rtc.now( DateTime(timeClient.getUTCEpochTime()) );
+  
+    // STM32 RTC clock starts from 01/01/2000 if not set. No battery-backed RTC.
+    // STM32 RTC specific code
+    unsigned long epoch = timeClient.getUTCEpochTime();
+    
+    rtc.setEpoch(epoch);
+
+    // Set test alarm after 30s
+    setRTC_Alarm(epoch + 30L);
+    
     gotCurrentTime = true;
   }
+}
+
+void alarmMatch(void *data)
+{
+  UNUSED(data);
+  Serial.println("*****RTC ALARM ACTIVATED*****");
+  Serial.println("*****RTC ALARM ACTIVATED*****");
+}
+
+void setRTC_Alarm(unsigned long epochAlarm)
+{
+  rtc.attachInterrupt(alarmMatch);
+
+  // Alarm at epochAlarm
+  rtc.setAlarmEpoch(epochAlarm, rtc.MATCH_DHHMMSS);
+
+  // Display Alarm time from RTC
+  Serial.println("=======RTC ALARM SET========");
+
+  // STM32 RTC specific code
+  time_t utcAlarm   = epochAlarm;
+  time_t localAlarm = myTZ.toLocal(utcAlarm, &tcr);
+  //////
+
+  printDateTime(utcAlarm, "UTC");
+  printDateTime(localAlarm, tcr -> abbrev);
+  Serial.println("============================");
 }
 
 void displayRTC()
 {
   // Display time from RTC
-  DateTime now = rtc.now();
-
   Serial.println("============================");
 
-  time_t utc = now.get_time_t();
+  // STM32 RTC specific code
+  time_t utc = rtc.getEpoch();
   time_t local = myTZ.toLocal(utc, &tcr);
+  //////
   
   printDateTime(utc, "UTC");
   printDateTime(local, tcr -> abbrev);
@@ -163,9 +221,7 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart RTC_Ethernet_NTPClient_STM32 on " + String(BOARD_NAME) + ", using " + String(SHIELD_TYPE));
-
-  Wire.begin();
+  Serial.println("\nStart BI_RTC_Alarm_Ethernet_NTPClient_STM32 on " + String(BOARD_NAME) + ", using " + String(SHIELD_TYPE));
 
   ET_LOGWARN3(F("Board :"), BOARD_NAME, F(", setCsPin:"), USE_THIS_SS_PIN);
 
@@ -212,7 +268,12 @@ void setup()
 
   timeClient.begin();
 
-  rtc.attach(Wire);
+  // STM32 RTC specific code
+  // Select RTC clock source: LSI_CLOCK, LSE_CLOCK or HSE_CLOCK.
+  // By default the LSI is selected as source.
+  //rtc.setClockSource(STM32RTC::LSE_CLOCK);
+  rtc.begin(); // initialize RTC 24H format
+  //////
 }
 
 void loop()

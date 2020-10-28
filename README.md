@@ -24,6 +24,10 @@ This [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Gen
 
 ---
 
+### Releases v3.2.2
+
+1. Add examples to use STM32 Built-In RTC.
+
 ### Releases v3.2.1
 
 1. Initial porting to many Generic boards using WiFi/Ethernet modules/shields.
@@ -90,7 +94,8 @@ This [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Gen
 17. [`EthernetWebServer_STM32 library v1.0.6+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
 18. [`ESP8266_AT_WebServer library v1.1.1+`](https://github.com/khoih-prog/ESP8266_AT_WebServer) to use ESP8266-AT/ESP32-AT WiFi modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_AT_WebServer.svg?)](https://www.ardu-badge.com/ESP8266_AT_WebServer)
 19. [`DS323x_Generic library v1.0.0+`](https://github.com/khoih-prog/DS323x_Generic) to use examples using DS323x RTC modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DS323x_Generic.svg?)](https://www.ardu-badge.com/DS323x_Generic)
-20. [`Timezone_Generic library v1.2.4+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
+20. [`Timezone_Generic library v1.2.5+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
+21. [`STM32RTC library v1.0.3+`](https://github.com/stm32duino/STM32RTC) to use STM32 examples using built-in STM32 RTC.
 
 ---
 ---
@@ -326,19 +331,21 @@ To re-use the **new h-only** way, just
  7. [TZ_NTP_WorldClock_Ethernet](examples/Generic/Ethernet/TZ_NTP_WorldClock_Ethernet)
 
 ### STM32F/L/H/G/WB/MP1 Boards with Ethernet
- 
- 8. [Ethernet_NTPClient_Advanced_STM32](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced_STM32) 
- 9. [Ethernet_NTPClient_Basic_STM32](examples/Generic/Ethernet/Ethernet_NTPClient_Basic_STM32)
-10. [RTC_Ethernet_NTPClient_STM32](examples/Generic/Ethernet/RTC_Ethernet_NTPClient_STM32)
-11. [TZ_NTP_Clock_STM32_Ethernet](examples/Generic/Ethernet/TZ_NTP_Clock_STM32_Ethernet) 
-12. [TZ_NTP_WorldClock_STM32_Ethernet](examples/Generic/Ethernet/TZ_NTP_WorldClock_STM32_Ethernet)
+
+ 8. [BI_RTC_Alarm_Ethernet_NTPClient_STM32](examples/Generic/Ethernet/BI_RTC_Alarm_Ethernet_NTPClient_STM32) 
+ 9. [BI_RTC_Ethernet_NTPClient_STM32](examples/Generic/Ethernet/BI_RTC_Ethernet_NTPClient_STM32) 
+10. [Ethernet_NTPClient_Advanced_STM32](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced_STM32) 
+11. [Ethernet_NTPClient_Basic_STM32](examples/Generic/Ethernet/Ethernet_NTPClient_Basic_STM32)
+12. [RTC_Ethernet_NTPClient_STM32](examples/Generic/Ethernet/RTC_Ethernet_NTPClient_STM32)
+13. [TZ_NTP_Clock_STM32_Ethernet](examples/Generic/Ethernet/TZ_NTP_Clock_STM32_Ethernet) 
+14. [TZ_NTP_WorldClock_STM32_Ethernet](examples/Generic/Ethernet/TZ_NTP_WorldClock_STM32_Ethernet)
  
 ### Generic Boards with WiFiNINA 
  
-13. [NINA_NTPClient_Advanced](examples/Generic/WiFiNINA/NINA_NTPClient_Advanced) 
-14. [NINA_NTPClient_Basic](examples/Generic/WiFiNINA/NINA_NTPClient_Basic)
-15. [NINA_TZ_NTP_Clock](examples/Generic/WiFiNINA/NINA_TZ_NTP_Clock)
-16. [NINA_TZ_NTP_WorldClock](examples/Generic/WiFiNINA/NINA_TZ_NTP_WorldClock)
+15. [NINA_NTPClient_Advanced](examples/Generic/WiFiNINA/NINA_NTPClient_Advanced) 
+16. [NINA_NTPClient_Basic](examples/Generic/WiFiNINA/NINA_NTPClient_Basic)
+17. [NINA_TZ_NTP_Clock](examples/Generic/WiFiNINA/NINA_TZ_NTP_Clock)
+18. [NINA_TZ_NTP_WorldClock](examples/Generic/WiFiNINA/NINA_TZ_NTP_WorldClock)
 
 ---
 ---
@@ -1394,9 +1401,108 @@ LOC : 16:29:47 Mon 26/10/2020 or 26 Oct 2020
 ```
 
 ---
+
+10. The following is debug terminal output when running example [**BI_RTC_Ethernet_NTPClient_STM32**](examples/Generic/Ethernet/BI_RTC_Ethernet_NTPClient_STM32) on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library to demonstrate the usage of STM32 built-in RTC
+
+```
+Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
+[ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
+[ETHERNET_WEBSERVER] Default SPI pinout:
+[ETHERNET_WEBSERVER] MOSI: 11
+[ETHERNET_WEBSERVER] MISO: 12
+[ETHERNET_WEBSERVER] SCK: 13
+[ETHERNET_WEBSERVER] SS: 10
+[ETHERNET_WEBSERVER] =========================
+You're connected to the network, IP = 192.168.2.96
+Retry RTC update in seconds : 3
+
+Updating Time for STM32 RTC
+********UPDATED********
+RTC updated. Next update in seconds : 3600
+============================
+20:35:36 Wed 28 Oct 2020 UTC
+16:35:36 Wed 28 Oct 2020 EDT
+============================
+20:35:45 Wed 28 Oct 2020 UTC
+16:35:45 Wed 28 Oct 2020 EDT
+```
+
+---
+
+11. The following is debug terminal output when running example [**BI_RTC_Ethernet_NTPClient_STM32**](examples/Generic/Ethernet/BI_RTC_Ethernet_NTPClient_STM32) on STM32F7 Nucleo-144 NUCLEO_F767ZI with ENC28J60 using EthernetENC Library to demonstrate the usage of STM32 built-in RTC
+
+```
+Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using ENC28J60 & EthernetENC Library
+[ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
+[ETHERNET_WEBSERVER] Default SPI pinout:
+[ETHERNET_WEBSERVER] MOSI: 11
+[ETHERNET_WEBSERVER] MISO: 12
+[ETHERNET_WEBSERVER] SCK: 13
+[ETHERNET_WEBSERVER] SS: 10
+[ETHERNET_WEBSERVER] =========================
+BYou're connected to the network, IP = 192.168.2.97
+
+Updating Time for STM32 RTC
+********UPDATED********
+RTC updated. Next update in seconds : 3600
+============================
+20:40:14 Wed 28 Oct 2020 UTC
+16:40:14 Wed 28 Oct 2020 EDT
+============================
+20:40:24 Wed 28 Oct 2020 UTC
+16:40:24 Wed 28 Oct 2020 EDT
+```
+
+---
+
+12. The following is debug terminal output when running example [**BI_RTC_Alarm_Ethernet_NTPClient_STM32**](examples/Generic/Ethernet/BI_RTC_Alarm_Ethernet_NTPClient_STM32) on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library to demonstrate the usage of STM32 built-in RTC Alarm function
+
+```
+Start BI_RTC_Alarm_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
+[ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
+[ETHERNET_WEBSERVER] Default SPI pinout:
+[ETHERNET_WEBSERVER] MOSI: 11
+[ETHERNET_WEBSERVER] MISO: 12
+[ETHERNET_WEBSERVER] SCK: 13
+[ETHERNET_WEBSERVER] SS: 10
+[ETHERNET_WEBSERVER] =========================
+You're connected to the network, IP = 192.168.2.111
+Retry RTC update in seconds : 3
+
+Updating Time for STM32 RTC
+********UPDATED********
+=======RTC ALARM SET========
+20:47:55 Wed 28 Oct 2020 UTC
+16:47:55 Wed 28 Oct 2020 EDT
+============================
+RTC updated. Next update in seconds : 3600
+============================
+20:47:31 Wed 28 Oct 2020 UTC
+16:47:31 Wed 28 Oct 2020 EDT
+============================
+20:47:40 Wed 28 Oct 2020 UTC
+16:47:40 Wed 28 Oct 2020 EDT
+============================
+20:47:50 Wed 28 Oct 2020 UTC
+16:47:50 Wed 28 Oct 2020 EDT
+*****RTC ALARM ACTIVATED*****
+*****RTC ALARM ACTIVATED*****
+============================
+20:47:59 Wed 28 Oct 2020 UTC
+16:47:59 Wed 28 Oct 2020 EDT
+============================
+20:48:08 Wed 28 Oct 2020 UTC
+16:48:08 Wed 28 Oct 2020 EDT
+```
+
+---
 ---
 
 ## Releases
+
+### Releases v3.2.2
+
+1. Add examples to use STM32 Built-In RTC.
 
 ### Releases v3.2.1
 

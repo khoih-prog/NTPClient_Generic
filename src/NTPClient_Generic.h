@@ -15,12 +15,13 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.2.1
+  Version: 3.2.2
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
   3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
+  3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
  *****************************************************************************************************************************/
  
 #pragma once
