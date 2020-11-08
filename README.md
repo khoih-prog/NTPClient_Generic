@@ -14,7 +14,7 @@
 
 The [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Generic) is designed to work in conjunction with the [**Arduino Time library**](https://github.com/PaulStoffregen/Time), which must also be installed on your system. This documentation assumes some familiarity with the Time library.
 
-The primary goal of the [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Generic) is to enable the creation of an NTPClient to connect to NTP time-servers to get time and keep local time in sync. For ESP8266/ESP32, nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi. But whether hardware RTC or another time-keeping source is present is not mandatory, since the [**Time library**](https://github.com/PaulStoffregen/Time) library can function as a software RTC without additional hardware (although its accuracy is dependent on the accuracy of the microcontroller's system clock.)
+The primary goal of the [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Generic) is to enable the creation of an NTPClient to connect to NTP time-servers to get time and keep local time in sync. For **ESP8266/ESP32, nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi**. But whether hardware RTC or another time-keeping source is present is not mandatory, since the [**Time library**](https://github.com/PaulStoffregen/Time) library can function as a software RTC without additional hardware (although its accuracy is dependent on the accuracy of the microcontroller's system clock.)
 
 The examples will demonstrate how to get the UTC time from NTP server, then update the DS3231 RTC or local clock to make sure the time is perfectly correct.
 
@@ -26,12 +26,12 @@ This [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Gen
 
 ### Releases v3.2.2
 
-1. Add examples to use STM32 Built-In RTC.
+1. Add examples to use **STM32 Built-In RTC.**
 
 ### Releases v3.2.1
 
 1. Initial porting to many Generic boards using WiFi/Ethernet modules/shields.
-2. Add support to SAMD21/SAMD51, nRF52, STM32F/L/H/G/WB/MP1 with WiFiNINA, W5x00, ENC28J60, LAN8742A Ethernet modules/shields.
+2. Add support to **SAMD21/SAMD51, nRF52, STM32F/L/H/G/WB/MP1 with WiFiNINA, W5x00, ENC28J60, LAN8742A Ethernet modules/shields.**
 3. Add functions.
 4. Completely new examples using NTP time to update DS3231 RTC and/or local clock.
 
@@ -39,11 +39,11 @@ This [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Gen
 
   - **ESP8266**.
   - **ESP32**.
-  - ***SAM DUE***.
+  - **SAM DUE**.
   - **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox etc.**.
   - **Arduino SAMD21 (ZERO, MKR, NANO_33_IOT, etc.)**.
-  - **Adafruit SAM21 (Itsy-Bitsy M0, Metro M0, Feather M0, Gemma M0, etc.)**.
-  - **Adafruit SAM51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, etc.)**.
+  - **Adafruit SAMD21 (Itsy-Bitsy M0, Metro M0, Feather M0, Gemma M0, etc.)**.
+  - **Adafruit SAMD51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, etc.)**.
   - **Seeeduino SAMD21/SAMD51 boards (SEEED_WIO_TERMINAL, SEEED_FEMTO_M0, SEEED_XIAO_M0, Wio_Lite_MG126, WIO_GPS_BOARD, SEEEDUINO_ZERO, SEEEDUINO_LORAWAN, SEEED_GROVE_UI_WIRELESS, etc.)**
   - **STM32 (Nucleo-144, Nucleo-64, Nucleo-32, Discovery, STM32F1, STM32F3, STM32F4, STM32H7, STM32L0, etc.)**.
   - **STM32F/L/H/G/WB/MP1 (Nucleo-64 L053R8,Nucleo-144, Nucleo-64, Nucleo-32, Discovery, STM32Fx, STM32H7, STM32Lx, STM32Gx, STM32WB, STM32MP1, etc.) having 64K+ Flash program memory.**
@@ -74,10 +74,11 @@ This [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Gen
  5. [`Teensy core v1.53+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
  6. [`Arduino SAM DUE core v1.6.12+`](https://www.arduino.cc/en/Guide/ArduinoDue) for SAM DUE ARM Cortex-M3 boards
  7. [`Arduino SAMD core v1.8.9+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards (Nano 33 IoT, etc.).
- 8. [`Adafruit SAMD core v1.6.3+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Itsy-Bitsy M4, etc.)
- 9. [`Adafruit nRF52 v0.21.0+`](https://www.adafruit.com/) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, etc.
-10. [`Arduino Core for STM32 v1.9.0+`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. To install go to Arduino IDE, select Boards Manager, search for **`STM32`**
-11. [`Seeeduino SAMD core v1.7.9+`](https://www.seeedstudio.com/) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.)
+ 8. [`Adafruit SAMD core v1.6.4+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Itsy-Bitsy M4, etc.)
+ 9. [`Seeeduino SAMD core v1.8.1+`](https://www.seeedstudio.com/) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.) 
+10. [`Adafruit nRF52 v0.21.0+`](https://www.adafruit.com/) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, etc.
+11. [`Arduino Core for STM32 v1.9.0+`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. To install go to Arduino IDE, select Boards Manager, search for **`STM32`**
+
 12. [`Time v1.6+`](https://github.com/PaulStoffregen/Time)
 13. Depending on which Ethernet card/module/shield you're using:
    - [`Ethernet library v2.0.0+`](https://www.arduino.cc/en/Reference/Ethernet) for W5100, W5200 and W5500.
@@ -88,13 +89,13 @@ This [**NTPClient_Generic library**](https://github.com/khoih-prog/NTPClient_Gen
    - [`EthernetENC library v2.0.0+`](https://github.com/jandrassy/EthernetENC) for ENC28J60. **New and Better**
    - [`UIPEthernet library v2.0.9+`](https://github.com/UIPEthernet/UIPEthernet) for ENC28J60
    - [`STM32Ethernet library v1.2.0+`](https://github.com/stm32duino/STM32Ethernet) for built-in Ethernet LAN8742A on (Nucleo-144, Discovery). To be used with [`STM32duino_LwIP library v2.1.2+`](https://github.com/stm32duino/LwIP). 
-14. [`WiFiNINA_Generic library v1.7.1+`](https://github.com/khoih-prog/WiFiNINA_Generic) to use WiFiNINA modules/shields. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) if using WiFiNINA for boards such as Nano 33 IoT, nRF52, Teensy, etc.
+14. [`WiFiNINA_Generic library v1.7.2+`](https://github.com/khoih-prog/WiFiNINA_Generic) to use WiFiNINA modules/shields. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) if using WiFiNINA for boards such as Nano 33 IoT, nRF52, Teensy, etc.
 15. [`WiFiWebServer library v1.0.7+`](https://github.com/khoih-prog/WiFiWebServer) to use WiFi/WiFiNINA modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
 16. [`EthernetWebServer library v1.0.13+`](https://github.com/khoih-prog/EthernetWebServer) to use Ethernet modules/shields on boards other than STM32F/L/H/G/WB/MP1. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer.svg?)](https://www.ardu-badge.com/EthernetWebServer).
 17. [`EthernetWebServer_STM32 library v1.0.6+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
 18. [`ESP8266_AT_WebServer library v1.1.1+`](https://github.com/khoih-prog/ESP8266_AT_WebServer) to use ESP8266-AT/ESP32-AT WiFi modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_AT_WebServer.svg?)](https://www.ardu-badge.com/ESP8266_AT_WebServer)
 19. [`DS323x_Generic library v1.0.0+`](https://github.com/khoih-prog/DS323x_Generic) to use examples using DS323x RTC modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DS323x_Generic.svg?)](https://www.ardu-badge.com/DS323x_Generic)
-20. [`Timezone_Generic library v1.2.5+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
+20. [`Timezone_Generic library v1.2.6+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
 21. [`STM32RTC library v1.0.3+`](https://github.com/stm32duino/STM32RTC) to use STM32 examples using built-in STM32 RTC.
 
 ---
@@ -196,22 +197,22 @@ These files must be copied into the directory:
 
 Whenever the above-mentioned compiler error issue is fixed with the new Arduino SAMD release, you don't need to copy the `Arduino.h` file anymore.
 
- 5. **To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards**, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.3) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.3). 
+ 5. ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.4) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.4). 
 
-Supposing the Adafruit SAMD core version is 1.6.3. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.6.4. This file must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.6.3/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.6.4/platform.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
 
 - `~/.arduino15/packages/adafruit/hardware/samd/x.yy.zz/platform.txt`
 
- 6. **To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards**, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.7.9) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.7.9). 
+ 6. ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.8.1) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.8.1). 
 
-Supposing the Seeeduino SAMD core version is 1.7.9. This file must be copied into the directory:
+Supposing the Seeeduino SAMD core version is 1.8.1. This file must be copied into the directory:
 
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.7.9/platform.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.1/platform.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -1502,12 +1503,12 @@ RTC updated. Next update in seconds : 3600
 
 ### Releases v3.2.2
 
-1. Add examples to use STM32 Built-In RTC.
+1. Add examples to use **STM32 Built-In RTC.**
 
 ### Releases v3.2.1
 
 1. Initial porting to many Generic boards using WiFi/Ethernet modules/shields.
-2. Add support to SAMD21/SAMD51, nRF52, STM32F/L/H/G/WB/MP1 with WiFiNINA, W5x00, ENC28J60, LAN8742A Ethernet modules/shields.
+2. Add support to **SAMD21/SAMD51, nRF52, STM32F/L/H/G/WB/MP1 with WiFiNINA, W5x00, ENC28J60, LAN8742A Ethernet modules/shields.**
 3. Add functions.
 4. Completely new examples using NTP time to update DS3231 RTC and/or local clock.
 
@@ -1518,8 +1519,8 @@ RTC updated. Next update in seconds : 3600
   - ***SAM DUE***.
   - **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox etc.**.
   - **Arduino SAMD21 (ZERO, MKR, NANO_33_IOT, etc.)**.
-  - **Adafruit SAM21 (Itsy-Bitsy M0, Metro M0, Feather M0, Gemma M0, etc.)**.
-  - **Adafruit SAM51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, etc.)**.
+  - **Adafruit SAMD21 (Itsy-Bitsy M0, Metro M0, Feather M0, Gemma M0, etc.)**.
+  - **Adafruit SAMD51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, etc.)**.
   - **Seeeduino SAMD21/SAMD51 boards (SEEED_WIO_TERMINAL, SEEED_FEMTO_M0, SEEED_XIAO_M0, Wio_Lite_MG126, WIO_GPS_BOARD, SEEEDUINO_ZERO, SEEEDUINO_LORAWAN, SEEED_GROVE_UI_WIRELESS, etc.)**
   - **STM32 (Nucleo-144, Nucleo-64, Nucleo-32, Discovery, STM32F1, STM32F3, STM32F4, STM32H7, STM32L0, etc.)**.
   - **STM32F/L/H/G/WB/MP1 (Nucleo-64 L053R8,Nucleo-144, Nucleo-64, Nucleo-32, Discovery, STM32Fx, STM32H7, STM32Lx, STM32Gx, STM32WB, STM32MP1, etc.) having 64K+ Flash program memory.**
@@ -1573,11 +1574,13 @@ Submit issues to: [NTPClient_Generic issues](https://github.com/khoih-prog/NTPCl
 Many thanks for everyone for bug reporting, new feature suggesting, testing and contributing to the development of this library.
 
 1. Based on and modified from the [**Fabrice Weinberg's NTPClient Library**](https://github.com/arduino-libraries/NTPClient).
+2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing.
 
 <table>
   <tr>
     <td align="center"><a href="https://github.com/FWeinb"><img src="https://github.com/FWeinb.png" width="100px;" alt="FWeinb"/><br /><sub><b>⭐️ Fabrice Weinberg</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/sandeepmistry"><img src="https://github.com/sandeepmistry.png" width="100px;" alt="sandeepmistry"/><br /><sub><b> Sandeep Mistry</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/tcpipchip"><img src="https://github.com/tcpipchip.png" width="100px;" alt="tcpipchip"/><br /><sub><b>Miguel Wisintainer</b></sub></a><br /></td>
   </tr> 
 </table>
 
@@ -1586,6 +1589,7 @@ Many thanks for everyone for bug reporting, new feature suggesting, testing and 
 ### Contributing
 
 If you want to contribute to this project:
+
 - Report bugs and errors
 - Ask for enhancements
 - Create issues and pull requests
