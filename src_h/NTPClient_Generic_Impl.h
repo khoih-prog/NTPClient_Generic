@@ -164,6 +164,10 @@ bool NTPClient::update()
       this->begin();
     }
 
+    // flush any existing packets
+    while (this->_udp->parsePacket() != 0)
+      this->_udp->flush();
+
     this->sendNTPPacket();
   }
 
