@@ -58,40 +58,67 @@ void NTPClient::begin(int port)
   this->_udpSetup = true;
 }
 
+// Perform some validity checks on the packet
+//  https://datatracker.ietf.org/doc/html/rfc4330#section-4
+// Check length before calling
+static bool isValid(byte const *ntpPacket)
+{
+  unsigned long highWord = word(ntpPacket[16], ntpPacket[17]);
+  unsigned long lowWord  = word(ntpPacket[18], ntpPacket[19]);
+  unsigned long refTimeInt  = highWord << 16 | lowWord;
+  highWord = word(ntpPacket[20], ntpPacket[21]);
+  lowWord  = word(ntpPacket[22], ntpPacket[23]);
+  unsigned long refTimeFrac = highWord << 16 | lowWord;
+
+  byte leapIndicator = ((ntpPacket[0] & 0b11000000) >> 6);
+  byte version       = ((ntpPacket[0] & 0b00111000) >> 3);
+  byte stratum       =   ntpPacket[1];
+
+  return
+  (
+    (leapIndicator !=  3) && // LI != UNSYNC
+    (version       >=  1) &&
+    (stratum       >=  1) &&
+    (stratum       <= 15) &&
+    ((refTimeInt != 0) || (refTimeFrac != 0))
+  );
+}
+
 bool NTPClient::checkResponse()
 {
-
   if (this->_udp->parsePacket())
   {
-    this->_lastUpdate = millis();
     this->_lastRequest = 0; // no outstanding request
-    this->_udp->read(this->_packetBuffer, NTP_PACKET_SIZE);
+    int numBytesRead = this->_udp->read(this->_packetBuffer, NTP_PACKET_SIZE);
 
-    unsigned long highWord = word(this->_packetBuffer[40], this->_packetBuffer[41]);
-    unsigned long lowWord = word(this->_packetBuffer[42], this->_packetBuffer[43]);
-    
-    // combine the four bytes (two words) into a long integer
-    // this is NTP time (seconds since Jan 1 1900):
-    unsigned long secsSince1900 = highWord << 16 | lowWord;
-
-    this->_currentEpoc = secsSince1900 - SEVENTYYEARS;
-
-    highWord = word(this->_packetBuffer[44], this->_packetBuffer[45]);
-    lowWord = word(this->_packetBuffer[46], this->_packetBuffer[47]);
-    this->_currentFraction = highWord << 16 | lowWord;
-
-    // if the user has set a callback function for when the time is updated, call it
-    if (_updateCallback)
+    if ((numBytesRead == NTP_PACKET_SIZE) && isValid(this->_packetBuffer))
     {
-      _updateCallback(this);
-    }
+      this->_lastUpdate = millis();
 
-    return true;
+      unsigned long highWord = word(this->_packetBuffer[40], this->_packetBuffer[41]);
+      unsigned long lowWord = word(this->_packetBuffer[42], this->_packetBuffer[43]);
+
+      // combine the four bytes (two words) into a long integer
+      // this is NTP time (seconds since Jan 1 1900):
+      unsigned long secsSince1900 = highWord << 16 | lowWord;
+
+      this->_currentEpoc = secsSince1900 - SEVENTYYEARS;
+
+      highWord = word(this->_packetBuffer[44], this->_packetBuffer[45]);
+      lowWord = word(this->_packetBuffer[46], this->_packetBuffer[47]);
+      this->_currentFraction = highWord << 16 | lowWord;
+
+      // if the user has set a callback function for when the time is updated, call it
+      if (_updateCallback)
+      {
+        _updateCallback(this);
+      }
+
+      return true;
+    }
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 bool NTPClient::forceUpdate()
