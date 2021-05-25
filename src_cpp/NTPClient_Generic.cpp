@@ -121,14 +121,22 @@ bool NTPClient::checkResponse()
   return false;
 }
 
+void NTPClient::discardPendingData()
+{
+
+  while (this->_udp->parsePacket() != 0)
+  {
+    //this->_udp->flush(); // not implemented
+    byte temp[NTP_PACKET_SIZE];
+    this->_udp->read(temp, sizeof temp);
+  }
+}
+
 bool NTPClient::forceUpdate()
 {
   NTP_LOGDEBUG("Update from NTP Server");
 
-  // flush any existing packets
-  while (this->_udp->parsePacket() != 0)
-    this->_udp->flush();
-
+  this->discardPendingData();
   this->sendNTPPacket();
 
   // Wait till data is there or timeout...
@@ -164,10 +172,7 @@ bool NTPClient::update()
       this->begin();
     }
 
-    // flush any existing packets
-    while (this->_udp->parsePacket() != 0)
-      this->_udp->flush();
-
+    this->discardPendingData();
     this->sendNTPPacket();
   }
 

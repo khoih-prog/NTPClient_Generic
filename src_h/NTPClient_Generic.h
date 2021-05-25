@@ -77,6 +77,7 @@ class NTPClient
 
     void          sendNTPPacket();
     bool          checkResponse();
+    void          discardPendingData();
 
   public:
     NTPClient(UDP& udp, long timeOffset = 0);
