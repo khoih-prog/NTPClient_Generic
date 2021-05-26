@@ -1635,7 +1635,7 @@ If you want to contribute to this project:
 
 ### License
 
-- The library is licensed under [MIT](https://github.com/khoih-prog/NTPClient_Generic/blob/master/LICENSE)
+- The library is licensed under [MIT](https://github.com/khoih-prog/NTPClient_Generic/blob/main/LICENSE)
 
 ---
 
