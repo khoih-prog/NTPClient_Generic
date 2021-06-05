@@ -15,16 +15,23 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.2.2
+  Version: 3.3.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
   3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
+  3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
  *****************************************************************************************************************************/
  
 #pragma once
+
+// Reintroduce to prevent duplication compile error, pragma once can't prevent
+#ifndef NTPCLIENT_GENERIC_H
+#define NTPCLIENT_GENERIC_H
+
+#define NTPCLIENT_GENERIC_VERSION      "NTPClient_Generic v3.3.0"
 
 #include "Arduino.h"
 
@@ -381,3 +388,5 @@ class NTPClient
       this->_udpSetup = false;
     }
 };
+
+#endif    // NTPCLIENT_GENERIC_H

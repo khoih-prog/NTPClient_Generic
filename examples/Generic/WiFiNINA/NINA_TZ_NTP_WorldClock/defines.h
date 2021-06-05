@@ -15,23 +15,18 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.2.2
-
-  Version Modified By  Date      Comments
-  ------- -----------  ---------- -----------
-  3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
-                                  using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
-  3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
  *****************************************************************************************************************************/
 
 #ifndef defines_h
 #define defines_h
 
 #define DEBUG_WIFI_WEBSERVER_PORT   Serial
+#define NTP_DBG_PORT                Serial
 
 // Debug Level from 0 to 4
 #define _WIFI_LOGLEVEL_             3
 #define _WIFININA_LOGLEVEL_         3
+#define _NTP_LOGLEVEL_              0
 
 #define USE_WIFI_NINA         true
 //#define USE_WIFI_NINA         false
@@ -305,6 +300,37 @@
     #define BOARD_TYPE  "STM32 Unknown"
   #endif
 
+#elif ( defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || \
+      defined(ARDUINO_GENERIC_RP2040) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) )
+    
+  #warning RASPBERRY_PI_PICO board selected
+
+  #if defined(ARDUINO_ARCH_MBED)
+
+    #warning Using ARDUINO_ARCH_MBED
+    
+    #if ( defined(ARDUINO_NANO_RP2040_CONNECT)    || defined(ARDUINO_RASPBERRY_PI_PICO) || \
+          defined(ARDUINO_GENERIC_RP2040) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) )
+      // Only undef known BOARD_NAME to use better one
+      #undef BOARD_NAME
+    #endif
+    
+    #if defined(ARDUINO_RASPBERRY_PI_PICO)
+      #define BOARD_NAME      "MBED RASPBERRY_PI_PICO"
+    #elif defined(ARDUINO_ADAFRUIT_FEATHER_RP2040)
+      #define BOARD_NAME      "MBED ADAFRUIT_FEATHER_RP2040"
+    #elif defined(ARDUINO_GENERIC_RP2040)
+      #define BOARD_NAME      "MBED GENERIC_RP2040"
+    #elif defined(ARDUINO_NANO_RP2040_CONNECT) 
+      #define BOARD_NAME      "MBED NANO_RP2040_CONNECT"
+    #else
+      // Use default BOARD_NAME if exists
+      #if !defined(BOARD_NAME)
+        #define BOARD_NAME      "MBED Unknown RP2040"
+      #endif
+    #endif
+  #endif  
+    
 #else
   #define BOARD_TYPE      "AVR Mega"
 #endif

@@ -52,6 +52,7 @@ getEpochTime	KEYWORD2
 getUTCEpochMillis KEYWORD2
 getEpochMillis  KEYWORD2
 end	KEYWORD2
+isValid KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

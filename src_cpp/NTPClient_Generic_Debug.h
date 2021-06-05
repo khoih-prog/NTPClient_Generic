@@ -15,16 +15,20 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.2.2
+  Version: 3.3.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
   3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
+  3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
  *****************************************************************************************************************************/
 
 #pragma once
+
+#ifndef NTPCLIENT_GENERIC_DEBUG_H
+#define NTPCLIENT_GENERIC_DEBUG_H
 
 #ifdef NTP_DEBUG_PORT
   #define NTP_DBG_PORT      NTP_DEBUG_PORT
@@ -43,27 +47,50 @@
   #define _NTP_LOGLEVEL_       0
 #endif
 
-#define NTP_LOGERROR(x)         if(_NTP_LOGLEVEL_>0) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.println(x); }
-#define NTP_LOGERROR0(x)        if(_NTP_LOGLEVEL_>0) { NTP_DBG_PORT.print(x); }
-#define NTP_LOGERROR1(x,y)      if(_NTP_LOGLEVEL_>0) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(y); }
-#define NTP_LOGERROR2(x,y,z)    if(_NTP_LOGLEVEL_>0) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(y); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(z); }
-#define NTP_LOGERROR3(x,y,z,w)  if(_NTP_LOGLEVEL_>0) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(y); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(z); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(w); }
+///////////////////////////////////////
 
-#define NTP_LOGWARN(x)          if(_NTP_LOGLEVEL_>1) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.println(x); }
-#define NTP_LOGWARN0(x)         if(_NTP_LOGLEVEL_>1) { NTP_DBG_PORT.print(x); }
-#define NTP_LOGWARN1(x,y)       if(_NTP_LOGLEVEL_>1) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(y); }
-#define NTP_LOGWARN2(x,y,z)     if(_NTP_LOGLEVEL_>1) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(y); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(z); }
-#define NTP_LOGWARN3(x,y,z,w)   if(_NTP_LOGLEVEL_>1) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(y); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(z); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(w); }
+const char NTP_MARK[]  = "[NTP] ";
+const char NTP_SPACE[] = " ";
 
-#define NTP_LOGINFO(x)          if(_NTP_LOGLEVEL_>2) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.println(x); }
-#define NTP_LOGINFO0(x)         if(_NTP_LOGLEVEL_>2) { NTP_DBG_PORT.print(x); }
-#define NTP_LOGINFO1(x,y)       if(_NTP_LOGLEVEL_>2) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(y); }
-#define NTP_LOGINFO2(x,y,z)     if(_NTP_LOGLEVEL_>2) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(y); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(z); }
-#define NTP_LOGINFO3(x,y,z,w)   if(_NTP_LOGLEVEL_>2) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(y); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(z); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(w); }
+#define NTP_PRINT        NTP_DBG_PORT.print
+#define NTP_PRINTLN      NTP_DBG_PORT.println
 
-#define NTP_LOGDEBUG(x)         if(_NTP_LOGLEVEL_>3) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.println(x); }
-#define NTP_LOGDEBUG0(x)        if(_NTP_LOGLEVEL_>3) { NTP_DBG_PORT.print(x); }
-#define NTP_LOGDEBUG1(x,y)      if(_NTP_LOGLEVEL_>3) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(y); }
-#define NTP_LOGDEBUG2(x,y,z)    if(_NTP_LOGLEVEL_>3) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(y); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(z); }
-#define NTP_LOGDEBUG3(x,y,z,w)  if(_NTP_LOGLEVEL_>3) { NTP_DBG_PORT.print("[NTP] "); NTP_DBG_PORT.print(x); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(y); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.print(z); NTP_DBG_PORT.print(" "); NTP_DBG_PORT.println(w); }
+#define NTP_PRINT_MARK   NTP_PRINT(NTP_MARK)
+#define NTP_PRINT_SP     NTP_PRINT(NTP_SPACE)
+#define NTP_PRINT_LINE   NTP_PRINT(NTP_LINE)
 
+///////////////////////////////////////
+
+#define NTP_LOGERROR(x)         if(_NTP_LOGLEVEL_>0) { NTP_PRINT_MARK; NTP_PRINTLN(x); }
+#define NTP_LOGERROR0(x)        if(_NTP_LOGLEVEL_>0) { NTP_PRINT(x); }
+#define NTP_LOGERROR1(x,y)      if(_NTP_LOGLEVEL_>0) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINTLN(y); }
+#define NTP_LOGERROR2(x,y,z)    if(_NTP_LOGLEVEL_>0) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINT(y); NTP_PRINT_SP; NTP_PRINTLN(z); }
+#define NTP_LOGERROR3(x,y,z,w)  if(_NTP_LOGLEVEL_>0) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINT(y); NTP_PRINT_SP; NTP_PRINT(z); NTP_PRINT_SP; NTP_PRINTLN(w); }
+
+///////////////////////////////////////
+
+#define NTP_LOGWARN(x)          if(_NTP_LOGLEVEL_>1) { NTP_PRINT_MARK; NTP_PRINTLN(x); }
+#define NTP_LOGWARN0(x)         if(_NTP_LOGLEVEL_>1) { NTP_PRINT(x); }
+#define NTP_LOGWARN1(x,y)       if(_NTP_LOGLEVEL_>1) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINTLN(y); }
+#define NTP_LOGWARN2(x,y,z)     if(_NTP_LOGLEVEL_>1) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINT(y); NTP_PRINT_SP; NTP_PRINTLN(z); }
+#define NTP_LOGWARN3(x,y,z,w)   if(_NTP_LOGLEVEL_>1) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINT(y); NTP_PRINT_SP; NTP_PRINT(z); NTP_PRINT_SP; NTP_PRINTLN(w); }
+
+///////////////////////////////////////
+
+#define NTP_LOGINFO(x)          if(_NTP_LOGLEVEL_>2) { NTP_PRINT_MARK; NTP_PRINTLN(x); }
+#define NTP_LOGINFO0(x)         if(_NTP_LOGLEVEL_>2) { NTP_PRINT(x); }
+#define NTP_LOGINFO1(x,y)       if(_NTP_LOGLEVEL_>2) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINTLN(y); }
+#define NTP_LOGINFO2(x,y,z)     if(_NTP_LOGLEVEL_>2) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINT(y); NTP_PRINT_SP; NTP_PRINTLN(z); }
+#define NTP_LOGINFO3(x,y,z,w)   if(_NTP_LOGLEVEL_>2) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINT(y); NTP_PRINT_SP; NTP_PRINT(z); NTP_PRINT_SP; NTP_PRINTLN(w); }
+
+///////////////////////////////////////
+
+#define NTP_LOGDEBUG(x)         if(_NTP_LOGLEVEL_>3) { NTP_PRINT_MARK; NTP_PRINTLN(x); }
+#define NTP_LOGDEBUG0(x)        if(_NTP_LOGLEVEL_>3) { NTP_PRINT(x); }
+#define NTP_LOGDEBUG1(x,y)      if(_NTP_LOGLEVEL_>3) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINTLN(y); }
+#define NTP_LOGDEBUG2(x,y,z)    if(_NTP_LOGLEVEL_>3) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINT(y); NTP_PRINT_SP; NTP_PRINTLN(z); }
+#define NTP_LOGDEBUG3(x,y,z,w)  if(_NTP_LOGLEVEL_>3) { NTP_PRINT_MARK; NTP_PRINT(x); NTP_PRINT_SP; NTP_PRINT(y); NTP_PRINT_SP; NTP_PRINT(z); NTP_PRINT_SP; NTP_PRINTLN(w); }
+
+///////////////////////////////////////
+
+#endif    // NTPCLIENT_GENERIC_DEBUG_H

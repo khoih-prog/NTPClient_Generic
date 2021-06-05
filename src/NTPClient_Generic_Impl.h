@@ -15,16 +15,21 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.2.2
+  Version: 3.3.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
   3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
+  3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
  *****************************************************************************************************************************/
 
 #pragma once
+
+// Reintroduce to prevent duplication compile error, pragma once can't prevent
+#ifndef NTPCLIENT_GENERIC_IMPL_H
+#define NTPCLIENT_GENERIC_IMPL_H
 
 NTPClient::NTPClient(UDP& udp, long timeOffset)
 {
@@ -73,7 +78,11 @@ static bool isValid(byte const *ntpPacket)
   byte leapIndicator = ((ntpPacket[0] & 0b11000000) >> 6);
   byte version       = ((ntpPacket[0] & 0b00111000) >> 3);
   byte stratum       =   ntpPacket[1];
-
+  
+  NTP_LOGDEBUG3("isValid: leapIndicator (!=3) =", leapIndicator, ", version (>=1) =", version);
+  NTP_LOGDEBUG3("stratum (1 <= stratum <= 15) =", stratum, ", refTimeInt (!= 0) =", refTimeInt);
+  NTP_LOGDEBUG1("refTimeFrac (!= 0) =", refTimeFrac);
+  
   return
   (
     (leapIndicator !=  3) && // LI != UNSYNC
@@ -90,6 +99,8 @@ bool NTPClient::checkResponse()
   {
     this->_lastRequest = 0; // no outstanding request
     int numBytesRead = this->_udp->read(this->_packetBuffer, NTP_PACKET_SIZE);
+    
+    NTP_LOGDEBUG1("numBytesRead (48) =", numBytesRead);
 
     if ((numBytesRead == NTP_PACKET_SIZE) && isValid(this->_packetBuffer))
     {
@@ -123,7 +134,7 @@ bool NTPClient::checkResponse()
 
 bool NTPClient::forceUpdate()
 {
-  NTP_LOGDEBUG("Update from NTP Server");
+  NTP_LOGDEBUG("forceUpdate from NTP Server");
 
   // flush any existing packets
   while (this->_udp->parsePacket() != 0)
@@ -153,6 +164,8 @@ bool NTPClient::update()
 {
   bool updated = false;
   unsigned long now = millis();
+  
+  NTP_LOGDEBUG("Update from NTP Server");
 
   if ( ((_lastRequest == 0) && (_lastUpdate == 0))                              // Never requested or updated
        || ((_lastRequest == 0) && ((now - _lastUpdate) >= _updateInterval))     // Update after _updateInterval
@@ -287,3 +300,5 @@ void NTPClient::sendNTPPacket()
 
   this->_lastRequest = millis();
 }
+
+#endif    // NTPCLIENT_GENERIC_IMPL_H

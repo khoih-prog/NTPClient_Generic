@@ -15,13 +15,14 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.2.2
+  Version: 3.3.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
   3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
+  3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
  *****************************************************************************************************************************/
 
 #include "defines.h"
@@ -33,7 +34,7 @@
 // US Eastern Time Zone (New York, Detroit)
 TimeChangeRule myDST = {"EDT", Second, Sun, Mar, 2, -240};    // Daylight time = UTC - 4 hours
 TimeChangeRule mySTD = {"EST", First, Sun, Nov, 2, -300};     // Standard time = UTC - 5 hours
-Timezone myTZ(myDST, mySTD);
+Timezone *myTZ;
 
 // If TimeChangeRules are already stored in EEPROM, comment out the three
 // lines above and uncomment the line below.
@@ -104,7 +105,7 @@ void displayClock(void)
 
   Serial.println("============================");
 
-  time_t local = myTZ.toLocal(utc, &tcr);
+  time_t local = myTZ->toLocal(utc, &tcr);
 
   printDateTime(utc, "UTC");
   printDateTime(local, tcr -> abbrev);
@@ -197,6 +198,8 @@ void setup()
   // you're connected now, so print out the data
   Serial.print(F("You're connected to the network, IP = "));
   Serial.println(WiFi.localIP());
+
+  myTZ = new Timezone(myDST, mySTD);
 
   timeClient.begin();
 }

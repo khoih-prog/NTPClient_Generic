@@ -1,8 +1,8 @@
 {
   "name": "NTPClient_Generic",
-  "version": "3.2.2",
-  "keywords": "timing, device, control, communication, protocol, iot, ntp, rtc, wifi, wi-fi, wifinina, ethernet, client, time",
-  "description": "Library for NTPClient to connect to an NTP time-server. Get time from a NTP time-server and keep it in sync. For ESP8266/ESP32, nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi",
+  "version": "3.3.0",
+  "keywords": "timing, device, control, communication, iot, ntp, rtc, wifi, wifinina, ethernet, time, rpi-pico, rp2040, nano-rp2040-connect, SAM DUE, SAMD, nRF52, STM32, ESP32, ESP8266",
+  "description": "Library for NTPClient to connect to an NTP time-server. Get time from a NTP time-server and keep it in sync. For ESP8266/ESP32, nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, RP2040-based (Nano_RP2040_Connect, RASPBERRY_PI_PICO) boards, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi",
   "authors":
   [
     {
@@ -39,31 +39,43 @@
     {
       "owner": "khoih.prog",
       "name": "Timezone_Generic",
-      "version": ">=1.2.6",
+      "version": ">=1.4.0",
+      "platforms": ["*"]
+    },
+    {
+      "owner": "khoih.prog",
+      "name": "DS323x_Generic",
+      "version": ">=1.1.0",
       "platforms": ["*"]
     },
     {
       "owner": "khoih.prog",
       "name": "WiFiNINA_Generic",
-      "version": ">=1.8.0",
+      "version": ">=1.8.10-1",
       "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
-      "name": "EthernetWebServer",
+      "name": "WiFiWebServer",
       "version": ">=1.2.0",
       "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
+      "name": "EthernetWebServer",
+      "version": ">=1.5.0",
+      "platforms": ["*"]
+    },
+    {
+      "owner": "khoih-prog",
       "name": "EthernetWebServer_STM32",
-      "version": ">=1.1.0",
+      "version": ">=1.2.0",
       "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
       "name": "ESP8266_AT_WebServer",
-      "version": ">=1.1.1",
+      "version": ">=1.3.0",
       "platforms": ["*"]
     },
     {

@@ -15,18 +15,24 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.2.2
+  Version: 3.3.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
   3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
+  3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
  *****************************************************************************************************************************/
 
 #if !( defined(ESP8266) ||  defined(ESP32) )
-#error This code is intended to run on the ESP8266 or ESP32 platform! Please check your Tools->Board setting.
+  #error This code is intended to run on the ESP8266 or ESP32 platform! Please check your Tools->Board setting.
 #endif
+
+#define NTP_DBG_PORT                Serial
+
+// Debug Level from 0 to 4
+#define _NTP_LOGLEVEL_              0
 
 #include <NTPClient_Generic.h>
 
@@ -68,6 +74,7 @@ void setup()
   while (!Serial);
 
   Serial.println("\nStarting ESP_NTPClient_Advanced on " + String(ARDUINO_BOARD));
+  Serial.println(NTPCLIENT_GENERIC_VERSION);
 
   Serial.println("Connecting to: " + String(ssid));
 

@@ -15,13 +15,14 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.2.2
+  Version: 3.3.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
   3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
+  3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
  *****************************************************************************************************************************/
 
 #include "defines.h"
@@ -33,48 +34,49 @@
 // Australia Eastern Time Zone (Sydney, Melbourne)
 TimeChangeRule aEDT = {"AEDT", First, Sun, Oct, 2, 660};    // UTC + 11 hours
 TimeChangeRule aEST = {"AEST", First, Sun, Apr, 3, 600};    // UTC + 10 hours
-Timezone ausET(aEDT, aEST);
+Timezone *ausET;
 
 // Moscow Standard Time (MSK, does not observe DST)
 TimeChangeRule msk = {"MSK", Last, Sun, Mar, 1, 180};
-Timezone tzMSK(msk);
+Timezone *tzMSK;
+
 
 // Central European Time (Frankfurt, Paris)
 TimeChangeRule CEST = {"CEST", Last, Sun, Mar, 2, 120};     // Central European Summer Time
 TimeChangeRule CET = {"CET ", Last, Sun, Oct, 3, 60};       // Central European Standard Time
-Timezone CE(CEST, CET);
+Timezone *CE;
 
 // United Kingdom (London, Belfast)
 TimeChangeRule BST = {"BST", Last, Sun, Mar, 1, 60};        // British Summer Time
 TimeChangeRule GMT = {"GMT", Last, Sun, Oct, 2, 0};         // Standard Time
-Timezone UK(BST, GMT);
+Timezone *UK;
 
 // UTC
 TimeChangeRule utcRule = {"UTC", Last, Sun, Mar, 1, 0};     // UTC
-Timezone UTC(utcRule);
+Timezone *UTC;
 
 // US Eastern Time Zone (New York, Detroit)
 TimeChangeRule usEDT = {"EDT", Second, Sun, Mar, 2, -240};  // Eastern Daylight Time = UTC - 4 hours
 TimeChangeRule usEST = {"EST", First, Sun, Nov, 2, -300};   // Eastern Standard Time = UTC - 5 hours
-Timezone usET(usEDT, usEST);
+Timezone *usET;
 
 // US Central Time Zone (Chicago, Houston)
 TimeChangeRule usCDT = {"CDT", Second, Sun, Mar, 2, -300};
 TimeChangeRule usCST = {"CST", First, Sun, Nov, 2, -360};
-Timezone usCT(usCDT, usCST);
+Timezone *usCT;
 
 // US Mountain Time Zone (Denver, Salt Lake City)
 TimeChangeRule usMDT = {"MDT", Second, Sun, Mar, 2, -360};
 TimeChangeRule usMST = {"MST", First, Sun, Nov, 2, -420};
-Timezone usMT(usMDT, usMST);
+Timezone *usMT;
 
 // Arizona is US Mountain Time Zone but does not use DST
-Timezone usAZ(usMST);
+Timezone *usAZ;
 
 // US Pacific Time Zone (Las Vegas, Los Angeles)
 TimeChangeRule usPDT = {"PDT", Second, Sun, Mar, 2, -420};
 TimeChangeRule usPST = {"PST", First, Sun, Nov, 2, -480};
-Timezone usPT(usPDT, usPST);
+Timezone *usPT;
 
 //////////////////////////////////////////
 
@@ -108,13 +110,13 @@ static bool gotCurrentTime = false;
 
 // format and print a time_t value, with a time zone appended.
 // given a Timezone object, UTC and a string description, convert and print local time with time zone
-void printDateTime(Timezone tz, time_t utc, const char *descr)
+void printDateTime(Timezone *tz, time_t utc, const char *descr)
 {
     char buf[40];
     char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
     TimeChangeRule *tcr;        // pointer to the time change rule, use to get the TZ abbrev
 
-    time_t t = tz.toLocal(utc, &tcr);
+    time_t t = tz->toLocal(utc, &tcr);
     strcpy(m, monthShortStr(month(t)));
     sprintf(buf, "%.2d:%.2d:%.2d %s %.2d %s %d %s",
         hour(t), minute(t), second(t), dayShortStr(weekday(t)), day(t), m, year(t), tcr -> abbrev);
@@ -211,6 +213,7 @@ void setup()
 
   Serial.print("\nStarting NINA_TZ_NTP_WorldClock on " + String(BOARD_NAME));
   Serial.println(" with " + String(SHIELD_TYPE));
+  Serial.println(NTPCLIENT_GENERIC_VERSION);
 
   // check for the presence of the shield
 #if USE_WIFI_NINA
@@ -244,6 +247,21 @@ void setup()
   // you're connected now, so print out the data
   Serial.print(F("You're connected to the network, IP = "));
   Serial.println(WiFi.localIP());
+
+  ////////////////////////////////
+  
+  ausET = new Timezone(aEDT, aEST);
+  tzMSK = new Timezone(msk);
+  CE    = new Timezone(CEST, CET);
+  UK    = new Timezone(BST, GMT);
+  UTC   = new Timezone(utcRule);
+  usET  = new Timezone(usEDT, usEST);
+  usCT  = new Timezone(usCDT, usCST);
+  usMT  = new Timezone(usMDT, usMST);
+  usAZ  = new Timezone(usMST);
+  usPT  = new Timezone(usPDT, usPST);
+
+  ////////////////////////////////
 
   timeClient.begin();
 }
