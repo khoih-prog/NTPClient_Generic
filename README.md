@@ -70,7 +70,7 @@
   * [ 4. TZ_NTP_WorldClock_STM32_Ethernet on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library](#4-tz_ntp_worldclock_stm32_ethernet-on-stm32f7-nucleo-144-nucleo_f767zi-with-lan8742a-using-stm32ethernet-library)
   * [ 5. RTC_Ethernet_NTPClient on Adafruit NRF52840_FEATHER_EXPRESS with ENC28J60 using EthernetENC Library](#5-rtc_ethernet_ntpclient-on-adafruit-nrf52840_feather_express-with-enc28J60-using-ethernetenc-library)
   * [ 6. RTC_Ethernet_NTPClient_STM32 on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library](#6-rtc_ethernet_ntpclient_stm32-on-stm32f7-nucleo-144-nucleo_f767zi-with-lan8742a-using-stm32ethernet-library)
-  * [ 7. ESP_NTPClient_Advanced on ESP8266_NODEMCU](#7-esp_ntpclient_advanced-on-esp8266_nodemcu)
+  * [ 7. ESP_NTPClient_Advanced on ESP8266_NODEMCU_ESP12E](#7-esp_ntpclient_advanced-on-esp8266_nodemcu_esp12e)
   * [ 8. ESP_NTPClient_Advanced on ESP32_DEV](#8-esp_ntpclient_advanced-on-esp32_dev)
   * [ 9. Ethernet_NTPClient_Advanced on SAM DUE with W5100 using EthernetLarge Library](#9-ethernet_ntpclient_advanced-on-sam-due-with-w5100-using-ethernetlarge-library)
   * [10. BI_RTC_Ethernet_NTPClient_STM32 on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library](#10-bi_rtc_ethernet_ntpclient_stm32-on-stm32f7-nucleo-144-nucleo_f767zi-with-lan8742a-using-stm32ethernet-library)
@@ -79,7 +79,7 @@
   * [13. NINA_NTPClient_Basic on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library](#13-nina_ntpclient_basic-on-mbed-nano_rp2040_connect-with-wifinina-using-wifinina_generic-library)
   * [14. Ethernet_NTPClient_Advanced on RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library](#14-ethernet_ntpclient_advanced-on-raspberry_pi_pico-with-w5x00-using-ethernet2-library)
   * [15. Ethernet_NTPClient_Advanced on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library](#15-ethernet_ntpclient_advanced-on-mbed-raspberry_pi_pico-with-w5x00-using-ethernet2-library)
-  * [16. NINA_TZ_NTP_WorldClock on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library](#16-nina_t_ntp_worldclock-on-mbed-nano_rp2040_connect-with-wifinina-using-wifinina_generic-library)
+  * [16. NINA_TZ_NTP_WorldClock on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library](#16-nina_tz_ntp_worldclock-on-mbed-nano_rp2040_connect-with-wifinina-using-wifinina_generic-library)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Releases](#releases)
@@ -228,7 +228,7 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
  2. [`ESP32 Core 1.0.6+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
  3. [`ESP8266 Core 3.0.0+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/). To use ESP8266 core 2.7.1+ for LittleFS. 
  4. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
- 5. [`Teensy core v1.53+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards. **Ready** from v1.0.0.
+ 5. [`Teensy core v1.53+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
  6. [`Arduino SAM DUE core v1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards.
  7. [`Arduino SAMD core 1.8.11+`](https://github.com/arduino/ArduinoCore-samd) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
  8. [`Adafruit SAMD core 1.7.2+`](https://github.com/adafruit/ArduinoCore-samd) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
