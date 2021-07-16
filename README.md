@@ -17,6 +17,7 @@
   * [Currently supported WiFi shields/modules](#currently-supported-wifi-shieldsmodules)
   * [Currently supported Ethernet shields/modules](#currently-supported-ethernet-shieldsmodules)
 * [Changelog](#changelog)
+  * [Releases v3.4.1](#releases-v341)
   * [Releases v3.4.0](#releases-v340)
   * [Releases v3.3.0](#releases-v330)
   * [Releases v3.2.2](#releases-v322)
@@ -179,6 +180,10 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
 ---
 
 ## Changelog
+
+### Releases v3.4.1
+
+1. Fix typo in `library.json`
 
 ### Releases v3.4.0
 
@@ -2213,6 +2218,10 @@ Sometimes, the library will only work if you update the core to the newer or old
 ---
 
 ## Releases
+
+### Releases v3.4.1
+
+1. Fix typo in `library.json`
 
 ### Releases v3.4.0
 
