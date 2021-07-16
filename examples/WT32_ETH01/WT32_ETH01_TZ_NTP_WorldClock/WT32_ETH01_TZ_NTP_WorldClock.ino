@@ -1,7 +1,5 @@
 /****************************************************************************************************************************
-  TZ_NTP_Clock_STM32_Ethernet.ino
-
-  For STM32 with built-in Ethernet (Nucleo-144, DISCOVERY, etc) or W5x00/ENC28J60 Ethernet
+  WT32_ETH01_TZ_NTP_WorldClock.ino
   
   For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01 boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
@@ -35,23 +33,61 @@
 
 #include <Timezone_Generic.h>    // https://github.com/khoih-prog/Timezone_Generic
 
+// Australia Eastern Time Zone (Sydney, Melbourne)
+TimeChangeRule aEDT = {"AEDT", First, Sun, Oct, 2, 660};    // UTC + 11 hours
+TimeChangeRule aEST = {"AEST", First, Sun, Apr, 3, 600};    // UTC + 10 hours
+Timezone *ausET;
+
+// Moscow Standard Time (MSK, does not observe DST)
+TimeChangeRule msk = {"MSK", Last, Sun, Mar, 1, 180};
+Timezone *tzMSK;
+
+
+// Central European Time (Frankfurt, Paris)
+TimeChangeRule CEST = {"CEST", Last, Sun, Mar, 2, 120};     // Central European Summer Time
+TimeChangeRule CET = {"CET ", Last, Sun, Oct, 3, 60};       // Central European Standard Time
+Timezone *CE;
+
+// United Kingdom (London, Belfast)
+TimeChangeRule BST = {"BST", Last, Sun, Mar, 1, 60};        // British Summer Time
+TimeChangeRule GMT = {"GMT", Last, Sun, Oct, 2, 0};         // Standard Time
+Timezone *UK;
+
+// UTC
+TimeChangeRule utcRule = {"UTC", Last, Sun, Mar, 1, 0};     // UTC
+Timezone *UTC;
+
 // US Eastern Time Zone (New York, Detroit)
-TimeChangeRule myDST = {"EDT", Second, Sun, Mar, 2, -240};    // Daylight time = UTC - 4 hours
-TimeChangeRule mySTD = {"EST", First, Sun, Nov, 2, -300};     // Standard time = UTC - 5 hours
-Timezone myTZ(myDST, mySTD);
+TimeChangeRule usEDT = {"EDT", Second, Sun, Mar, 2, -240};  // Eastern Daylight Time = UTC - 4 hours
+TimeChangeRule usEST = {"EST", First, Sun, Nov, 2, -300};   // Eastern Standard Time = UTC - 5 hours
+Timezone *usET;
 
-// If TimeChangeRules are already stored in EEPROM, comment out the three
-// lines above and uncomment the line below.
-//Timezone myTZ(100);       // assumes rules stored at EEPROM address 100
+// US Central Time Zone (Chicago, Houston)
+TimeChangeRule usCDT = {"CDT", Second, Sun, Mar, 2, -300};
+TimeChangeRule usCST = {"CST", First, Sun, Nov, 2, -360};
+Timezone *usCT;
 
-TimeChangeRule *tcr;        // pointer to the time change rule, use to get TZ abbrev
+// US Mountain Time Zone (Denver, Salt Lake City)
+TimeChangeRule usMDT = {"MDT", Second, Sun, Mar, 2, -360};
+TimeChangeRule usMST = {"MST", First, Sun, Nov, 2, -420};
+Timezone *usMT;
+
+// Arizona is US Mountain Time Zone but does not use DST
+Timezone *usAZ;
+
+// US Pacific Time Zone (Las Vegas, Los Angeles)
+TimeChangeRule usPDT = {"PDT", Second, Sun, Mar, 2, -420};
+TimeChangeRule usPST = {"PST", First, Sun, Nov, 2, -480};
+Timezone *usPT;
 
 //////////////////////////////////////////
 
 #include <NTPClient_Generic.h>
 
+int status = WL_IDLE_STATUS;      // the Wifi radio's status
+
 // A UDP instance to let us send and receive packets over UDP
-EthernetUDP ntpUDP;
+WiFiUDP ntpUDP;
 
 // NTP server
 //World
@@ -75,14 +111,20 @@ NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDA
 static bool gotCurrentTime = false;
 
 // format and print a time_t value, with a time zone appended.
-void printDateTime(time_t t, const char *tz)
+// given a Timezone object, UTC and a string description, convert and print local time with time zone
+void printDateTime(Timezone *tz, time_t utc, const char *descr)
 {
-  char buf[32];
-  char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
-  strcpy(m, monthShortStr(month(t)));
-  sprintf(buf, "%.2d:%.2d:%.2d %s %.2d %s %d %s",
-          hour(t), minute(t), second(t), dayShortStr(weekday(t)), day(t), m, year(t), tz);
-  Serial.println(buf);
+    char buf[40];
+    char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
+    TimeChangeRule *tcr;        // pointer to the time change rule, use to get the TZ abbrev
+
+    time_t t = tz->toLocal(utc, &tcr);
+    strcpy(m, monthShortStr(month(t)));
+    sprintf(buf, "%.2d:%.2d:%.2d %s %.2d %s %d %s",
+        hour(t), minute(t), second(t), dayShortStr(weekday(t)), day(t), m, year(t), tcr -> abbrev);
+    Serial.print(buf);
+    Serial.print(' ');
+    Serial.println(descr);
 }
 
 void update_Time(void)
@@ -101,16 +143,22 @@ void update_Time(void)
   }
 }
 
-void displayClock(void)
+void displayWorldClock(void)
 {
   time_t utc = now();
-
-  Serial.println("============================");
-
-  time_t local = myTZ.toLocal(utc, &tcr);
-
-  printDateTime(utc, "UTC");
-  printDateTime(local, tcr -> abbrev);
+  
+  Serial.println();
+  printDateTime(ausET,  utc, "Sydney");
+  printDateTime(tzMSK,  utc, " Moscow");
+  printDateTime(CE,     utc, "Paris");
+  printDateTime(UK,     utc, " London");
+  printDateTime(UTC,    utc, " Universal Coordinated Time");
+  printDateTime(usET,   utc, " New York");
+  printDateTime(usCT,   utc, " Chicago");
+  printDateTime(usMT,   utc, " Denver");
+  printDateTime(usAZ,   utc, " Phoenix");
+  printDateTime(usPT,   utc, " Los Angeles");
+  delay(10000);
 }
 
 void check_status(void)
@@ -135,7 +183,7 @@ void check_status(void)
   if ((current_millis > TimeDisplay_timeout) || (TimeDisplay_timeout == 0))
   {
     if (gotCurrentTime)
-      displayClock();
+      displayWorldClock();
       
     TimeDisplay_timeout = current_millis + TIME_DISPLAY_INTERVAL;
   }
@@ -165,51 +213,41 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart TZ_NTP_Clock_STM32_Ethernet on " + String(BOARD_NAME) + ", using " + String(SHIELD_TYPE));
+  Serial.print("\nStarting WT32_ETH01_TZ_NTP_WorldClock on "); Serial.print(ARDUINO_BOARD);
+  Serial.print(" with "); Serial.println(SHIELD_TYPE);
+  Serial.println(WEBSERVER_WT32_ETH01_VERSION);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
-  
-  ET_LOGWARN3(F("Board :"), BOARD_NAME, F(", setCsPin:"), USE_THIS_SS_PIN);
 
-  ET_LOGWARN(F("Default SPI pinout:"));
-  ET_LOGWARN1(F("MOSI:"), MOSI);
-  ET_LOGWARN1(F("MISO:"), MISO);
-  ET_LOGWARN1(F("SCK:"),  SCK);
-  ET_LOGWARN1(F("SS:"),   SS);
-  ET_LOGWARN(F("========================="));
+  //bool begin(uint8_t phy_addr=ETH_PHY_ADDR, int power=ETH_PHY_POWER, int mdc=ETH_PHY_MDC, int mdio=ETH_PHY_MDIO, 
+  //           eth_phy_type_t type=ETH_PHY_TYPE, eth_clock_mode_t clk_mode=ETH_CLK_MODE);
+  //ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_TYPE, ETH_CLK_MODE);
+  ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER);
 
-  #if !(USE_BUILTIN_ETHERNET || USE_UIP_ETHERNET)
-    // For other boards, to change if necessary
-    #if ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2  || USE_ETHERNET_ENC )
-      // Must use library patch for Ethernet, Ethernet2, EthernetLarge libraries
-      Ethernet.init (USE_THIS_SS_PIN);
-    
-    #elif USE_ETHERNET3
-      // Use  MAX_SOCK_NUM = 4 for 4K, 2 for 8K, 1 for 16K RX/TX buffer
-      #ifndef ETHERNET3_MAX_SOCK_NUM
-        #define ETHERNET3_MAX_SOCK_NUM      4
-      #endif
-    
-      Ethernet.setCsPin (USE_THIS_SS_PIN);
-      Ethernet.init (ETHERNET3_MAX_SOCK_NUM);
-  
-    #elif USE_CUSTOM_ETHERNET
-      // You have to add initialization for your Custom Ethernet here
-      // This is just an example to setCSPin to USE_THIS_SS_PIN, and can be not correct and enough
-      //Ethernet.init(USE_THIS_SS_PIN);
-      
-    #endif  //( ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2  || USE_ETHERNET_ENC )
-  #endif
-  
-  // start the ethernet connection and the server:
-  // Use DHCP dynamic IP and random mac
-  uint16_t index = millis() % NUMBER_OF_MAC;
-  // Use Static IP
-  //Ethernet.begin(mac[index], ip);
-  Ethernet.begin(mac[index]);
+  // Static IP, leave without this line to get IP via DHCP
+  //bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = 0, IPAddress dns2 = 0);
+  ETH.config(myIP, myGW, mySN, myDNS);
 
-  // you're connected now, so print out the data
-  Serial.print(F("You're connected to the network, IP = "));
-  Serial.println(Ethernet.localIP());
+  WT32_ETH01_onEvent();
+
+  WT32_ETH01_waitForConnect();
+  
+  Serial.print(F("WT32_ETH01_TZ_NTP_WorldClock started @ IP address: "));
+  Serial.println(ETH.localIP());
+
+  ////////////////////////////////
+  
+  ausET = new Timezone(aEDT, aEST);
+  tzMSK = new Timezone(msk);
+  CE    = new Timezone(CEST, CET);
+  UK    = new Timezone(BST, GMT);
+  UTC   = new Timezone(utcRule);
+  usET  = new Timezone(usEDT, usEST);
+  usCT  = new Timezone(usCDT, usCST);
+  usMT  = new Timezone(usMDT, usMST);
+  usAZ  = new Timezone(usMST);
+  usPT  = new Timezone(usPDT, usPST);
+
+  ////////////////////////////////
 
   timeClient.begin();
 }

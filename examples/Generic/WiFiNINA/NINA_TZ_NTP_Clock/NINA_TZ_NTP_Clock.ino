@@ -1,11 +1,12 @@
 /****************************************************************************************************************************
   NINA_TZ_NTP_Clock.ino
   
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE boards using 
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01 boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
   b) WiFiNINA
   c) ESP8266/ESP32 WiFi
   d) ESP8266/ESP32-AT-command WiFi
+  e) WT32_ETH01 (ESP32 + LAN8720)
 
   Based on and modified from Arduino NTPClient Library (https://github.com/arduino-libraries/NTPClient)
   to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, etc.
@@ -15,7 +16,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.3.0
+  Version: 3.4.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -23,6 +24,7 @@
                                   using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
   3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
+  3.4.0   K Hoang      16/07/2021 Add support to WT32_ETH01 (ESP32 + LAN8720)
  *****************************************************************************************************************************/
 
 #include "defines.h"

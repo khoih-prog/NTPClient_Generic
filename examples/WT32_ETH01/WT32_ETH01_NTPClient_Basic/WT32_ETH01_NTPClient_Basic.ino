@@ -1,8 +1,6 @@
 /****************************************************************************************************************************
-  Ethernet_NTPClient_Advanced_STM32.ino
-  
-  For STM32 with built-in Ethernet (Nucleo-144, DISCOVERY, etc) or W5x00/ENC28J60 Ethernet
-  
+  WT32_ETH01_NTPClient_Bas.ino
+
   For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01 boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
   b) WiFiNINA
@@ -29,92 +27,70 @@
   3.4.0   K Hoang      16/07/2021 Add support to WT32_ETH01 (ESP32 + LAN8720)
  *****************************************************************************************************************************/
  
-#include "defines.h"
+#if !( defined(ESP32) )
+  #error This code is intended to run on the ESP32 platform! Please check your Tools->Board setting.
+#endif
+
+#define NTP_DBG_PORT                Serial
+
+// Debug Level from 0 to 4
+#define _NTP_LOGLEVEL_              0
+
+#include <WebServer_WT32_ETH01.h>
 
 #include <NTPClient_Generic.h>
 
-// A UDP instance to let us send and receive packets over UDP
-EthernetUDP ntpUDP;
+// Select the IP address according to your local network
+IPAddress myIP(192, 168, 2, 232);
+IPAddress myGW(192, 168, 2, 1);
+IPAddress mySN(255, 255, 255, 0);
 
-// NTP server
-//World
-//char timeServer[] = "time.nist.gov";
-// Canada
-char timeServer[] = "0.ca.pool.ntp.org";
-//char timeServer[] = "1.ca.pool.ntp.org";
-//char timeServer[] = "2.ca.pool.ntp.org";
-//char timeServer[] = "3.ca.pool.ntp.org";
-// Europe
-//char timeServer[] = ""europe.pool.ntp.org";
+// Google DNS Server IP
+IPAddress myDNS(8, 8, 8, 8);
+
+WiFiUDP ntpUDP;
 
 #define TIME_ZONE_OFFSET_HRS            (-4)
-#define NTP_UPDATE_INTERVAL_MS          60000L
 
-// You can specify the time server pool and the offset (in seconds, can be
-// changed later with setTimeOffset() ). Additionaly you can specify the
-// update interval (in milliseconds, can be changed using setUpdateInterval() ).
-NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDATE_INTERVAL_MS);
+NTPClient timeClient(ntpUDP);
 
 void setup() 
 {
   Serial.begin(115200);
   while (!Serial);
   
-  Serial.println("\nStart Ethernet_NTPClient_Advanced_STM32 on " + String(BOARD_NAME) + ", using " + String(SHIELD_TYPE));
+  Serial.print("\nStarting WT32_ETH01_NTPClient_Basic on "); Serial.print(ARDUINO_BOARD);
+  Serial.print(" with "); Serial.println(SHIELD_TYPE);
+  Serial.println(WEBSERVER_WT32_ETH01_VERSION);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
-  ET_LOGWARN3(F("Board :"), BOARD_NAME, F(", setCsPin:"), USE_THIS_SS_PIN);
+  //bool begin(uint8_t phy_addr=ETH_PHY_ADDR, int power=ETH_PHY_POWER, int mdc=ETH_PHY_MDC, int mdio=ETH_PHY_MDIO, 
+  //           eth_phy_type_t type=ETH_PHY_TYPE, eth_clock_mode_t clk_mode=ETH_CLK_MODE);
+  //ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_TYPE, ETH_CLK_MODE);
+  ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER);
 
-  ET_LOGWARN(F("Default SPI pinout:"));
-  ET_LOGWARN1(F("MOSI:"), MOSI);
-  ET_LOGWARN1(F("MISO:"), MISO);
-  ET_LOGWARN1(F("SCK:"),  SCK);
-  ET_LOGWARN1(F("SS:"),   SS);
-  ET_LOGWARN(F("========================="));
+  // Static IP, leave without this line to get IP via DHCP
+  //bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = 0, IPAddress dns2 = 0);
+  ETH.config(myIP, myGW, mySN, myDNS);
 
-  #if !(USE_BUILTIN_ETHERNET || USE_UIP_ETHERNET)
-    // For other boards, to change if necessary
-    #if ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2  || USE_ETHERNET_ENC )
-      // Must use library patch for Ethernet, Ethernet2, EthernetLarge libraries
-      Ethernet.init (USE_THIS_SS_PIN);
-    
-    #elif USE_ETHERNET3
-      // Use  MAX_SOCK_NUM = 4 for 4K, 2 for 8K, 1 for 16K RX/TX buffer
-      #ifndef ETHERNET3_MAX_SOCK_NUM
-        #define ETHERNET3_MAX_SOCK_NUM      4
-      #endif
-    
-      Ethernet.setCsPin (USE_THIS_SS_PIN);
-      Ethernet.init (ETHERNET3_MAX_SOCK_NUM);
+  WT32_ETH01_onEvent();
+
+  WT32_ETH01_waitForConnect();
   
-    #elif USE_CUSTOM_ETHERNET
-      // You have to add initialization for your Custom Ethernet here
-      // This is just an example to setCSPin to USE_THIS_SS_PIN, and can be not correct and enough
-      //Ethernet.init(USE_THIS_SS_PIN);
-      
-    #endif  //( ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2  || USE_ETHERNET_ENC )
-  #endif
+  Serial.print(F("WT32_ETH01_NTPClient_Basic started @ IP address: "));
+  Serial.println(ETH.localIP());
   
-  // start the ethernet connection and the server:
-  // Use DHCP dynamic IP and random mac
-  uint16_t index = millis() % NUMBER_OF_MAC;
-  // Use Static IP
-  //Ethernet.begin(mac[index], ip);
-  Ethernet.begin(mac[index]);
-
-  // you're connected now, so print out the data
-  Serial.print(F("You're connected to the network, IP = "));
-  Serial.println(Ethernet.localIP());
-
   timeClient.begin();
-
+  timeClient.setTimeOffset(3600 * TIME_ZONE_OFFSET_HRS);
+  // default 60000 => 60s. Set to once per hour
+  timeClient.setUpdateInterval(SECS_IN_HR);
+  
   Serial.println("Using NTP Server " + timeClient.getPoolServerName());
 }
 
 void loop()
 {
   timeClient.update();
-
 
   if (timeClient.updated())
     Serial.println("********UPDATED********");

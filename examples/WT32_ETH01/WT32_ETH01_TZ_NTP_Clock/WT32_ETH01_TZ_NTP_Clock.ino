@@ -1,7 +1,5 @@
 /****************************************************************************************************************************
-  TZ_NTP_Clock_STM32_Ethernet.ino
-
-  For STM32 with built-in Ethernet (Nucleo-144, DISCOVERY, etc) or W5x00/ENC28J60 Ethernet
+  WT32_ETH01_TZ_NTP_Clock.ino
   
   For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01 boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
@@ -38,7 +36,7 @@
 // US Eastern Time Zone (New York, Detroit)
 TimeChangeRule myDST = {"EDT", Second, Sun, Mar, 2, -240};    // Daylight time = UTC - 4 hours
 TimeChangeRule mySTD = {"EST", First, Sun, Nov, 2, -300};     // Standard time = UTC - 5 hours
-Timezone myTZ(myDST, mySTD);
+Timezone *myTZ;
 
 // If TimeChangeRules are already stored in EEPROM, comment out the three
 // lines above and uncomment the line below.
@@ -50,8 +48,10 @@ TimeChangeRule *tcr;        // pointer to the time change rule, use to get TZ ab
 
 #include <NTPClient_Generic.h>
 
+int status = WL_IDLE_STATUS;      // the Wifi radio's status
+
 // A UDP instance to let us send and receive packets over UDP
-EthernetUDP ntpUDP;
+WiFiUDP ntpUDP;
 
 // NTP server
 //World
@@ -107,7 +107,7 @@ void displayClock(void)
 
   Serial.println("============================");
 
-  time_t local = myTZ.toLocal(utc, &tcr);
+  time_t local = myTZ->toLocal(utc, &tcr);
 
   printDateTime(utc, "UTC");
   printDateTime(local, tcr -> abbrev);
@@ -165,51 +165,28 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart TZ_NTP_Clock_STM32_Ethernet on " + String(BOARD_NAME) + ", using " + String(SHIELD_TYPE));
+  Serial.print("\nStarting WT32_ETH01_TZ_NTP_Clock on "); Serial.print(ARDUINO_BOARD);
+  Serial.print(" with "); Serial.println(SHIELD_TYPE);
+  Serial.println(WEBSERVER_WT32_ETH01_VERSION);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
-  
-  ET_LOGWARN3(F("Board :"), BOARD_NAME, F(", setCsPin:"), USE_THIS_SS_PIN);
 
-  ET_LOGWARN(F("Default SPI pinout:"));
-  ET_LOGWARN1(F("MOSI:"), MOSI);
-  ET_LOGWARN1(F("MISO:"), MISO);
-  ET_LOGWARN1(F("SCK:"),  SCK);
-  ET_LOGWARN1(F("SS:"),   SS);
-  ET_LOGWARN(F("========================="));
+  //bool begin(uint8_t phy_addr=ETH_PHY_ADDR, int power=ETH_PHY_POWER, int mdc=ETH_PHY_MDC, int mdio=ETH_PHY_MDIO, 
+  //           eth_phy_type_t type=ETH_PHY_TYPE, eth_clock_mode_t clk_mode=ETH_CLK_MODE);
+  //ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_TYPE, ETH_CLK_MODE);
+  ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER);
 
-  #if !(USE_BUILTIN_ETHERNET || USE_UIP_ETHERNET)
-    // For other boards, to change if necessary
-    #if ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2  || USE_ETHERNET_ENC )
-      // Must use library patch for Ethernet, Ethernet2, EthernetLarge libraries
-      Ethernet.init (USE_THIS_SS_PIN);
-    
-    #elif USE_ETHERNET3
-      // Use  MAX_SOCK_NUM = 4 for 4K, 2 for 8K, 1 for 16K RX/TX buffer
-      #ifndef ETHERNET3_MAX_SOCK_NUM
-        #define ETHERNET3_MAX_SOCK_NUM      4
-      #endif
-    
-      Ethernet.setCsPin (USE_THIS_SS_PIN);
-      Ethernet.init (ETHERNET3_MAX_SOCK_NUM);
-  
-    #elif USE_CUSTOM_ETHERNET
-      // You have to add initialization for your Custom Ethernet here
-      // This is just an example to setCSPin to USE_THIS_SS_PIN, and can be not correct and enough
-      //Ethernet.init(USE_THIS_SS_PIN);
-      
-    #endif  //( ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2  || USE_ETHERNET_ENC )
-  #endif
-  
-  // start the ethernet connection and the server:
-  // Use DHCP dynamic IP and random mac
-  uint16_t index = millis() % NUMBER_OF_MAC;
-  // Use Static IP
-  //Ethernet.begin(mac[index], ip);
-  Ethernet.begin(mac[index]);
+  // Static IP, leave without this line to get IP via DHCP
+  //bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = 0, IPAddress dns2 = 0);
+  ETH.config(myIP, myGW, mySN, myDNS);
 
-  // you're connected now, so print out the data
-  Serial.print(F("You're connected to the network, IP = "));
-  Serial.println(Ethernet.localIP());
+  WT32_ETH01_onEvent();
+
+  WT32_ETH01_waitForConnect();
+  
+  Serial.print(F("WT32_ETH01_TZ_NTP_Clock started @ IP address: "));
+  Serial.println(ETH.localIP());
+
+  myTZ = new Timezone(myDST, mySTD);
 
   timeClient.begin();
 }
