@@ -1,5 +1,5 @@
 /****************************************************************************************************************************
-  WT32_ETH01_TZ_NTP_WorldClock.ino
+  RTL8720DN_TZ_NTP_Clock.ino
   
   For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01,  boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
@@ -35,52 +35,16 @@
 
 #include <Timezone_Generic.h>    // https://github.com/khoih-prog/Timezone_Generic
 
-// Australia Eastern Time Zone (Sydney, Melbourne)
-TimeChangeRule aEDT = {"AEDT", First, Sun, Oct, 2, 660};    // UTC + 11 hours
-TimeChangeRule aEST = {"AEST", First, Sun, Apr, 3, 600};    // UTC + 10 hours
-Timezone *ausET;
-
-// Moscow Standard Time (MSK, does not observe DST)
-TimeChangeRule msk = {"MSK", Last, Sun, Mar, 1, 180};
-Timezone *tzMSK;
-
-
-// Central European Time (Frankfurt, Paris)
-TimeChangeRule CEST = {"CEST", Last, Sun, Mar, 2, 120};     // Central European Summer Time
-TimeChangeRule CET = {"CET ", Last, Sun, Oct, 3, 60};       // Central European Standard Time
-Timezone *CE;
-
-// United Kingdom (London, Belfast)
-TimeChangeRule BST = {"BST", Last, Sun, Mar, 1, 60};        // British Summer Time
-TimeChangeRule GMT = {"GMT", Last, Sun, Oct, 2, 0};         // Standard Time
-Timezone *UK;
-
-// UTC
-TimeChangeRule utcRule = {"UTC", Last, Sun, Mar, 1, 0};     // UTC
-Timezone *UTC;
-
 // US Eastern Time Zone (New York, Detroit)
-TimeChangeRule usEDT = {"EDT", Second, Sun, Mar, 2, -240};  // Eastern Daylight Time = UTC - 4 hours
-TimeChangeRule usEST = {"EST", First, Sun, Nov, 2, -300};   // Eastern Standard Time = UTC - 5 hours
-Timezone *usET;
+TimeChangeRule myDST = {"EDT", Second, Sun, Mar, 2, -240};    // Daylight time = UTC - 4 hours
+TimeChangeRule mySTD = {"EST", First, Sun, Nov, 2, -300};     // Standard time = UTC - 5 hours
+Timezone *myTZ;
 
-// US Central Time Zone (Chicago, Houston)
-TimeChangeRule usCDT = {"CDT", Second, Sun, Mar, 2, -300};
-TimeChangeRule usCST = {"CST", First, Sun, Nov, 2, -360};
-Timezone *usCT;
+// If TimeChangeRules are already stored in EEPROM, comment out the three
+// lines above and uncomment the line below.
+//Timezone myTZ(100);       // assumes rules stored at EEPROM address 100
 
-// US Mountain Time Zone (Denver, Salt Lake City)
-TimeChangeRule usMDT = {"MDT", Second, Sun, Mar, 2, -360};
-TimeChangeRule usMST = {"MST", First, Sun, Nov, 2, -420};
-Timezone *usMT;
-
-// Arizona is US Mountain Time Zone but does not use DST
-Timezone *usAZ;
-
-// US Pacific Time Zone (Las Vegas, Los Angeles)
-TimeChangeRule usPDT = {"PDT", Second, Sun, Mar, 2, -420};
-TimeChangeRule usPST = {"PST", First, Sun, Nov, 2, -480};
-Timezone *usPT;
+TimeChangeRule *tcr;        // pointer to the time change rule, use to get TZ abbrev
 
 //////////////////////////////////////////
 
@@ -113,20 +77,18 @@ NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDA
 static bool gotCurrentTime = false;
 
 // format and print a time_t value, with a time zone appended.
-// given a Timezone object, UTC and a string description, convert and print local time with time zone
-void printDateTime(Timezone *tz, time_t utc, const char *descr)
+void printDateTime(time_t t, const char *tz)
 {
-    char buf[40];
-    char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
-    TimeChangeRule *tcr;        // pointer to the time change rule, use to get the TZ abbrev
+  char buf[48];
+  char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
 
-    time_t t = tz->toLocal(utc, &tcr);
-    strcpy(m, monthShortStr(month(t)));
-    sprintf(buf, "%.2d:%.2d:%.2d %s %.2d %s %d %s",
-        hour(t), minute(t), second(t), dayShortStr(weekday(t)), day(t), m, year(t), tcr -> abbrev);
-    Serial.print(buf);
-    Serial.print(' ');
-    Serial.println(descr);
+  memset(buf, 0, sizeof(buf));
+  memset(m, 0, sizeof(m));
+
+  strcpy(m, monthShortStr(month(t)));
+  sprintf(buf, "%2d:%2d:%2d %s %2d %s %d %s",
+        hour(t), minute(t), second(t), dayShortStr(weekday(t)), day(t), m, year(t), tz);
+  Serial.println(buf);
 }
 
 void update_Time(void)
@@ -145,31 +107,25 @@ void update_Time(void)
   }
 }
 
-void displayWorldClock(void)
+void displayClock(void)
 {
   time_t utc = now();
-  
-  Serial.println();
-  printDateTime(ausET,  utc, "Sydney");
-  printDateTime(tzMSK,  utc, " Moscow");
-  printDateTime(CE,     utc, "Paris");
-  printDateTime(UK,     utc, " London");
-  printDateTime(UTC,    utc, " Universal Coordinated Time");
-  printDateTime(usET,   utc, " New York");
-  printDateTime(usCT,   utc, " Chicago");
-  printDateTime(usMT,   utc, " Denver");
-  printDateTime(usAZ,   utc, " Phoenix");
-  printDateTime(usPT,   utc, " Los Angeles");
-  delay(10000);
+
+  Serial.println("============================");
+
+  time_t local = myTZ->toLocal(utc, &tcr);
+
+  printDateTime(utc, "UTC");
+  printDateTime(local, tcr -> abbrev);
 }
 
 void check_status(void)
 {
   // Update first time after 5s
-  static ulong checkstatus_timeout  = 5000L;
-  static ulong TimeDisplay_timeout   = 0;
+  static unsigned long checkstatus_timeout  = 5000L;
+  static unsigned long TimeDisplay_timeout   = 0;
 
-  static ulong current_millis;
+  static unsigned long current_millis;
 
 // Display every 10s
 #define TIME_DISPLAY_INTERVAL       (10000L)
@@ -185,7 +141,7 @@ void check_status(void)
   if ((current_millis > TimeDisplay_timeout) || (TimeDisplay_timeout == 0))
   {
     if (gotCurrentTime)
-      displayWorldClock();
+      displayClock();
       
     TimeDisplay_timeout = current_millis + TIME_DISPLAY_INTERVAL;
   }
@@ -215,41 +171,42 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.print("\nStarting WT32_ETH01_TZ_NTP_WorldClock on "); Serial.print(ARDUINO_BOARD);
-  Serial.print(" with "); Serial.println(SHIELD_TYPE);
-  Serial.println(WEBSERVER_WT32_ETH01_VERSION);
+  Serial.print("\nStarting RTL8720DN_TZ_NTP_Clock on "); Serial.println(BOARD_NAME);
+  Serial.println(WIFI_WEBSERVER_RTL8720_VERSION);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
-  //bool begin(uint8_t phy_addr=ETH_PHY_ADDR, int power=ETH_PHY_POWER, int mdc=ETH_PHY_MDC, int mdio=ETH_PHY_MDIO, 
-  //           eth_phy_type_t type=ETH_PHY_TYPE, eth_clock_mode_t clk_mode=ETH_CLK_MODE);
-  //ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_TYPE, ETH_CLK_MODE);
-  ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER);
+  if (WiFi.status() == WL_NO_SHIELD)
+  {
+    Serial.println(F("WiFi shield not present"));
+    // don't continue
+    while (true);
+  }
 
-  // Static IP, leave without this line to get IP via DHCP
-  //bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = 0, IPAddress dns2 = 0);
-  ETH.config(myIP, myGW, mySN, myDNS);
+  String fv = WiFi.firmwareVersion();
 
-  WT32_ETH01_onEvent();
-
-  WT32_ETH01_waitForConnect();
+  Serial.print("Current Firmware Version = "); Serial.println(fv);
   
-  Serial.print(F("WT32_ETH01_TZ_NTP_WorldClock started @ IP address: "));
-  Serial.println(ETH.localIP());
+  if (fv != LATEST_RTL8720_FIRMWARE) 
+  {
+    Serial.println("Please upgrade the firmware");
+  }
+ 
+  // attempt to connect to Wifi network:
+  while (status != WL_CONNECTED) 
+  {
+    Serial.print("Attempting to connect to SSID: "); Serial.println(ssid);
+    
+    // Connect to WPA/WPA2 network. 2.4G and 5G are all OK
+    status = WiFi.begin(ssid, pass);
 
-  ////////////////////////////////
-  
-  ausET = new Timezone(aEDT, aEST);
-  tzMSK = new Timezone(msk);
-  CE    = new Timezone(CEST, CET);
-  UK    = new Timezone(BST, GMT);
-  UTC   = new Timezone(utcRule);
-  usET  = new Timezone(usEDT, usEST);
-  usCT  = new Timezone(usCDT, usCST);
-  usMT  = new Timezone(usMDT, usMST);
-  usAZ  = new Timezone(usMST);
-  usPT  = new Timezone(usPDT, usPST);
+    // wait 10 seconds for connection:
+    delay(10000);
+  }
+ 
+  Serial.print(F("TZ_NTP_Clock_RTL8720DN started @ IP address: "));
+  Serial.println(WiFi.localIP());
 
-  ////////////////////////////////
+  myTZ = new Timezone(myDST, mySTD);
 
   timeClient.begin();
 }

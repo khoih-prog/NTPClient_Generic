@@ -1,8 +1,8 @@
 {
   "name": "NTPClient_Generic",
-  "version": "3.4.1",
-  "keywords": "timing, device, control, communication, iot, ntp, rtc, wifi, wifinina, ethernet, time, rp2040, nano-rp2040-connect, SAM DUE, SAMD, nRF52, STM32, ESP32, ESP8266, wt32-eth01, rpi-pico",
-  "description": "Library for NTPClient to connect to an NTP time-server. Get time from a NTP time-server and keep it in sync. For ESP8266/ESP32, WT32-ETH01 (ESP32 + LAN8720), nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, RP2040-based (Nano_RP2040_Connect, RASPBERRY_PI_PICO) boards, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi",
+  "version": "3.5.0",
+  "keywords": "timing, device, control, communication, iot, ntp, rtc, wifi, wifinina, ethernet, time, rp2040, nano-rp2040-connect, SAM DUE, SAMD, nRF52, STM32, ESP32, ESP8266, wt32-eth01, rtl8720, rpi-pico",
+  "description": "Library for NTPClient to connect to an NTP time-server. Get time from a NTP time-server and keep it in sync. For ESP8266/ESP32, WT32-ETH01 (ESP32 + LAN8720), nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, RTL8720DN, RP2040-based (Nano_RP2040_Connect, RASPBERRY_PI_PICO) boards, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi",
   "authors":
   [
     {
@@ -39,7 +39,7 @@
     {
       "owner": "khoih.prog",
       "name": "Timezone_Generic",
-      "version": ">=1.5.0",
+      "version": ">=1.7.0",
       "platforms": ["*"]
     },
     {
@@ -51,7 +51,7 @@
     {
       "owner": "khoih.prog",
       "name": "WiFiNINA_Generic",
-      "version": ">=1.8.12",
+      "version": ">=1.8.13",
       "platforms": ["*"]
     },
     {
@@ -65,6 +65,18 @@
       "name": "WebServer_WT32_ETH01",
       "version": ">=1.2.0",
       "platforms": ["espressif32"]
+    },
+    {
+      "owner": "khoih.prog",
+      "name": "WiFiWebServer_RTL8720",
+      "version": ">=1.0.1",
+      "platforms": ["*"]
+    },
+    {
+      "owner": "khoih.prog",
+      "name": "FlashStorage_RTL8720",
+      "version": ">=1.0.0",
+      "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",

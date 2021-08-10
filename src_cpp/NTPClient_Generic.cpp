@@ -1,22 +1,23 @@
 /****************************************************************************************************************************
   NTPClient_Generic.cpp
  
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01 boards using 
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
   b) WiFiNINA
   c) ESP8266/ESP32 WiFi
   d) ESP8266/ESP32-AT-command WiFi
   e) WT32_ETH01 (ESP32 + LAN8720)
+  f) RTL8720DN
 
   Based on and modified from Arduino NTPClient Library (https://github.com/arduino-libraries/NTPClient)
-  to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, etc.
+  to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, RTL8720DN, etc.
   and Ethernet/WiFi/WiFiNINA shields
   
   Copyright (C) 2015 by Fabrice Weinberg and licensed under MIT License (MIT)
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.4.0
+  Version: 3.5.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -25,6 +26,7 @@
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
   3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
   3.4.0   K Hoang      16/07/2021 Add support to WT32_ETH01 (ESP32 + LAN8720)
+  3.5.0   K Hoang      10/08/2021 Add support to Ameba Realtek RTL8720DN, RTL8722DM and RTL8722CSM
  *****************************************************************************************************************************/
 
 #include "NTPClient_Generic.h"
@@ -236,13 +238,16 @@ String NTPClient::getFormattedUTCTime() const
 
 String NTPClient::getFormattedDateTime() const 
 {
-  char buf[26];
+  char buf[32];
   char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
    
   time_t t = this->getEpochTime();
   
+  memset(buf, 0, sizeof(buf));
+  memset(m, 0, sizeof(m));
+  
   strcpy(m, monthShortStr(month(t)));
-  sprintf(buf, "%.2d:%.2d:%.2d %s %.2d %s %d", hour(t), minute(t), second(t), 
+  sprintf(buf, "%2d:%2d:%2d %s %2d %s %d", hour(t), minute(t), second(t), 
                                     dayShortStr(weekday(t)), day(t), m, year(t));
   
   return String(buf);
@@ -250,13 +255,16 @@ String NTPClient::getFormattedDateTime() const
 
 String NTPClient::getFormattedUTCDateTime() const 
 {
-  char buf[26];
+  char buf[32];
   char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
     
   time_t t = this->getEpochTime() - _timeOffset;
   
+  memset(buf, 0, sizeof(buf));
+  memset(m, 0, sizeof(m));
+  
   strcpy(m, monthShortStr(month(t)));
-  sprintf(buf, "%.2d:%.2d:%.2d %s %.2d %s %d", hour(t), minute(t), second(t), 
+  sprintf(buf, "%2d:%2d:%2d %s %2d %s %d", hour(t), minute(t), second(t), 
                                     dayShortStr(weekday(t)), day(t), m, year(t));
   
   return String(buf);

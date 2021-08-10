@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
-  ESP_NTPClient_Bas.ino
+  RTL8720DN_NTPClient_Advanced.ino
 
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN boards using 
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01,  boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
   b) WiFiNINA
   c) ESP8266/ESP32 WiFi
@@ -28,9 +28,9 @@
   3.4.0   K Hoang      16/07/2021 Add support to WT32_ETH01 (ESP32 + LAN8720)
   3.5.0   K Hoang      10/08/2021 Add support to Ameba Realtek RTL8720DN, RTL8722DM and RTL8722CSM
  *****************************************************************************************************************************/
- 
-#if !( defined(ESP8266) ||  defined(ESP32) )
-  #error This code is intended to run on the ESP8266 or ESP32 platform! Please check your Tools->Board setting.
+
+#if !( defined(CONFIG_PLATFORM_8721D) || defined(BOARD_RTL8722D) || defined(BOARD_RTL8722DM_MINI) || defined(BOARD_RTL8720DN_BW16) ) 
+  #error This code is intended to run on the AmebaD RTL8720DN platform! Please check your Tools->Board setting.
 #endif
 
 #define NTP_DBG_PORT                Serial
@@ -38,51 +38,78 @@
 // Debug Level from 0 to 4
 #define _NTP_LOGLEVEL_              0
 
+#include <WiFiWebServer_RTL8720.h>
+
 #include <NTPClient_Generic.h>
-
-#if (ESP32)
-  #include <WiFi.h>
-#elif (ESP8266)
-  #include <ESP8266WiFi.h>
-#endif
-
-#include <WiFiUdp.h>
-
-char ssid[] = "SSID";             // your network SSID (name)
-char pass[] = "12345678";         // your network password
 
 WiFiUDP ntpUDP;
 
+// NTP server
+//World
+//char timeServer[] = "time.nist.gov";
+// Canada
+char timeServer[] = "0.ca.pool.ntp.org";
+//char timeServer[] = "1.ca.pool.ntp.org";
+//char timeServer[] = "2.ca.pool.ntp.org";
+//char timeServer[] = "3.ca.pool.ntp.org";
+// Europe
+//char timeServer[] = ""europe.pool.ntp.org";
+
 #define TIME_ZONE_OFFSET_HRS            (-4)
+#define NTP_UPDATE_INTERVAL_MS          60000L
 
-NTPClient timeClient(ntpUDP);
+// You can specify the time server pool and the offset (in seconds, can be
+// changed later with setTimeOffset() ). Additionaly you can specify the
+// update interval (in milliseconds, can be changed using setUpdateInterval() ).
+NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDATE_INTERVAL_MS);
 
-void setup() 
+int status = WL_IDLE_STATUS;      // the Wifi radio's status
+
+char ssid[] = "SSID_5GHz";        // your network SSID (name)
+char pass[] = "12345678";        // your network password
+
+void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-  
-  Serial.println("\nStarting ESP_NTPClient_Basic on " + String(ARDUINO_BOARD));
+
+  Serial.println("\nStarting RTL8720DN_NTPClient_Advanced");
+  Serial.println(WIFI_WEBSERVER_RTL8720_VERSION);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
-  Serial.println("Connecting to: " + String(ssid));
-
-  WiFi.begin(ssid, pass);
-
-  while ( WiFi.status() != WL_CONNECTED ) 
+  if (WiFi.status() == WL_NO_SHIELD)
   {
-    delay ( 500 );
-    Serial.print ( "." );
+    Serial.println(F("WiFi shield not present"));
+    // don't continue
+    while (true);
   }
 
-  Serial.print(F("\nESP_NTPClient_Basic started @ IP address: "));
+  String fv = WiFi.firmwareVersion();
+
+  Serial.print("Current Firmware Version = "); Serial.println(fv);
+  
+  if (fv != LATEST_RTL8720_FIRMWARE) 
+  {
+    Serial.println("Please upgrade the firmware");
+  }
+ 
+  // attempt to connect to Wifi network:
+  while (status != WL_CONNECTED) 
+  {
+    Serial.print("Attempting to connect to SSID: "); Serial.println(ssid);
+    
+    // Connect to WPA/WPA2 network. 2.4G and 5G are all OK
+    status = WiFi.begin(ssid, pass);
+
+    // wait 10 seconds for connection:
+    delay(10000);
+  }
+ 
+  Serial.print(F("RTL8720DN_NTPClient_Advanced started @ IP address: "));
   Serial.println(WiFi.localIP());
-  
+
   timeClient.begin();
-  timeClient.setTimeOffset(3600 * TIME_ZONE_OFFSET_HRS);
-  // default 60000 => 60s. Set to once per hour
-  timeClient.setUpdateInterval(SECS_IN_HR);
-  
+
   Serial.println("Using NTP Server " + timeClient.getPoolServerName());
 }
 
@@ -102,24 +129,24 @@ void loop()
   Serial.println("LOC : " + timeClient.getFormattedDateTime());
   Serial.println("UTC EPOCH : " + String(timeClient.getUTCEpochTime()));
   Serial.println("LOC EPOCH : " + String(timeClient.getEpochTime()));
-
+  
   // Function test
   // Without leading 0
   Serial.println(String("UTC : ") + timeClient.getUTCHours() + ":" + timeClient.getUTCMinutes() + ":" + timeClient.getUTCSeconds() + " " +
-        timeClient.getUTCDoW() + " " + timeClient.getUTCDay() + "/" + timeClient.getUTCMonth() + "/" + timeClient.getUTCYear() + " or " +
-        timeClient.getUTCDay() + " " + timeClient.getUTCMonthStr() + " " + timeClient.getUTCYear());
-  // With leading 0      
+                 timeClient.getUTCDoW() + " " + timeClient.getUTCDay() + "/" + timeClient.getUTCMonth() + "/" + timeClient.getUTCYear() + " or " +
+                 timeClient.getUTCDay() + " " + timeClient.getUTCMonthStr() + " " + timeClient.getUTCYear());
+  // With leading 0
   Serial.println(String("UTC : ") + timeClient.getUTCStrHours() + ":" + timeClient.getUTCStrMinutes() + ":" + timeClient.getUTCStrSeconds() + " " +
-        timeClient.getUTCDoW() + " " + timeClient.getUTCDay() + "/" + timeClient.getUTCMonth() + "/" + timeClient.getUTCYear() + " or " +
-        timeClient.getUTCDay() + " " + timeClient.getUTCMonthStr() + " " + timeClient.getUTCYear());      
+                 timeClient.getUTCDoW() + " " + timeClient.getUTCDay() + "/" + timeClient.getUTCMonth() + "/" + timeClient.getUTCYear() + " or " +
+                 timeClient.getUTCDay() + " " + timeClient.getUTCMonthStr() + " " + timeClient.getUTCYear());
   // Without leading 0
   Serial.println(String("LOC : ") + timeClient.getHours() + ":" + timeClient.getMinutes() + ":" + timeClient.getSeconds() + " " +
-        timeClient.getDoW() + " " + timeClient.getDay() + "/" + timeClient.getMonth() + "/" + timeClient.getYear() + " or " +
-        timeClient.getDay() + " " + timeClient.getMonthStr() + " " + timeClient.getYear());
+                 timeClient.getDoW() + " " + timeClient.getDay() + "/" + timeClient.getMonth() + "/" + timeClient.getYear() + " or " +
+                 timeClient.getDay() + " " + timeClient.getMonthStr() + " " + timeClient.getYear());
   // With leading 0
   Serial.println(String("LOC : ") + timeClient.getStrHours() + ":" + timeClient.getStrMinutes() + ":" + timeClient.getStrSeconds() + " " +
-        timeClient.getDoW() + " " + timeClient.getDay() + "/" + timeClient.getMonth() + "/" + timeClient.getYear() + " or " +
-        timeClient.getDay() + " " + timeClient.getMonthStr() + " " + timeClient.getYear());       
+                 timeClient.getDoW() + " " + timeClient.getDay() + "/" + timeClient.getMonth() + "/" + timeClient.getYear() + " or " +
+                 timeClient.getDay() + " " + timeClient.getMonthStr() + " " + timeClient.getYear());
 
   delay(10000);
 }

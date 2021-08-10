@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
-  WT32_ETH01_TZ_NTP_WorldClock.ino
+  RTL8720DN_TZ_NTP_WorldClock.ino
   
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01,  boards using 
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
   b) WiFiNINA
   c) ESP8266/ESP32 WiFi
@@ -116,15 +116,20 @@ static bool gotCurrentTime = false;
 // given a Timezone object, UTC and a string description, convert and print local time with time zone
 void printDateTime(Timezone *tz, time_t utc, const char *descr)
 {
-    char buf[40];
+    char buf[48];
     char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
     TimeChangeRule *tcr;        // pointer to the time change rule, use to get the TZ abbrev
 
     time_t t = tz->toLocal(utc, &tcr);
+
+    memset(buf, 0, sizeof(buf));
+    memset(m, 0, sizeof(m));
+
     strcpy(m, monthShortStr(month(t)));
-    sprintf(buf, "%.2d:%.2d:%.2d %s %.2d %s %d %s",
+    sprintf(buf, "%2d:%2d:%2d %s %2d %s %d %s",
         hour(t), minute(t), second(t), dayShortStr(weekday(t)), day(t), m, year(t), tcr -> abbrev);
     Serial.print(buf);
+   
     Serial.print(' ');
     Serial.println(descr);
 }
@@ -166,10 +171,10 @@ void displayWorldClock(void)
 void check_status(void)
 {
   // Update first time after 5s
-  static ulong checkstatus_timeout  = 5000L;
-  static ulong TimeDisplay_timeout   = 0;
+  static unsigned long checkstatus_timeout  = 5000L;
+  static unsigned long TimeDisplay_timeout   = 0;
 
-  static ulong current_millis;
+  static unsigned long current_millis;
 
 // Display every 10s
 #define TIME_DISPLAY_INTERVAL       (10000L)
@@ -215,26 +220,40 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.print("\nStarting WT32_ETH01_TZ_NTP_WorldClock on "); Serial.print(ARDUINO_BOARD);
-  Serial.print(" with "); Serial.println(SHIELD_TYPE);
-  Serial.println(WEBSERVER_WT32_ETH01_VERSION);
+  Serial.print("\nStarting RTL8720DN_TZ_NTP_WorldClock on "); Serial.println(BOARD_NAME);
+  Serial.println(WIFI_WEBSERVER_RTL8720_VERSION);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
-  //bool begin(uint8_t phy_addr=ETH_PHY_ADDR, int power=ETH_PHY_POWER, int mdc=ETH_PHY_MDC, int mdio=ETH_PHY_MDIO, 
-  //           eth_phy_type_t type=ETH_PHY_TYPE, eth_clock_mode_t clk_mode=ETH_CLK_MODE);
-  //ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_TYPE, ETH_CLK_MODE);
-  ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER);
+  if (WiFi.status() == WL_NO_SHIELD)
+  {
+    Serial.println(F("WiFi shield not present"));
+    // don't continue
+    while (true);
+  }
 
-  // Static IP, leave without this line to get IP via DHCP
-  //bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = 0, IPAddress dns2 = 0);
-  ETH.config(myIP, myGW, mySN, myDNS);
+  String fv = WiFi.firmwareVersion();
 
-  WT32_ETH01_onEvent();
-
-  WT32_ETH01_waitForConnect();
+  Serial.print("Current Firmware Version = "); Serial.println(fv);
   
-  Serial.print(F("WT32_ETH01_TZ_NTP_WorldClock started @ IP address: "));
-  Serial.println(ETH.localIP());
+  if (fv != LATEST_RTL8720_FIRMWARE) 
+  {
+    Serial.println("Please upgrade the firmware");
+  }
+ 
+  // attempt to connect to Wifi network:
+  while (status != WL_CONNECTED) 
+  {
+    Serial.print("Attempting to connect to SSID: "); Serial.println(ssid);
+    
+    // Connect to WPA/WPA2 network. 2.4G and 5G are all OK
+    status = WiFi.begin(ssid, pass);
+
+    // wait 10 seconds for connection:
+    delay(10000);
+  }
+ 
+  Serial.print(F("TZ_NTP_Clock_RTL8720DN started @ IP address: "));
+  Serial.println(WiFi.localIP());
 
   ////////////////////////////////
   

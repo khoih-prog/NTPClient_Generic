@@ -1,22 +1,23 @@
 /****************************************************************************************************************************
   Ethernet_NTPClient_Basic.ino
 
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01 boards using 
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
   b) WiFiNINA
   c) ESP8266/ESP32 WiFi
   d) ESP8266/ESP32-AT-command WiFi
   e) WT32_ETH01 (ESP32 + LAN8720)
+  f) RTL8720DN
 
   Based on and modified from Arduino NTPClient Library (https://github.com/arduino-libraries/NTPClient)
-  to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, etc.
+  to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, RTL8720DN, etc.
   and Ethernet/WiFi/WiFiNINA shields
   
   Copyright (C) 2015 by Fabrice Weinberg and licensed under MIT License (MIT)
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.4.0
+  Version: 3.5.0
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -25,6 +26,7 @@
   3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
   3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
   3.4.0   K Hoang      16/07/2021 Add support to WT32_ETH01 (ESP32 + LAN8720)
+  3.5.0   K Hoang      10/08/2021 Add support to Ameba Realtek RTL8720DN, RTL8722DM and RTL8722CSM
  *****************************************************************************************************************************/
  
 #include "defines.h"

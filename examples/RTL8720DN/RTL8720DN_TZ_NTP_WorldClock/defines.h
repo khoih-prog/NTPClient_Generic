@@ -22,6 +22,10 @@
 #ifndef defines_h
 #define defines_h
 
+#if !( defined(CONFIG_PLATFORM_8721D) || defined(BOARD_RTL8722D) || defined(BOARD_RTL8722DM_MINI) || defined(BOARD_RTL8720DN_BW16) ) 
+  #error This code is intended to run on the AmebaD RTL8720DN platform! Please check your Tools->Board setting.
+#endif
+
 #define DEBUG_WIFI_WEBSERVER_PORT   Serial
 #define NTP_DBG_PORT                Serial
 
@@ -29,15 +33,9 @@
 #define _WIFI_LOGLEVEL_             3
 #define _NTP_LOGLEVEL_              0
 
-#include <WebServer_WT32_ETH01.h>
+#include <WiFiWebServer_RTL8720.h>
 
-// Select the IP address according to your local network
-IPAddress myIP(192, 168, 2, 232);
-IPAddress myGW(192, 168, 2, 1);
-IPAddress mySN(255, 255, 255, 0);
-
-// Google DNS Server IP
-IPAddress myDNS(8, 8, 8, 8);
-
+char ssid[] = "SSID_5GHz";        // your network SSID (name)
+char pass[] = "12345678";        // your network password
 
 #endif    //defines_h
