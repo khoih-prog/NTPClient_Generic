@@ -17,16 +17,6 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.5.0
-
-  Version Modified By  Date      Comments
-  ------- -----------  ---------- -----------
-  3.2.1   K Hoang      27/10/2020 Initial porting to support SAM DUE, SAMD21, SAMD51, nRF52, ESP32/ESP8266, STM32, etc. boards 
-                                  using Ethernet/WiFi/WiFiNINA shields. Add more features and functions.
-  3.2.2   K Hoang      28/10/2020 Add examples to use STM32 Built-In RTC.
-  3.3.0   K Hoang      04/06/2021 Add support to RP2040-based boards. Add packet validity checks, version string and debug
-  3.4.0   K Hoang      16/07/2021 Add support to WT32_ETH01 (ESP32 + LAN8720)
-  3.5.0   K Hoang      10/08/2021 Add support to Ameba Realtek RTL8720DN, RTL8722DM and RTL8722CSM
  *****************************************************************************************************************************/
 
 #include "defines.h"
