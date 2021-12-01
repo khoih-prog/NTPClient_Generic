@@ -22,12 +22,12 @@
 #ifndef defines_h
 #define defines_h
 
-#define DEBUG_WIFI_WEBSERVER_PORT   Serial
-#define NTP_DBG_PORT                Serial
+#define DEBUG_ETHERNET_WEBSERVER_PORT     Serial
+#define NTP_DBG_PORT                      Serial
 
 // Debug Level from 0 to 4
-#define _WIFI_LOGLEVEL_             3
-#define _NTP_LOGLEVEL_              0
+#define _ETHERNET_WEBSERVER_LOGLEVEL_     0
+#define _NTP_LOGLEVEL_                    0
 
 #include <WebServer_WT32_ETH01.h>
 

@@ -210,6 +210,9 @@ void setup()
   Serial.println(WEBSERVER_WT32_ETH01_VERSION);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
+  // To be called before ETH.begin()
+  WT32_ETH01_onEvent();
+
   //bool begin(uint8_t phy_addr=ETH_PHY_ADDR, int power=ETH_PHY_POWER, int mdc=ETH_PHY_MDC, int mdio=ETH_PHY_MDIO, 
   //           eth_phy_type_t type=ETH_PHY_TYPE, eth_clock_mode_t clk_mode=ETH_CLK_MODE);
   //ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_TYPE, ETH_CLK_MODE);
@@ -219,9 +222,7 @@ void setup()
   //bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = 0, IPAddress dns2 = 0);
   ETH.config(myIP, myGW, mySN, myDNS);
 
-  WT32_ETH01_onEvent();
-
-  WT32_ETH01_waitForConnect();
+  WT32_ETH01_waitForConnect();;
   
   Serial.print(F("WT32_ETH01_TZ_NTP_WorldClock started @ IP address: "));
   Serial.println(ETH.localIP());

@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v3.5.2](#releases-v352)
   * [Releases v3.5.1](#releases-v351)
   * [Releases v3.5.0](#releases-v350)
   * [Releases v3.4.1](#releases-v341)
@@ -24,6 +25,12 @@
 ---
 
 ## Changelog
+
+### Releases v3.5.2
+
+1. Auto detect ESP32 core version.
+2. Fix bug in examples for WT32_ETH01
+3. Update `Packages' Patches`
 
 ### Releases v3.5.1
 

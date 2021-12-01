@@ -23,10 +23,12 @@
   #error This code is intended to run on the ESP32 platform! Please check your Tools->Board setting.
 #endif
 
-#define NTP_DBG_PORT                Serial
+#define DEBUG_ETHERNET_WEBSERVER_PORT     Serial
+#define NTP_DBG_PORT                      Serial
 
 // Debug Level from 0 to 4
-#define _NTP_LOGLEVEL_              0
+#define _ETHERNET_WEBSERVER_LOGLEVEL_     0
+#define _NTP_LOGLEVEL_                    0
 
 #include <WebServer_WT32_ETH01.h>
 
@@ -56,6 +58,9 @@ void setup()
   Serial.println(WEBSERVER_WT32_ETH01_VERSION);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
+  // To be called before ETH.begin()
+  WT32_ETH01_onEvent();
+
   //bool begin(uint8_t phy_addr=ETH_PHY_ADDR, int power=ETH_PHY_POWER, int mdc=ETH_PHY_MDC, int mdio=ETH_PHY_MDIO, 
   //           eth_phy_type_t type=ETH_PHY_TYPE, eth_clock_mode_t clk_mode=ETH_CLK_MODE);
   //ETH.begin(ETH_PHY_ADDR, ETH_PHY_POWER, ETH_PHY_MDC, ETH_PHY_MDIO, ETH_PHY_TYPE, ETH_CLK_MODE);
@@ -64,8 +69,6 @@ void setup()
   // Static IP, leave without this line to get IP via DHCP
   //bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = 0, IPAddress dns2 = 0);
   ETH.config(myIP, myGW, mySN, myDNS);
-
-  WT32_ETH01_onEvent();
 
   WT32_ETH01_waitForConnect();
   

@@ -1,6 +1,6 @@
 {
   "name": "NTPClient_Generic",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "keywords": "timing, device, control, communication, iot, ntp, rtc, wifi, wifinina, ethernet, time, rp2040, nano-rp2040-connect, SAM DUE, SAMD, nRF52, STM32, ESP32, ESP8266, wt32-eth01, rtl8720, rpi-pico",
   "description": "Library for NTPClient to connect to an NTP time-server. Get time from a NTP time-server and keep it in sync. For ESP8266/ESP32, WT32-ETH01 (ESP32 + LAN8720), nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, RTL8720DN, RP2040-based (Nano_RP2040_Connect, RASPBERRY_PI_PICO) boards, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi",
   "authors":
@@ -45,7 +45,7 @@
     {
       "owner": "khoih-prog",
       "name": "FlashStorage_SAMD",
-      "version": ">=1.2.0",
+      "version": ">=1.2.1",
       "platforms": ["*"]
     },
     {
@@ -81,13 +81,13 @@
     {
       "owner": "khoih-prog",
       "name": "WiFiWebServer",
-      "version": ">=1.4.1",
+      "version": ">=1.4.2",
       "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
       "name": "WebServer_WT32_ETH01",
-      "version": ">=1.2.0",
+      "version": ">=1.4.1",
       "platforms": ["*"]
     },
     {
