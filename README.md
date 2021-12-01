@@ -2091,7 +2091,7 @@ Following is the debug terminal output when running example [**WT32_ETH01_TZ_NTP
 
 ```
 Starting WT32_ETH01_TZ_NTP_WorldClock on ESP32_DEV with ETH_PHY_LAN8720
-WebServer_WT32_ETH01 v1.2.0
+WebServer_WT32_ETH01 v1.4.1
 NTPClient_Generic v3.5.2
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
@@ -2130,7 +2130,7 @@ Following is the debug terminal output when running example [**WT32_ETH01_NTPCli
 
 ```
 Starting WT32_ETH01_NTPClient_Advanced on ESP32_DEV with ETH_PHY_LAN8720
-WebServer_WT32_ETH01 v1.2.0
+WebServer_WT32_ETH01 v1.4.1
 NTPClient_Generic v3.5.2
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
