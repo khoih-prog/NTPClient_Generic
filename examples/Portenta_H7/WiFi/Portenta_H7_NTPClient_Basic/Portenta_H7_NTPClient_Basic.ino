@@ -8,6 +8,7 @@
   d) ESP8266/ESP32-AT-command WiFi
   e) WT32_ETH01 (ESP32 + LAN8720)
   f) RTL8720DN
+  g) Portenta_H7
 
   Based on and modified from Arduino NTPClient Library (https://github.com/arduino-libraries/NTPClient)
   to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, RTL8720DN, etc.
@@ -80,7 +81,7 @@ void setup()
     Serial.print ( "." );
   }
 
-  Serial.print(F("\Portenta_H7_NTPClient_Basic started @ IP address: "));
+  Serial.print(F("\nPortenta_H7_NTPClient_Basic started @ IP address: "));
   Serial.println(WiFi.localIP());
   
   timeClient.begin();

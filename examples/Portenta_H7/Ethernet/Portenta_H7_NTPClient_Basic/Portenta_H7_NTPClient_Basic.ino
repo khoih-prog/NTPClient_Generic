@@ -87,7 +87,7 @@ void setup()
     Serial.println("Not connected Ethernet cable");
   }
 
-  Serial.print(F("\Portenta_H7_NTPClient_Basic started @ IP address: "));
+  Serial.print(F("\nPortenta_H7_NTPClient_Basic started @ IP address: "));
   Serial.println(Ethernet.localIP());
   
   timeClient.begin();
