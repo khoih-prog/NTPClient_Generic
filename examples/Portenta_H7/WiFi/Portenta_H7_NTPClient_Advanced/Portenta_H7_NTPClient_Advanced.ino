@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
-  RTL8720DN_NTPClient_Advanced.ino
+  Portenta_H7_NTPClient_Advanced.ino
 
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01,  boards using 
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN boards using 
   a) Ethernet W5x00, ENC28J60, LAN8742A
   b) WiFiNINA
   c) ESP8266/ESP32 WiFi
@@ -19,21 +19,42 @@
   Licensed under MIT license
  *****************************************************************************************************************************/
 
-#if !( defined(CONFIG_PLATFORM_8721D) || defined(BOARD_RTL8722D) || defined(BOARD_RTL8722DM_MINI) || defined(BOARD_RTL8720DN_BW16) ) 
-  #error This code is intended to run on the AmebaD RTL8720DN platform! Please check your Tools->Board setting.
+#if ( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) )
+
+  #if defined(BOARD_NAME)
+    #undef BOARD_NAME
+  #endif
+
+  #if defined(CORE_CM7)
+    #warning Using Portenta H7 M7 core
+    #define BOARD_NAME            "PORTENTA_H7_M7"
+  #else
+    #warning Using Portenta H7 M4 core
+    #define BOARD_NAME            "PORTENTA_H7_M4"
+  #endif
+  
+#else
+  #error This code is intended to run on the MBED Portenta_H7 platform! Please check your Tools->Board setting.
 #endif
+
+#ifdef CORE_CM7    // Start M7 Core programming
 
 #define NTP_DBG_PORT                Serial
 
 // Debug Level from 0 to 4
 #define _NTP_LOGLEVEL_              0
 
-#include <WiFiWebServer_RTL8720.h>
-
 #include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
 
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include <NTPClient_Generic_Impl.h>     // https://github.com/khoih-prog/NTPClient_Generic
+
+#include <WiFi.h>
+
+#include <WiFiUdp.h>
+
+char ssid[] = "SSID";             // your network SSID (name)
+char pass[] = "12345678";         // your network password
 
 WiFiUDP ntpUDP;
 
@@ -48,7 +69,7 @@ char timeServer[] = "0.ca.pool.ntp.org";
 // Europe
 //char timeServer[] = ""europe.pool.ntp.org";
 
-#define TIME_ZONE_OFFSET_HRS            (-4)
+#define TIME_ZONE_OFFSET_HRS            (-5)
 #define NTP_UPDATE_INTERVAL_MS          60000L
 
 // You can specify the time server pool and the offset (in seconds, can be
@@ -56,49 +77,25 @@ char timeServer[] = "0.ca.pool.ntp.org";
 // update interval (in milliseconds, can be changed using setUpdateInterval() ).
 NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDATE_INTERVAL_MS);
 
-int status = WL_IDLE_STATUS;      // the Wifi radio's status
-
-char ssid[] = "SSID_5GHz";        // your network SSID (name)
-char pass[] = "12345678";        // your network password
-
 void setup()
 {
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStarting RTL8720DN_NTPClient_Advanced");
-  Serial.println(WIFI_WEBSERVER_RTL8720_VERSION);
+  Serial.println("\nStarting Portenta_H7_NTPClient_Advanced on " + String(BOARD_NAME));
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
-  if (WiFi.status() == WL_NO_SHIELD)
+  Serial.println("Connecting to: " + String(ssid));
+
+  WiFi.begin(ssid, pass);
+
+  while ( WiFi.status() != WL_CONNECTED )
   {
-    Serial.println(F("WiFi shield not present"));
-    // don't continue
-    while (true);
+    delay ( 500 );
+    Serial.print ( "." );
   }
 
-  String fv = WiFi.firmwareVersion();
-
-  Serial.print("Current Firmware Version = "); Serial.println(fv);
-  
-  if (fv != LATEST_RTL8720_FIRMWARE) 
-  {
-    Serial.println("Please upgrade the firmware");
-  }
- 
-  // attempt to connect to Wifi network:
-  while (status != WL_CONNECTED) 
-  {
-    Serial.print("Attempting to connect to SSID: "); Serial.println(ssid);
-    
-    // Connect to WPA/WPA2 network. 2.4G and 5G are all OK
-    status = WiFi.begin(ssid, pass);
-
-    // wait 10 seconds for connection:
-    delay(10000);
-  }
- 
-  Serial.print(F("RTL8720DN_NTPClient_Advanced started @ IP address: "));
+  Serial.print(F("\Portenta_H7_NTPClient_Advanced started @ IP address: "));
   Serial.println(WiFi.localIP());
 
   timeClient.begin();
@@ -122,7 +119,7 @@ void loop()
   Serial.println("LOC : " + timeClient.getFormattedDateTime());
   Serial.println("UTC EPOCH : " + String(timeClient.getUTCEpochTime()));
   Serial.println("LOC EPOCH : " + String(timeClient.getEpochTime()));
-  
+
   // Function test
   // Without leading 0
   Serial.println(String("UTC : ") + timeClient.getUTCHours() + ":" + timeClient.getUTCMinutes() + ":" + timeClient.getUTCSeconds() + " " +
@@ -143,3 +140,5 @@ void loop()
 
   delay(10000);
 }
+
+#endif    // CORE_CM7

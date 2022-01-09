@@ -43,6 +43,9 @@
 
 #include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
 
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include <Timezone_Generic_Impl.h>        // https://github.com/khoih-prog/Timezone_Generic
+
 #include <STM32RTC.h>                     // https://github.com/stm32duino/STM32RTC
 
 /* Get the rtc object */
@@ -64,7 +67,10 @@ TimeChangeRule *tcr;        //pointer to the time change rule, use to get TZ abb
 
 //////////////////////////////////////////
 
-#include <NTPClient_Generic.h>
+#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
+
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include <NTPClient_Generic_Impl.h>     // https://github.com/khoih-prog/NTPClient_Generic
 
 // A UDP instance to let us send and receive packets over UDP
 EthernetUDP ntpUDP;

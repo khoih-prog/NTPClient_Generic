@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v3.6.0](#releases-v360)
   * [Releases v3.5.2](#releases-v352)
   * [Releases v3.5.1](#releases-v351)
   * [Releases v3.5.0](#releases-v350)
@@ -25,6 +26,13 @@
 ---
 
 ## Changelog
+
+### Releases v3.6.0
+
+1. Add support to Potenta_H7 using Murata WiFi of Vision-Shield Ethernet
+2. Fix `multiple-definitions` linker error. Check [Different behaviour using the src_cpp or src_h lib #80](https://github.com/khoih-prog/ESPAsync_WiFiManager/discussions/80)
+3. Update all examples
+4. Update `Packages_Patches`
 
 ### Releases v3.5.2
 
