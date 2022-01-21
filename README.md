@@ -2412,7 +2412,6 @@ Many thanks for everyone for bug reporting, new feature suggesting, testing and 
 <table>
   <tr>
     <td align="center"><a href="https://github.com/FWeinb"><img src="https://github.com/FWeinb.png" width="100px;" alt="FWeinb"/><br /><sub><b>⭐️ Fabrice Weinberg</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/sandeepmistry"><img src="https://github.com/sandeepmistry.png" width="100px;" alt="sandeepmistry"/><br /><sub><b> Sandeep Mistry</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/tcpipchip"><img src="https://github.com/tcpipchip.png" width="100px;" alt="tcpipchip"/><br /><sub><b>Miguel Wisintainer</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/bmcdonnell"><img src="https://github.com/bmcdonnell.png" width="100px;" alt="bmcdonnell"/><br /><sub><b>bmcdonnell</b></sub></a><br /></td>
   </tr> 
