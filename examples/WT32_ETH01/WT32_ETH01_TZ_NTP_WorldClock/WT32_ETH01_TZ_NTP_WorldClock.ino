@@ -23,10 +23,8 @@
 
 //////////////////////////////////////////
 
-#include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
-
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <Timezone_Generic_Impl.h>        // https://github.com/khoih-prog/Timezone_Generic
+#include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
 
 // Australia Eastern Time Zone (Sydney, Melbourne)
 TimeChangeRule aEDT = {"AEDT", First, Sun, Oct, 2, 660};    // UTC + 11 hours
@@ -77,10 +75,8 @@ Timezone *usPT;
 
 //////////////////////////////////////////
 
-#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
-
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <NTPClient_Generic_Impl.h>     // https://github.com/khoih-prog/NTPClient_Generic
+#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
 
 int status = WL_IDLE_STATUS;      // the Wifi radio's status
 

@@ -23,10 +23,8 @@
 
 #include "defines.h"
 
-#include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
-
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <Timezone_Generic_Impl.h>        // https://github.com/khoih-prog/Timezone_Generic
+#include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
 
 #include <DS323x_Generic.h>               // https://github.com/khoih-prog/DS323x_Generic
 
@@ -43,10 +41,8 @@ TimeChangeRule *tcr;        //pointer to the time change rule, use to get TZ abb
 
 //////////////////////////////////////////
 
-#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
-
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <NTPClient_Generic_Impl.h>     // https://github.com/khoih-prog/NTPClient_Generic
+#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
 
 // A UDP instance to let us send and receive packets over UDP
 EthernetUDP ntpUDP;

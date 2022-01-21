@@ -1,6 +1,6 @@
 {
   "name": "NTPClient_Generic",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "keywords": "timing, device, control, communication, iot, ntp, rtc, wifi, wifinina, ethernet, time, rp2040, nano-rp2040-connect, SAM DUE, SAMD, nRF52, STM32, ESP32, ESP8266, wt32-eth01, rtl8720, rpi-pico",
   "description": "Library for NTPClient to connect to an NTP time-server. Get time from a NTP time-server and keep it in sync. For ESP8266/ESP32, WT32-ETH01 (ESP32 + LAN8720), nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, RTL8720DN, RP2040-based (Nano_RP2040_Connect, RASPBERRY_PI_PICO) boards, etc. besides AVR, using ESP WiFi, WiFiNINA, Ethernet W5x00, ENC28J60, LAN8742A, ESP8266/ESP32 AT-command WiFi",
   "authors":
@@ -63,25 +63,25 @@
     {
       "owner": "khoih-prog",
       "name": "WiFiNINA_Generic",
-      "version": ">=1.8.13",
+      "version": ">=1.8.14-3",
       "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
       "name": "EthernetWebServer",
-      "version": ">=1.7.1",
+      "version": ">=2.0.0",
       "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
       "name": "EthernetWebServer_STM32",
-      "version": ">=1.2.1",
+      "version": ">=1.3.3",
       "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
       "name": "WiFiWebServer",
-      "version": ">=1.4.2",
+      "version": ">=1.5.4",
       "platforms": ["*"]
     },
     {
@@ -93,13 +93,13 @@
     {
       "owner": "khoih-prog",
       "name": "WiFiWebServer_RTL8720",
-      "version": ">=1.0.1",
+      "version": ">=1.1.1",
       "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
       "name": "ESP8266_AT_WebServer",
-      "version": ">=1.4.0",
+      "version": ">=1.5.3",
       "platforms": ["*"]
     },
     {
@@ -117,7 +117,7 @@
     {
       "owner": "stm32duino",
       "name": "STM32duino RTC",
-      "version": ">=1.1.0",
+      "version": ">=1.2.0",
       "platforms": ["ststm32"]
     },
     {
@@ -129,7 +129,7 @@
     {
       "owner": "jandrassy",
       "name": "EthernetENC",
-      "version": ">=2.0.1",
+      "version": ">=2.0.2",
       "platforms": ["*"]
     },
     {
@@ -167,6 +167,6 @@
   "frameworks": "*",
   "platforms": "*",
   "examples": "examples/*/*/*.ino",
-  "headers": ["NTPClient_Generic.h"]
+  "headers": ["NTPClient_Generic.h", "NTPClient_Generic.hpp"]
   
 }

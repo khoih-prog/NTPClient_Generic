@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v3.7.0](#releases-v370)
   * [Releases v3.6.0](#releases-v360)
   * [Releases v3.5.2](#releases-v352)
   * [Releases v3.5.1](#releases-v351)
@@ -26,6 +27,12 @@
 ---
 
 ## Changelog
+
+### Releases v3.7.0
+
+1. Make compatible with old code
+2. Update all examples
+3. Update `Packages_Patches`
 
 ### Releases v3.6.0
 

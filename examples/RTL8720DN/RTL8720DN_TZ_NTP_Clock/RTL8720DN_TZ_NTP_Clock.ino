@@ -23,10 +23,8 @@
 
 //////////////////////////////////////////
 
-#include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
-
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <Timezone_Generic_Impl.h>        // https://github.com/khoih-prog/Timezone_Generic
+#include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
 
 // US Eastern Time Zone (New York, Detroit)
 TimeChangeRule myDST = {"EDT", Second, Sun, Mar, 2, -240};    // Daylight time = UTC - 4 hours
@@ -41,10 +39,8 @@ TimeChangeRule *tcr;        // pointer to the time change rule, use to get TZ ab
 
 //////////////////////////////////////////
 
-#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
-
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <NTPClient_Generic_Impl.h>     // https://github.com/khoih-prog/NTPClient_Generic
+#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
 
 int status = WL_IDLE_STATUS;      // the Wifi radio's status
 

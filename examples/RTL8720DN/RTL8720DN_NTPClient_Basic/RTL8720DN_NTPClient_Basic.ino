@@ -30,10 +30,8 @@
 
 #include <WiFiWebServer_RTL8720.h>
 
-#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
-
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <NTPClient_Generic_Impl.h>     // https://github.com/khoih-prog/NTPClient_Generic
+#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
 
 WiFiUDP ntpUDP;
 

@@ -30,7 +30,7 @@ Arduino IDE version: 1.8.19
 RASPBERRY_PI_PICO board
 ArduinoCore-mbed v2.6.1
 OS: Ubuntu 20.04 LTS
-Linux xy-Inspiron-3593 5.4.0-92-generic #103-Ubuntu SMP Fri Nov 26 16:13:00 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.4.0-96-generic #109-Ubuntu SMP Wed Jan 12 16:49:16 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
 I encountered an endless loop while trying to connect to Local WiFi.
