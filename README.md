@@ -11,7 +11,7 @@
 
 ## Table of Contents
 
-* [Important Change from v3.7.0](#Important-Breaking-Change-from-v370)
+* [Important Change from v3.7.0](#Important-Change-from-v370)
 * [Why do we need this NTPClient_Generic library](#why-do-we-need-this-ntpclient_generic-library)
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
