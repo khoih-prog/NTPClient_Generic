@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v3.7.1](#releases-v371)
   * [Releases v3.7.0](#releases-v370)
   * [Releases v3.6.0](#releases-v360)
   * [Releases v3.5.2](#releases-v352)
