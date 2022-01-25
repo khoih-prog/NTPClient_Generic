@@ -18,7 +18,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.7.0
+  Version: 3.7.1
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -32,6 +32,7 @@
   3.5.2   K Hoang      01/12/2021 Auto detect ESP32 core version. Fix bug in examples for WT32_ETH01
   3.6.0   K Hoang      08/01/2022 Fix `multiple-definitions` linker error. Add support to Portenta_H7
   3.7.0   K Hoang      20/01/2022 Make compatible to old code
+  3.7.1   K Hoang      20/01/2022 Fix getUTCEpochMillis() bug
  *****************************************************************************************************************************/
  
 #pragma once

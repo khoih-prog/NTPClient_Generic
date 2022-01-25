@@ -18,7 +18,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.7.0
+  Version: 3.7.1
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -32,6 +32,7 @@
   3.5.2   K Hoang      01/12/2021 Auto detect ESP32 core version. Fix bug in examples for WT32_ETH01
   3.6.0   K Hoang      08/01/2022 Fix `multiple-definitions` linker error. Add support to Portenta_H7
   3.7.0   K Hoang      20/01/2022 Make compatible to old code
+  3.7.1   K Hoang      20/01/2022 Fix getUTCEpochMillis() bug
  *****************************************************************************************************************************/
  
 #pragma once
@@ -40,13 +41,13 @@
 #ifndef NTPCLIENT_GENERIC_HPP
 #define NTPCLIENT_GENERIC_HPP
 
-#define NTPCLIENT_GENERIC_VERSION             "NTPClient_Generic v3.7.0"
+#define NTPCLIENT_GENERIC_VERSION             "NTPClient_Generic v3.7.1"
 
 #define NTPCLIENT_GENERIC_VERSION_MAJOR       3
 #define NTPCLIENT_GENERIC_VERSION_MINOR       7
-#define NTPCLIENT_GENERIC_VERSION_PATCH       0
+#define NTPCLIENT_GENERIC_VERSION_PATCH       1
 
-#define NTPCLIENT_GENERIC_VERSION_INT        3007000
+#define NTPCLIENT_GENERIC_VERSION_INT        3007001
 
 #include "Arduino.h"
 
@@ -105,9 +106,9 @@ class NTPClient
     bool          checkResponse();
 
   public:
-    NTPClient(UDP& udp, long timeOffset = 0);
-    NTPClient(UDP& udp, const char* poolServerName, long timeOffset = 0, unsigned long updateInterval = 60000);
-    NTPClient(UDP& udp, IPAddress poolServerIP, long timeOffset = 0, unsigned long updateInterval = 60000);
+    NTPClient(UDP& udp, const long& timeOffset = 0);
+    NTPClient(UDP& udp, const char* poolServerName, const long& timeOffset = 0, const unsigned long& updateInterval = 60000);
+    NTPClient(UDP& udp, const IPAddress& poolServerIP, const long& timeOffset = 0, const unsigned long& updateInterval = 60000);
 
     /**
        Set time server name
@@ -136,7 +137,7 @@ class NTPClient
 
        @param poolServerIP
     */
-    void setPoolServerIP(const IPAddress poolServerIP)
+    void setPoolServerIP(const IPAddress& poolServerIP)
     {
       this->_poolServerIP = poolServerIP;
     }
@@ -332,7 +333,7 @@ class NTPClient
        Set the update interval to another frequency. E.g. useful when the
        timeOffset should not be set in the constructor
     */
-    void setUpdateInterval(unsigned long updateInterval) 
+    void setUpdateInterval(const unsigned long& updateInterval) 
     {
       this->_updateInterval = updateInterval;
     }
@@ -340,7 +341,7 @@ class NTPClient
     /**
        Set the retry interval to another frequency in ms
     */
-    void setRetryInterval(int retryInterval) 
+    void setRetryInterval(const int& retryInterval) 
     {
       _retryInterval = retryInterval;
     }
@@ -348,7 +349,7 @@ class NTPClient
     /**
        @return time formatted like `hh:mm:ss` from rawTime input
     */
-    String createFormattedTime(unsigned long rawTime) const;
+    String createFormattedTime(const unsigned long& rawTime) const;
 
     /**
        @return time formatted like `hh:mm:ss`

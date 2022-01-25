@@ -18,7 +18,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.7.0
+  Version: 3.7.1
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -32,6 +32,7 @@
   3.5.2   K Hoang      01/12/2021 Auto detect ESP32 core version. Fix bug in examples for WT32_ETH01
   3.6.0   K Hoang      08/01/2022 Fix `multiple-definitions` linker error. Add support to Portenta_H7
   3.7.0   K Hoang      20/01/2022 Make compatible to old code
+  3.7.1   K Hoang      20/01/2022 Fix getUTCEpochMillis() bug
  *****************************************************************************************************************************/
 
 #pragma once
@@ -42,7 +43,7 @@
 
 /////////////////////////////
 
-NTPClient::NTPClient(UDP& udp, long timeOffset)
+NTPClient::NTPClient(UDP& udp, const long& timeOffset)
 {
   this->_udp            = &udp;
   this->_timeOffset     = timeOffset;
@@ -50,7 +51,7 @@ NTPClient::NTPClient(UDP& udp, long timeOffset)
 
 /////////////////////////////
 
-NTPClient::NTPClient(UDP& udp, const char* poolServerName, long timeOffset, unsigned long updateInterval)
+NTPClient::NTPClient(UDP& udp, const char* poolServerName, const long& timeOffset, const unsigned long& updateInterval)
 {
   this->_udp            = &udp;
   this->_timeOffset     = timeOffset;
@@ -60,7 +61,7 @@ NTPClient::NTPClient(UDP& udp, const char* poolServerName, long timeOffset, unsi
 
 /////////////////////////////
 
-NTPClient::NTPClient(UDP& udp, IPAddress poolServerIP, long timeOffset, unsigned long updateInterval)
+NTPClient::NTPClient(UDP& udp, const IPAddress& poolServerIP, const long& timeOffset, const unsigned long& updateInterval)
 {
   this->_udp            = &udp;
   this->_timeOffset     = timeOffset;
@@ -219,9 +220,9 @@ unsigned long long NTPClient::getUTCEpochMillis()
 {
   unsigned long long epoch;
 
-  epoch  = this->_currentEpoc * 1000;                   // last time returned via server in millis
-  epoch += this->_currentFraction / FRACTIONSPERMILLI;  // add the fraction from the server
-  epoch += millis() - this->_lastUpdate;          // add the millis that have passed since the last update
+  epoch  = (unsigned long long)this->_currentEpoc * 1000;       // last time returned via server in millis
+  epoch += this->_currentFraction / FRACTIONSPERMILLI;          // add the fraction from the server
+  epoch += millis() - this->_lastUpdate;                        // add the millis that have passed since the last update
 
   return epoch;
 }
@@ -239,7 +240,7 @@ unsigned long long NTPClient::getEpochMillis()
 
 /////////////////////////////
 
-String NTPClient::createFormattedTime(unsigned long rawTime) const 
+String NTPClient::createFormattedTime(const unsigned long& rawTime) const 
 {
   unsigned long tempo   = hour(rawTime);
   String hoursStr       = tempo < 10 ? "0" + String(tempo) : String(tempo);

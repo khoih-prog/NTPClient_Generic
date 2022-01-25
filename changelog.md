@@ -28,6 +28,11 @@
 
 ## Changelog
 
+### Releases v3.7.1
+
+1. Fix getUTCEpochMillis() bug. Check [getUTCEpochMillis() not returning correct value #7](https://github.com/khoih-prog/NTPClient_Generic/issues/7)
+2. Update Adafruit SAMD `Packages_Patches`
+
 ### Releases v3.7.0
 
 1. Make compatible with old code
