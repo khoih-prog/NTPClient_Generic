@@ -1891,7 +1891,7 @@ Many thanks for everyone for bug reporting, new feature suggesting, testing and 
 2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing.
 3. Thanks to [bmcdonnell](https://github.com/bmcdonnell) to make PR in [Add packet validity checks #4](https://github.com/khoih-prog/NTPClient_Generic/pull/4) leading to v3.3.0
 4. Thanks to [DavidSteinmann](https://github.com/DavidSteinmann) to report the `getUTCEpochMillis()` bug and propose the bug fix in [getUTCEpochMillis() not returning correct value #7](https://github.com/khoih-prog/NTPClient_Generic/issues/7) leading to v3.7.1
-5. Thanks to [argo9](https://github.com/argo9) to make PR in [added setUDP function #8](https://github.com/khoih-prog/NTPClient_Generic/pull/8) leading to v3.3.0
+5. Thanks to [argo9](https://github.com/argo9) to make PR in [added setUDP function #8](https://github.com/khoih-prog/NTPClient_Generic/pull/8) leading to v3.7.2
 
 
 <table>
