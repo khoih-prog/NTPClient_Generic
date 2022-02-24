@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v3.7.2](#releases-v372)
   * [Releases v3.7.1](#releases-v371)
   * [Releases v3.7.0](#releases-v370)
   * [Releases v3.6.0](#releases-v360)
@@ -28,6 +29,12 @@
 ---
 
 ## Changelog
+
+### Releases v3.7.2
+
+1. Add setUDP() function to enable auto-switching between `WiFi` and `Ethernet` UDP instances. Check [added setUDP function #8](https://github.com/khoih-prog/NTPClient_Generic/pull/8)
+2. Add new examples [ESP_WiFi_ETH_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) and [WT32_WiFi_ETH01_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/WT32_ETH01/WT32_WiFi_ETH01_NTPClient_Advanced) to use the new setUDP() function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
+3. Update `Packages_Patches`
 
 ### Releases v3.7.1
 

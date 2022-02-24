@@ -8,6 +8,7 @@ NTPClient	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
+setUDP  KEYWORD2
 setPoolServerName	KEYWORD2
 getPoolServerName KEYWORD2
 setPoolServerIP KEYWORD2

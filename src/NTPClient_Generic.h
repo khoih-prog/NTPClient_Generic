@@ -18,7 +18,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.7.1
+  Version: 3.7.2
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -33,6 +33,7 @@
   3.6.0   K Hoang      08/01/2022 Fix `multiple-definitions` linker error. Add support to Portenta_H7
   3.7.0   K Hoang      20/01/2022 Make compatible to old code
   3.7.1   K Hoang      20/01/2022 Fix getUTCEpochMillis() bug
+  3.7.2   K Hoang      23/02/2022 Add setUDP() function to enable auto-switching between WiFi and Ethernet UDP
  *****************************************************************************************************************************/
  
 #pragma once

@@ -18,7 +18,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.7.1
+  Version: 3.7.2
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -33,6 +33,7 @@
   3.6.0   K Hoang      08/01/2022 Fix `multiple-definitions` linker error. Add support to Portenta_H7
   3.7.0   K Hoang      20/01/2022 Make compatible to old code
   3.7.1   K Hoang      20/01/2022 Fix getUTCEpochMillis() bug
+  3.7.2   K Hoang      23/02/2022 Add setUDP() function to enable auto-switching between WiFi and Ethernet UDP
  *****************************************************************************************************************************/
  
 #pragma once
@@ -41,13 +42,13 @@
 #ifndef NTPCLIENT_GENERIC_HPP
 #define NTPCLIENT_GENERIC_HPP
 
-#define NTPCLIENT_GENERIC_VERSION             "NTPClient_Generic v3.7.1"
+#define NTPCLIENT_GENERIC_VERSION             "NTPClient_Generic v3.7.2"
 
 #define NTPCLIENT_GENERIC_VERSION_MAJOR       3
 #define NTPCLIENT_GENERIC_VERSION_MINOR       7
-#define NTPCLIENT_GENERIC_VERSION_PATCH       1
+#define NTPCLIENT_GENERIC_VERSION_PATCH       2
 
-#define NTPCLIENT_GENERIC_VERSION_INT        3007001
+#define NTPCLIENT_GENERIC_VERSION_INT        3007002
 
 #include "Arduino.h"
 
@@ -106,21 +107,22 @@ class NTPClient
     bool          checkResponse();
 
   public:
-	NTPClient(const long& timeOffset = 0);
+    NTPClient(const long& timeOffset = 0);
+    
     NTPClient(UDP& udp, const long& timeOffset = 0);
     NTPClient(UDP& udp, const char* poolServerName, const long& timeOffset = 0, const unsigned long& updateInterval = 60000);
     NTPClient(UDP& udp, const IPAddress& poolServerIP, const long& timeOffset = 0, const unsigned long& updateInterval = 60000);
 
-	//Bleb marco adds
-	/**
-       Set UDP socket
-
-       @param UDPsocket
+    /**
+      Set UDP socket. Used to switch between WiFi and Ethernet UDP in runtime
+      
+      @param UDPsocket
     */
-	void setUDP(UDP& udp){
-		this->_udp = &udp;
-	}
-
+    void setUDP(UDP& udp)
+    {
+      this->_udp = &udp;
+    }
+    
     /**
        Set time server name
 

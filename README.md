@@ -89,6 +89,7 @@
   * [19. RTL8720DN_TZ_NTP_WorldClock on Rtlduino RTL8720DN](#19-rtl8720dn_tz_ntp_worldclock-on-rtlduino-rtl8720dn)
   * [20. Portenta_H7_NTPClient_Advanced on PORTENTA_H7_M7 with WiFi](#20-Portenta_H7_NTPClient_Advanced-on-PORTENTA_H7_M7-with-WiFi)
   * [21. Portenta_H7_NTPClient_Advanced on PORTENTA_H7_M7 with Ethernet](#21-Portenta_H7_NTPClient_Advanced-on-PORTENTA_H7_M7-with-Ethernet)
+  * [22. ESP_WiFi_ETH_NTPClient_Advanced on ESP32_DEV with W5x00 using EthernetLarge Library](#22-ESP_WiFi_ETH_NTPClient_Advanced-on-ESP32_DEV-with-W5x00-using-EthernetLarge-Library)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [TO DO](#to-do)
@@ -104,6 +105,10 @@
 ### Important Change from v3.7.0
 
 Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
+
+From v3.7.2, you can use the new `setUDP()` function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
+
+Check examples [ESP_WiFi_ETH_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) and [WT32_WiFi_ETH01_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/WT32_ETH01/WT32_WiFi_ETH01_NTPClient_Advanced) for a demo.
 
 ---
 ---
@@ -200,17 +205,17 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
  1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
  2. [`ESP32 Core 2.0.2+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
  3. [`ESP8266 Core 3.0.2+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/). To use ESP8266 core 2.7.1+ for LittleFS. 
- 4. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
+ 4. [`Arduino AVR core 1.8.5+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
  5. [`Teensy core v1.56+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
  6. [`Arduino SAM DUE core v1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards.
- 7. [`Arduino SAMD core 1.8.12+`](https://github.com/arduino/ArduinoCore-samd) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
- 8. [`Adafruit SAMD core 1.7.7+`](https://github.com/adafruit/ArduinoCore-samd) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
+ 7. [`Arduino SAMD core 1.8.13+`](https://github.com/arduino/ArduinoCore-samd) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
+ 8. [`Adafruit SAMD core 1.7.9+`](https://github.com/adafruit/ArduinoCore-samd) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
  9. [`Seeeduino SAMD core 1.8.2+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
 10. [`Adafruit nRF52 v1.3.0+`](https://github.com/adafruit/Adafruit_nRF52_Arduino) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest) 
 11. [`Arduino Core for STM32 v2.2.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
-12. [`Arduino mbed_rp2040 core 2.6.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-13. [`Earle Philhower's arduino-pico core v1.9.14+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
-14. [`Arduino AmebaD core 3.1.1+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTL8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
+12. [`Arduino mbed_rp2040 core 2.7.2+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+13. [`Earle Philhower's arduino-pico core v1.12.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+14. [`Arduino AmebaD core 3.1.2+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTL8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
 
 15. [`Time v1.6.1+`](https://github.com/PaulStoffregen/Time). [![GitHub release](https://img.shields.io/github/release/PaulStoffregen/Time.svg)](https://github.com/PaulStoffregen/Time/releases/latest)
 16. For built-in LAN8742A Ethernet:
@@ -225,15 +230,21 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
    - [`EthernetENC library v2.0.2+`](https://github.com/jandrassy/EthernetENC) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/jandrassy/EthernetENC.svg)](https://github.com/jandrassy/EthernetENC/releases/latest). **New and Better**
    - [`UIPEthernet library v2.0.11+`](https://github.com/UIPEthernet/UIPEthernet) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/UIPEthernet/UIPEthernet.svg)](https://github.com/UIPEthernet/UIPEthernet/releases/latest)
 19. [`WiFiNINA_Generic library v1.8.14-3+`](https://github.com/khoih-prog/WiFiNINA_Generic) to use WiFiNINA modules/shields. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) if using WiFiNINA for boards such as Nano 33 IoT, nRF52, Teensy, etc.
-20. [`WiFiWebServer library v1.5.5-1+`](https://github.com/khoih-prog/WiFiWebServer) to use WiFi/WiFiNINA modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
+20. [`WiFiWebServer library v1.6.2+`](https://github.com/khoih-prog/WiFiWebServer) to use WiFi/WiFiNINA modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
 21. [`EthernetWebServer library v2.0.0+`](https://github.com/khoih-prog/EthernetWebServer) to use Ethernet modules/shields on boards other than STM32F/L/H/G/WB/MP1. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer.svg?)](https://www.ardu-badge.com/EthernetWebServer).
 22. [`EthernetWebServer_STM32 library v1.3.3+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
 23. [`ESP8266_AT_WebServer library v1.5.3+`](https://github.com/khoih-prog/ESP8266_AT_WebServer) to use ESP8266-AT/ESP32-AT WiFi modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_AT_WebServer.svg?)](https://www.ardu-badge.com/ESP8266_AT_WebServer)
-24. [`DS323x_Generic library v1.2.2+`](https://github.com/khoih-prog/DS323x_Generic) to use examples using DS323x RTC modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DS323x_Generic.svg?)](https://www.ardu-badge.com/DS323x_Generic)
-25. [`Timezone_Generic library v1.9.0+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
+24. [`DS323x_Generic library v1.2.3+`](https://github.com/khoih-prog/DS323x_Generic) to use examples using DS323x RTC modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DS323x_Generic.svg?)](https://www.ardu-badge.com/DS323x_Generic)
+25. [`Timezone_Generic library v1.9.1+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
 26. [`STM32RTC library v1.2.0+`](https://github.com/stm32duino/STM32RTC) to use STM32 examples using built-in STM32 RTC. [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32RTC.svg)](https://github.com/stm32duino/STM32RTC/releases/latest).
 27. [`WebServer_WT32_ETH01 library v1.4.1+`](https://github.com/khoih-prog/WebServer_WT32_ETH01) to use WT32_ETH01 (ESP32 + LAN8720). To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WebServer_WT32_ETH01.svg?)](https://www.ardu-badge.com/WebServer_WT32_ETH01).
 28. [`WiFiWebServer_RTL8720 library v1.1.1+`](https://github.com/khoih-prog/WiFiWebServer_RTL8720) to use Realtek RTL8720DN, etc. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer_RTL8720.svg?)](https://www.ardu-badge.com/WiFiWebServer_RTL8720).
+
+29. [`Modified WiFi101 Library v0.16.1+`](https://github.com/khoih-prog/WiFi101) to use SAMD MKR1000, etc. boards with WiFi101.
+30. [`WiFiEspAT library v1.3.2+`](https://github.com/jandrassy/WiFiEspAT) if using ESP8288/ESP32-AT shields. [![GitHub release](https://img.shields.io/github/release/jandrassy/WiFiEspAT.svg)](https://github.com/jandrassy/WiFiEspAT/releases/latest)
+31. [`FlashStorage_SAMD library v1.3.2+`](https://github.com/khoih-prog/FlashStorage_SAMD) for SAMD21 and SAMD51 boards (ZERO, MKR, NANO_33_IOT, M0, M0 Pro, AdaFruit Itsy-Bitsy M4, etc.). [![GitHub release](https://img.shields.io/github/release/khoih-prog/FlashStorage_SAMD.svg)](https://github.com/khoih-prog/FlashStorage_SAMD/releases/latest)
+32. [`FlashStorage_STM32F1 library v1.1.0+`](https://github.com/khoih-prog/FlashStorage_STM32F1) for STM32F1/F3 boards. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/FlashStorage_STM32F1.svg?)](https://www.ardu-badge.com/FlashStorage_STM32F1)
+33. [`FlashStorage_STM32 library v1.2.0+`](https://github.com/khoih-prog/FlashStorage_STM32) for STM32F/L/H/G/WB/MP1 boards. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/FlashStorage_STM32.svg?)](https://www.ardu-badge.com/FlashStorage_STM32)
 
 ---
 ---
@@ -258,7 +269,7 @@ Another way to install is to:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**NTPClient_Generic** library](https://platformio.org/lib/show/11354/NTPClient_Generic) by using [Library Manager](https://platformio.org/lib/show/11354/NTPClient_Generic/installation). Search for **NTPClient_Generic** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**NTPClient_Generic** library](https://registry.platformio.org/libraries/khoih-prog/NTPClient_Generic) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/NTPClient_Generic/installation). Search for **NTPClient_Generic** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 
@@ -370,13 +381,13 @@ Whenever the above-mentioned compiler error issue is fixed with the new Arduino 
 
 #### 5. For Adafruit SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.7) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.7). 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.10) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.10). 
 
-Supposing the Adafruit SAMD core version is 1.7.7. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.7.10. This file must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.7/platform.txt`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.7/cores/arduino/Print.h`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.7/cores/arduino/Print.cpp`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/cores/arduino/Print.h`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/cores/arduino/Print.cpp`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -478,12 +489,12 @@ With core after v1.5.0, this step is not necessary anymore thanks to the PR [Add
 
 #### 9. For Portenta_H7 boards using Arduino IDE in Linux
 
-  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/2.6.1/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/2.6.1/portenta_post_install.sh). 
+  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/2.7.2/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/2.7.2/portenta_post_install.sh). 
   
   Then run the following command using `sudo`
   
 ```
-$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/2.6.1
+$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/2.7.2
 $ chmod 755 portenta_post_install.sh
 $ sudo ./portenta_post_install.sh
 ```
@@ -496,9 +507,9 @@ This will create the file `/etc/udev/rules.d/49-portenta_h7.rules` as follows:
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="035b", GROUP="plugdev", MODE="0666"
 ```
 
-Supposing the ArduinoCore-mbed core version is 2.6.1. Now only one file must be copied into the directory:
+Supposing the ArduinoCore-mbed core version is 2.7.2. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/mbed_portenta/2.6.1/portenta_post_install.sh`
+- `~/.arduino15/packages/arduino/hardware/mbed_portenta/2.7.2/portenta_post_install.sh`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -701,6 +712,7 @@ To know the default CS/SS pins of not listed boards, check the related `variant.
 
  1. [ESP_NTPClient_Advanced](examples/ESP/ESP_NTPClient_Advanced)
  2. [ESP_NTPClient_Basic](examples/ESP/ESP_NTPClient_Basic)
+ 3. [ESP_WiFi_ETH_NTPClient_Advanced](examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) **New**
  
 ### Generic Boards with Ethernet
 
@@ -726,6 +738,14 @@ To know the default CS/SS pins of not listed boards, check the related `variant.
  2. [NINA_NTPClient_Basic](examples/Generic/WiFiNINA/NINA_NTPClient_Basic)
  3. [NINA_TZ_NTP_Clock](examples/Generic/WiFiNINA/NINA_TZ_NTP_Clock)
  4. [NINA_TZ_NTP_WorldClock](examples/Generic/WiFiNINA/NINA_TZ_NTP_WorldClock)
+ 
+### WT32_ETH01 Boards
+
+ 1. [WT32_ETH01_NTPClient_Advanced](examples/WT32_ETH01/WT32_ETH01_NTPClient_Advanced)
+ 2. [WT32_ETH01_NTPClient_Basic](examples/WT32_ETH01/WT32_ETH01_NTPClient_Basic)
+ 3. [WT32_ETH01_TZ_NTP_Clock](examples/WT32_ETH01/WT32_ETH01_TZ_NTP_Clock)
+ 4. [WT32_ETH01_TZ_NTP_WorldClock](examples/WT32_ETH01/WT32_ETH01_TZ_NTP_WorldClock)
+ 5. [WT32_WiFi_ETH01_NTPClient_Advanced](examples/WT32_ETH01/WT32_WiFi_ETH01_NTPClient_Advanced) **New** 
 
 ### RTL8720DN Boards
  
@@ -744,7 +764,7 @@ To know the default CS/SS pins of not listed boards, check the related `variant.
  1. [Portenta_H7_NTPClient_Advanced](examples/Portenta_H7/Ethernet/Portenta_H7_NTPClient_Advanced)
  2. [Portenta_H7_NTPClient_Basic](examples/Portenta_H7/Ethernet/Portenta_H7_NTPClient_Basic)
 
-
+ 
 ---
 ---
 
@@ -752,737 +772,15 @@ To know the default CS/SS pins of not listed boards, check the related `variant.
 
 #### 1. File [RTC_Ethernet_NTPClient.ino](examples/Generic/Ethernet/RTC_Ethernet_NTPClient/RTC_Ethernet_NTPClient.ino)
 
-```cpp
+https://github.com/khoih-prog/NTPClient_Generic/blob/fff8aa9fd304b4db766341767f202dd08c2da8d6/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/RTC_Ethernet_NTPClient.ino#L24-L390
 
-#include "defines.h"
-
-// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <Timezone_Generic.h>             // https://github.com/khoih-prog/Timezone_Generic
-
-#include <DS323x_Generic.h>               // https://github.com/khoih-prog/DS323x_Generic
-
-DS323x rtc;
-
-//////////////////////////////////////////
-
-// US Eastern Time Zone (New York, Detroit)
-TimeChangeRule myDST = {"EDT", Second, Sun, Mar, 2, -240};    //Daylight time = UTC - 4 hours
-TimeChangeRule mySTD = {"EST", First, Sun, Nov, 2, -300};     //Standard time = UTC - 5 hours
-Timezone *myTZ;
-
-TimeChangeRule *tcr;        //pointer to the time change rule, use to get TZ abbrev
-
-//////////////////////////////////////////
-
-// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include <NTPClient_Generic.h>          // https://github.com/khoih-prog/NTPClient_Generic
-
-// A UDP instance to let us send and receive packets over UDP
-EthernetUDP ntpUDP;
-
-// NTP server
-//World
-//char timeServer[] = "time.nist.gov";
-// Canada
-char timeServer[] = "0.ca.pool.ntp.org";
-//char timeServer[] = "1.ca.pool.ntp.org";
-//char timeServer[] = "2.ca.pool.ntp.org";
-//char timeServer[] = "3.ca.pool.ntp.org";
-// Europe
-//char timeServer[] = ""europe.pool.ntp.org";
-
-#define TIME_ZONE_OFFSET_HRS            (-4)
-#define NTP_UPDATE_INTERVAL_MS          60000L
-
-// You can specify the time server pool and the offset (in seconds, can be
-// changed later with setTimeOffset() ). Additionaly you can specify the
-// update interval (in milliseconds, can be changed using setUpdateInterval() ).
-NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDATE_INTERVAL_MS);
-
-static bool gotCurrentTime = false;
-
-// format and print a time_t value, with a time zone appended.
-void printDateTime(time_t t, const char *tz)
-{
-  char buf[32];
-  char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
-  strcpy(m, monthShortStr(month(t)));
-  sprintf(buf, "%.2d:%.2d:%.2d %s %.2d %s %d %s",
-          hour(t), minute(t), second(t), dayShortStr(weekday(t)), day(t), m, year(t), tz);
-  Serial.println(buf);
-}
-
-void update_RTC(void)
-{
-  // Just get the correct time once
-  if (timeClient.updated())
-  {
-    Serial.println("********UPDATED********");
-    rtc.now( DateTime(timeClient.getUTCEpochTime()) );
-    gotCurrentTime = true;
-  }
-}
-
-void displayRTC()
-{
-  // Display time from RTC
-  DateTime now = rtc.now();
-
-  Serial.println("============================");
-
-  time_t utc = now.get_time_t();
-  time_t local = myTZ->toLocal(utc, &tcr);
-  
-  printDateTime(utc, "UTC");
-  printDateTime(local, tcr -> abbrev);
-}
-
-void check_status(void)
-{
-  // Update first time after 5s
-  static ulong checkstatus_timeout  = 5000L;
-  static ulong RTCDisplay_timeout   = 0;
-
-  static ulong current_millis;
-
-// Display every 10s
-#define RTC_DISPLAY_INTERVAL        (10000L)
-
-// Update RTC every hour if got correct time from NTP
-#define RTC_UPDATE_INTERVAL         (3600 * 1000L)
-
-// Retry updating RTC every 5s if haven't got correct time from NTP
-#define RTC_RETRY_INTERVAL          (3 * 1000L)
-
-  current_millis = millis();
-
-  if ((current_millis > RTCDisplay_timeout) || (RTCDisplay_timeout == 0))
-  {
-    if (gotCurrentTime)
-      displayRTC();
-      
-    RTCDisplay_timeout = current_millis + RTC_DISPLAY_INTERVAL;
-  }
-  
-  // Update RTC every RTC_UPDATE_INTERVAL (3600) seconds.
-  if ((current_millis > checkstatus_timeout))
-  {
-    update_RTC();
-    
-    if (gotCurrentTime)
-    {
-      Serial.println("RTC updated. Next update in seconds : " + String(RTC_UPDATE_INTERVAL/1000, DEC));
-      checkstatus_timeout = current_millis + RTC_UPDATE_INTERVAL;
-    }
-    else
-    {
-      Serial.println("Retry RTC update in seconds : " + String(RTC_RETRY_INTERVAL/1000, DEC));
-      checkstatus_timeout = current_millis + RTC_RETRY_INTERVAL;
-    }   
-  }
-}
-
-//////////////////////////////////////////
-
-void setup()
-{
-  Serial.begin(115200);
-  while (!Serial);
-
-  Serial.print("\nStart RTC_Ethernet_NTPClient on " + String(BOARD_NAME));
-  Serial.println(" with " + String(SHIELD_TYPE));
-  Serial.println(NTPCLIENT_GENERIC_VERSION);
-
-  Wire.begin();
-
-#if USE_ETHERNET_WRAPPER
-
-  EthernetInit();
-
-#else
-
-#if USE_ETHERNET
-  ET_LOGWARN(F("=========== USE_ETHERNET ==========="));
-#elif USE_ETHERNET2
-  ET_LOGWARN(F("=========== USE_ETHERNET2 ==========="));
-#elif USE_ETHERNET3
-  ET_LOGWARN(F("=========== USE_ETHERNET3 ==========="));
-#elif USE_ETHERNET_LARGE
-  ET_LOGWARN(F("=========== USE_ETHERNET_LARGE ==========="));
-#elif USE_ETHERNET_ESP8266
-  ET_LOGWARN(F("=========== USE_ETHERNET_ESP8266 ==========="));
-#else
-  ET_LOGWARN(F("========================="));
-#endif
-
-  ET_LOGWARN(F("Default SPI pinout:"));
-  ET_LOGWARN1(F("MOSI:"), MOSI);
-  ET_LOGWARN1(F("MISO:"), MISO);
-  ET_LOGWARN1(F("SCK:"),  SCK);
-  ET_LOGWARN1(F("SS:"),   SS);
-  ET_LOGWARN(F("========================="));
-
-#if defined(ESP8266)
-  // For ESP8266, change for other boards if necessary
-  #ifndef USE_THIS_SS_PIN
-    #define USE_THIS_SS_PIN   D2    // For ESP8266
-  #endif
-
-  ET_LOGWARN1(F("ESP8266 setCsPin:"), USE_THIS_SS_PIN);
-
-  #if ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2 || USE_ETHERNET_ENC )
-    // For ESP8266
-    // Pin                D0(GPIO16)    D1(GPIO5)    D2(GPIO4)    D3(GPIO0)    D4(GPIO2)    D8
-    // Ethernet           0                 X            X            X            X        0
-    // Ethernet2          X                 X            X            X            X        0
-    // Ethernet3          X                 X            X            X            X        0
-    // EthernetLarge      X                 X            X            X            X        0
-    // Ethernet_ESP8266   0                 0            0            0            0        0
-    // D2 is safe to used for Ethernet, Ethernet2, Ethernet3, EthernetLarge libs
-    // Must use library patch for Ethernet, EthernetLarge libraries
-    Ethernet.init (USE_THIS_SS_PIN);
-
-  #elif USE_ETHERNET3
-    // Use  MAX_SOCK_NUM = 4 for 4K, 2 for 8K, 1 for 16K RX/TX buffer
-    #ifndef ETHERNET3_MAX_SOCK_NUM
-      #define ETHERNET3_MAX_SOCK_NUM      4
-    #endif
-  
-    Ethernet.setCsPin (USE_THIS_SS_PIN);
-    Ethernet.init (ETHERNET3_MAX_SOCK_NUM);
-
-  #elif USE_CUSTOM_ETHERNET
-  
-    // You have to add initialization for your Custom Ethernet here
-    // This is just an example to setCSPin to USE_THIS_SS_PIN, and can be not correct and enough
-    Ethernet.init(USE_THIS_SS_PIN);
-  
-  #endif  //( USE_ETHERNET || USE_ETHERNET2 || USE_ETHERNET3 || USE_ETHERNET_LARGE )
-
-#elif defined(ESP32)
-
-  // You can use Ethernet.init(pin) to configure the CS pin
-  //Ethernet.init(10);  // Most Arduino shields
-  //Ethernet.init(5);   // MKR ETH shield
-  //Ethernet.init(0);   // Teensy 2.0
-  //Ethernet.init(20);  // Teensy++ 2.0
-  //Ethernet.init(15);  // ESP8266 with Adafruit Featherwing Ethernet
-  //Ethernet.init(33);  // ESP32 with Adafruit Featherwing Ethernet
-
-  #ifndef USE_THIS_SS_PIN
-    #define USE_THIS_SS_PIN   22    // For ESP32
-  #endif
-
-  ET_LOGWARN1(F("ESP32 setCsPin:"), USE_THIS_SS_PIN);
-
-  // For other boards, to change if necessary
-  #if ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2 || USE_ETHERNET_ENC )
-    // Must use library patch for Ethernet, EthernetLarge libraries
-    // ESP32 => GPIO2,4,5,13,15,21,22 OK with Ethernet, Ethernet2, EthernetLarge
-    // ESP32 => GPIO2,4,5,15,21,22 OK with Ethernet3
-  
-    //Ethernet.setCsPin (USE_THIS_SS_PIN);
-    Ethernet.init (USE_THIS_SS_PIN);
-  
-  #elif USE_ETHERNET3
-    // Use  MAX_SOCK_NUM = 4 for 4K, 2 for 8K, 1 for 16K RX/TX buffer
-    #ifndef ETHERNET3_MAX_SOCK_NUM
-      #define ETHERNET3_MAX_SOCK_NUM      4
-    #endif
-  
-    Ethernet.setCsPin (USE_THIS_SS_PIN);
-    Ethernet.init (ETHERNET3_MAX_SOCK_NUM);
-
-  #elif USE_CUSTOM_ETHERNET
-  
-    // You have to add initialization for your Custom Ethernet here
-    // This is just an example to setCSPin to USE_THIS_SS_PIN, and can be not correct and enough
-    Ethernet.init(USE_THIS_SS_PIN); 
-  
-  #endif  //( USE_ETHERNET || USE_ETHERNET2 || USE_ETHERNET3 || USE_ETHERNET_LARGE )
-
-#elif ETHERNET_USE_RPIPICO
-
-  pinMode(USE_THIS_SS_PIN, OUTPUT);
-  digitalWrite(USE_THIS_SS_PIN, HIGH);
-  
-  // ETHERNET_USE_RPIPICO, use default SS = 5 or 17
-  #ifndef USE_THIS_SS_PIN
-    #if defined(ARDUINO_ARCH_MBED)
-      #define USE_THIS_SS_PIN   5     // For Arduino Mbed core
-    #else  
-      #define USE_THIS_SS_PIN   17    // For E.Philhower core
-    #endif
-  #endif
-
-  ET_LOGWARN1(F("RPIPICO setCsPin:"), USE_THIS_SS_PIN);
-
-  // For other boards, to change if necessary
-  #if ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2 || USE_ETHERNET_ENC )
-    // Must use library patch for Ethernet, EthernetLarge libraries
-    // For RPI Pico using Arduino Mbed RP2040 core
-    // SCK: GPIO2,  MOSI: GPIO3, MISO: GPIO4, SS/CS: GPIO5
-    // For RPI Pico using E. Philhower RP2040 core
-    // SCK: GPIO18,  MOSI: GPIO19, MISO: GPIO16, SS/CS: GPIO17
-    // Default pin 5/17 to SS/CS
-  
-    //Ethernet.setCsPin (USE_THIS_SS_PIN);
-    Ethernet.init (USE_THIS_SS_PIN);
-  
-  #elif USE_ETHERNET3
-    // Use  MAX_SOCK_NUM = 4 for 4K, 2 for 8K, 1 for 16K RX/TX buffer
-    #ifndef ETHERNET3_MAX_SOCK_NUM
-      #define ETHERNET3_MAX_SOCK_NUM      4
-    #endif
-  
-    Ethernet.setCsPin (USE_THIS_SS_PIN);
-    Ethernet.init (ETHERNET3_MAX_SOCK_NUM);
-    
-  #endif    //( USE_ETHERNET || USE_ETHERNET2 || USE_ETHERNET3 || USE_ETHERNET_LARGE )
-  
-#else   //defined(ESP8266)
-  // unknown board, do nothing, use default SS = 10
-  #ifndef USE_THIS_SS_PIN
-    #define USE_THIS_SS_PIN   10    // For other boards
-  #endif
-
-  ET_LOGWARN3(F("Board :"), BOARD_NAME, F(", setCsPin:"), USE_THIS_SS_PIN);
-
-  // For other boards, to change if necessary
-  #if ( USE_ETHERNET || USE_ETHERNET_LARGE || USE_ETHERNET2  || USE_ETHERNET_ENC )
-    // Must use library patch for Ethernet, Ethernet2, EthernetLarge libraries
-  
-    Ethernet.init (USE_THIS_SS_PIN);
-  
-  #elif USE_ETHERNET3
-    // Use  MAX_SOCK_NUM = 4 for 4K, 2 for 8K, 1 for 16K RX/TX buffer
-    #ifndef ETHERNET3_MAX_SOCK_NUM
-      #define ETHERNET3_MAX_SOCK_NUM      4
-    #endif
-  
-    Ethernet.setCsPin (USE_THIS_SS_PIN);
-    Ethernet.init (ETHERNET3_MAX_SOCK_NUM);
-
-  #elif USE_CUSTOM_ETHERNET
-  
-    // You have to add initialization for your Custom Ethernet here
-    // This is just an example to setCSPin to USE_THIS_SS_PIN, and can be not correct and enough
-    Ethernet.init(USE_THIS_SS_PIN);
-    
-  #endif  //( USE_ETHERNET || USE_ETHERNET2 || USE_ETHERNET3 || USE_ETHERNET_LARGE )
-
-#endif    //defined(ESP8266)
-
-
-#endif  //USE_ETHERNET_WRAPPER
-
-
-  // start the ethernet connection and the server:
-  // Use DHCP dynamic IP and random mac
-  uint16_t index = millis() % NUMBER_OF_MAC;
-  // Use Static IP
-  //Ethernet.begin(mac[index], ip);
-  Ethernet.begin(mac[index]);
-
-  // Just info to know how to connect correctly
-  Serial.println(F("========================="));
-  Serial.println(F("Currently Used SPI pinout:"));
-  Serial.print(F("MOSI:"));
-  Serial.println(MOSI);
-  Serial.print(F("MISO:"));
-  Serial.println(MISO);
-  Serial.print(F("SCK:"));
-  Serial.println(SCK);
-  Serial.print(F("SS:"));
-  Serial.println(SS);
-#if USE_ETHERNET3
-  Serial.print(F("SPI_CS:"));
-  Serial.println(SPI_CS);
-#endif
-  Serial.println(F("========================="));
-
-  Serial.print(F("Using mac index = "));
-  Serial.println(index);
-
-  // you're connected now, so print out the data
-  Serial.print(F("You're connected to the network, IP = "));
-  Serial.println(Ethernet.localIP());
-
-  myTZ = new Timezone(myDST, mySTD);
-
-  timeClient.begin();
-
-  rtc.attach(Wire);
-}
-
-void loop()
-{
-  timeClient.update();
-  
-  check_status();
-}
-```
 
 ---
 
 #### 2. File [defines.h](examples/Generic/Ethernet/RTC_Ethernet_NTPClient/defines.h)
 
-```cpp
-#ifndef defines_h
-#define defines_h
+https://github.com/khoih-prog/NTPClient_Generic/blob/fff8aa9fd304b4db766341767f202dd08c2da8d6/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/defines.h#L20-L420
 
-#define DEBUG_ETHERNET_WEBSERVER_PORT       Serial
-
-// Debug Level from 0 to 4
-#define _ETHERNET_WEBSERVER_LOGLEVEL_       3
-
-#if    ( defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) \
-      || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) \
-      || defined(ARDUINO_SAMD_MKRGSM1400) || defined(ARDUINO_SAMD_MKRNB1500) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(__SAMD21G18A__) \
-      || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) || defined(__SAMD21E18A__) || defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) \
-      || defined(__SAMD51G19A__) || defined(__SAMD51P19A__) || defined(__SAMD21G18A__) )
-#if defined(ETHERNET_USE_SAMD)
-#undef ETHERNET_USE_SAMD
-#endif
-#define ETHERNET_USE_SAMD      true
-#endif
-
-#if ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) || \
-        defined(NRF52840_FEATHER_SENSE) || defined(NRF52840_ITSYBITSY) || defined(NRF52840_CIRCUITPLAY) || defined(NRF52840_CLUE) || \
-        defined(NRF52840_METRO) || defined(NRF52840_PCA10056) || defined(PARTICLE_XENON) || defined(NINA_B302_ublox) || defined(NINA_B112_ublox) )
-#if defined(ETHERNET_USE_NRF528XX)
-#undef ETHERNET_USE_NRF528XX
-#endif
-#define ETHERNET_USE_NRF528XX      true
-#endif
-
-#if ( defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) )
-#if defined(ETHERNET_USE_SAM_DUE)
-#undef ETHERNET_USE_SAM_DUE
-#endif
-#define ETHERNET_USE_SAM_DUE      true
-#endif
-
-#if defined(ETHERNET_USE_SAMD)
-// For SAMD
-// Default pin 10 to SS/CS
-#define USE_THIS_SS_PIN       10
-
-#if ( defined(ARDUINO_SAMD_ZERO) && !defined(SEEED_XIAO_M0) )
-#define BOARD_TYPE      "SAMD Zero"
-#elif defined(ARDUINO_SAMD_MKR1000)
-#define BOARD_TYPE      "SAMD MKR1000"
-#elif defined(ARDUINO_SAMD_MKRWIFI1010)
-#define BOARD_TYPE      "SAMD MKRWIFI1010"
-#elif defined(ARDUINO_SAMD_NANO_33_IOT)
-#define BOARD_TYPE      "SAMD NANO_33_IOT"
-#elif defined(ARDUINO_SAMD_MKRFox1200)
-#define BOARD_TYPE      "SAMD MKRFox1200"
-#elif ( defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) )
-#define BOARD_TYPE      "SAMD MKRWAN13X0"
-#elif defined(ARDUINO_SAMD_MKRGSM1400)
-#define BOARD_TYPE      "SAMD MKRGSM1400"
-#elif defined(ARDUINO_SAMD_MKRNB1500)
-#define BOARD_TYPE      "SAMD MKRNB1500"
-#elif defined(ARDUINO_SAMD_MKRVIDOR4000)
-#define BOARD_TYPE      "SAMD MKRVIDOR4000"
-#elif defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS)
-#define BOARD_TYPE      "SAMD ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS"
-#elif defined(ADAFRUIT_FEATHER_M0_EXPRESS)
-#define BOARD_TYPE      "SAMD21 ADAFRUIT_FEATHER_M0_EXPRESS"
-#elif defined(ADAFRUIT_METRO_M0_EXPRESS)
-#define BOARD_TYPE      "SAMD21 ADAFRUIT_METRO_M0_EXPRESS"
-#elif defined(ADAFRUIT_CIRCUITPLAYGROUND_M0)
-#define BOARD_TYPE      "SAMD21 ADAFRUIT_CIRCUITPLAYGROUND_M0"
-#elif defined(ADAFRUIT_GEMMA_M0)
-#define BOARD_TYPE      "SAMD21 ADAFRUIT_GEMMA_M0"
-#elif defined(ADAFRUIT_TRINKET_M0)
-#define BOARD_TYPE      "SAMD21 ADAFRUIT_TRINKET_M0"
-#elif defined(ADAFRUIT_ITSYBITSY_M0)
-#define BOARD_TYPE      "SAMD21 ADAFRUIT_ITSYBITSY_M0"
-#elif defined(ARDUINO_SAMD_HALLOWING_M0)
-#define BOARD_TYPE      "SAMD21 ARDUINO_SAMD_HALLOWING_M0"
-#elif defined(ADAFRUIT_METRO_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_METRO_M4_EXPRESS"
-#elif defined(ADAFRUIT_GRAND_CENTRAL_M4)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_GRAND_CENTRAL_M4"
-#elif defined(ADAFRUIT_FEATHER_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_FEATHER_M4_EXPRESS"
-#elif defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_ITSYBITSY_M4_EXPRESS"
-#define USE_THIS_SS_PIN       10
-#elif defined(ADAFRUIT_TRELLIS_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_TRELLIS_M4_EXPRESS"
-#elif defined(ADAFRUIT_PYPORTAL)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_PYPORTAL"
-#elif defined(ADAFRUIT_PYPORTAL_M4_TITANO)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_PYPORTAL_M4_TITANO"
-#elif defined(ADAFRUIT_PYBADGE_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_PYBADGE_M4_EXPRESS"
-#elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_METRO_M4_AIRLIFT_LITE"
-#elif defined(ADAFRUIT_PYGAMER_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_PYGAMER_M4_EXPRESS"
-#elif defined(ADAFRUIT_PYGAMER_ADVANCE_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_PYGAMER_ADVANCE_M4_EXPRESS"
-#elif defined(ADAFRUIT_PYBADGE_AIRLIFT_M4)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_PYBADGE_AIRLIFT_M4"
-#elif defined(ADAFRUIT_MONSTER_M4SK_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_MONSTER_M4SK_EXPRESS"
-#elif defined(ADAFRUIT_HALLOWING_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD51 ADAFRUIT_HALLOWING_M4_EXPRESS"
-#elif defined(SEEED_WIO_TERMINAL)
-#define BOARD_TYPE      "SAMD SEEED_WIO_TERMINAL"
-#elif defined(SEEED_FEMTO_M0)
-#define BOARD_TYPE      "SAMD SEEED_FEMTO_M0"
-#elif defined(SEEED_XIAO_M0)
-#define BOARD_TYPE      "SAMD SEEED_XIAO_M0"
-#ifdef USE_THIS_SS_PIN
-#undef USE_THIS_SS_PIN
-#endif
-#define USE_THIS_SS_PIN       A1
-#warning define SEEED_XIAO_M0 USE_THIS_SS_PIN == A1
-#elif defined(Wio_Lite_MG126)
-#define BOARD_TYPE      "SAMD SEEED Wio_Lite_MG126"
-#elif defined(WIO_GPS_BOARD)
-#define BOARD_TYPE      "SAMD SEEED WIO_GPS_BOARD"
-#elif defined(SEEEDUINO_ZERO)
-#define BOARD_TYPE      "SAMD SEEEDUINO_ZERO"
-#elif defined(SEEEDUINO_LORAWAN)
-#define BOARD_TYPE      "SAMD SEEEDUINO_LORAWAN"
-#elif defined(SEEED_GROVE_UI_WIRELESS)
-#define BOARD_TYPE      "SAMD SEEED_GROVE_UI_WIRELESS"
-#elif defined(__SAMD21E18A__)
-#define BOARD_TYPE      "SAMD21E18A"
-#elif defined(__SAMD21G18A__)
-#define BOARD_TYPE      "SAMD21G18A"
-#elif defined(__SAMD51G19A__)
-#define BOARD_TYPE      "SAMD51G19A"
-#elif defined(__SAMD51J19A__)
-#define BOARD_TYPE      "SAMD51J19A"
-#elif defined(__SAMD51J20A__)
-#define BOARD_TYPE      "SAMD51J20A"
-#elif defined(__SAM3X8E__)
-#define BOARD_TYPE      "SAM3X8E"
-#elif defined(__CPU_ARC__)
-#define BOARD_TYPE      "CPU_ARC"
-#elif defined(__SAMD51__)
-#define BOARD_TYPE      "SAMD51"
-#else
-#define BOARD_TYPE      "SAMD Unknown"
-#endif
-
-#elif (ETHERNET_USE_SAM_DUE)
-// Default pin 10 to SS/CS
-#define USE_THIS_SS_PIN       10
-#define BOARD_TYPE      "SAM DUE"
-
-#elif (ETHERNET_USE_NRF528XX)
-// Default pin 10 to SS/CS
-#define USE_THIS_SS_PIN       10
-
-#if defined(NRF52840_FEATHER)
-#define BOARD_TYPE      "NRF52840_FEATHER"
-#elif defined(NRF52832_FEATHER)
-#define BOARD_TYPE      "NRF52832_FEATHER"
-#elif defined(NRF52840_FEATHER_SENSE)
-#define BOARD_TYPE      "NRF52840_FEATHER_SENSE"
-#elif defined(NRF52840_ITSYBITSY)
-#define BOARD_TYPE      "NRF52840_ITSYBITSY"
-#define USE_THIS_SS_PIN   10    // For other boards
-#elif defined(NRF52840_CIRCUITPLAY)
-#define BOARD_TYPE      "NRF52840_CIRCUITPLAY"
-#elif defined(NRF52840_CLUE)
-#define BOARD_TYPE      "NRF52840_CLUE"
-#elif defined(NRF52840_METRO)
-#define BOARD_TYPE      "NRF52840_METRO"
-#elif defined(NRF52840_PCA10056)
-#define BOARD_TYPE      "NRF52840_PCA10056"
-#elif defined(NINA_B302_ublox)
-#define BOARD_TYPE      "NINA_B302_ublox"
-#elif defined(NINA_B112_ublox)
-#define BOARD_TYPE      "NINA_B112_ublox"
-#elif defined(PARTICLE_XENON)
-#define BOARD_TYPE      "PARTICLE_XENON"
-#elif defined(ARDUINO_NRF52_ADAFRUIT)
-#define BOARD_TYPE      "ARDUINO_NRF52_ADAFRUIT"
-#else
-#define BOARD_TYPE      "nRF52 Unknown"
-#endif
-
-#elif ( defined(CORE_TEENSY) )
-// Default pin 10 to SS/CS
-#define USE_THIS_SS_PIN       10
-
-#if defined(__IMXRT1062__)
-// For Teensy 4.1/4.0
-#define BOARD_TYPE      "TEENSY 4.1/4.0"
-#elif defined(__MK66FX1M0__)
-#define BOARD_TYPE "Teensy 3.6"
-#elif defined(__MK64FX512__)
-#define BOARD_TYPE "Teensy 3.5"
-#elif defined(__MKL26Z64__)
-#define BOARD_TYPE "Teensy LC"
-#elif defined(__MK20DX256__)
-#define BOARD_TYPE "Teensy 3.2" // and Teensy 3.1 (obsolete)
-#elif defined(__MK20DX128__)
-#define BOARD_TYPE "Teensy 3.0"
-#elif defined(__AVR_AT90USB1286__)
-#error Teensy 2.0++ not supported yet
-#elif defined(__AVR_ATmega32U4__)
-#error Teensy 2.0 not supported yet
-#else
-// For Other Boards
-#define BOARD_TYPE      "Unknown Teensy Board"
-#endif
-
-#elif ( defined(ESP8266) )
-// For ESP8266
-#warning Use ESP8266 architecture
-#include <ESP8266mDNS.h>
-#define ETHERNET_USE_ESP8266
-#define BOARD_TYPE      "ESP8266"
-
-#elif ( defined(ESP32) )
-// For ESP32
-#warning Use ESP32 architecture
-#define ETHERNET_USE_ESP32
-#define BOARD_TYPE      "ESP32"
-
-#define W5500_RST_PORT   21
-
-#else
-// For Mega
-// Default pin 10 to SS/CS
-#define USE_THIS_SS_PIN       10
-#define BOARD_TYPE            "AVR Mega"
-#endif
-
-#ifndef BOARD_NAME
-#define BOARD_NAME    BOARD_TYPE
-#endif
-
-#include <SPI.h>
-
-//#define USE_ETHERNET_WRAPPER    true
-#define USE_ETHERNET_WRAPPER    false
-
-// Use true  for ENC28J60 and UIPEthernet library (https://github.com/UIPEthernet/UIPEthernet)
-// Use false for W5x00 and Ethernetx library      (https://www.arduino.cc/en/Reference/Ethernet)
-
-//#define USE_UIP_ETHERNET   true
-#define USE_UIP_ETHERNET   false
-
-//#define USE_CUSTOM_ETHERNET     true
-
-// Note: To rename ESP628266 Ethernet lib files to Ethernet_ESP8266.h and Ethernet_ESP8266.cpp
-// In order to USE_ETHERNET_ESP8266
-#if ( !defined(USE_UIP_ETHERNET) || !USE_UIP_ETHERNET )
-
-// To override the default CS/SS pin. Don't use unless you know exactly which pin to use
-// You can define here or customize for each board at same place with BOARD_TYPE
-// Check @ defined(SEEED_XIAO_M0)
-//#define USE_THIS_SS_PIN   22  //21  //5 //4 //2 //15
-
-// Only one of the following to be true
-#define USE_ETHERNET          false
-#define USE_ETHERNET2         true
-#define USE_ETHERNET3         false
-#define USE_ETHERNET_LARGE    false
-#define USE_ETHERNET_ESP8266  false
-#define USE_ETHERNET_ENC      false
-#define USE_CUSTOM_ETHERNET   false
-
-#if !USE_ETHERNET_WRAPPER
-
-#if ( USE_ETHERNET2 || USE_ETHERNET3 || USE_ETHERNET_LARGE || USE_ETHERNET_ESP8266 || USE_ETHERNET_ENC )
-#ifdef USE_CUSTOM_ETHERNET
-#undef USE_CUSTOM_ETHERNET
-#endif
-#define USE_CUSTOM_ETHERNET   false //true
-#endif
-
-#if USE_ETHERNET3
-#include "Ethernet3.h"
-#warning Using Ethernet3 lib
-#define SHIELD_TYPE           "W5x00 using Ethernet3 Library"
-#elif USE_ETHERNET2
-#include "Ethernet2.h"
-#warning Using Ethernet2 lib
-#define SHIELD_TYPE           "W5x00 using Ethernet2 Library"
-#elif USE_ETHERNET_LARGE
-#include "EthernetLarge.h"
-#warning Using EthernetLarge lib
-#define SHIELD_TYPE           "W5x00 using EthernetLarge Library"
-#elif USE_ETHERNET_ESP8266
-#include "Ethernet_ESP8266.h"
-#warning Using Ethernet_ESP8266 lib
-#define SHIELD_TYPE           "W5x00 using Ethernet_ESP8266 Library"
-#elif USE_ETHERNET_ENC
-#include "EthernetENC.h"
-#warning Using EthernetENC lib
-#define SHIELD_TYPE           "ENC28J60 using EthernetENC Library"
-#elif USE_CUSTOM_ETHERNET
-//#include "Ethernet_XYZ.h"
-#include "EthernetENC.h"
-#warning Using Custom Ethernet library. You must include a library and initialize.
-#define SHIELD_TYPE           "Custom Ethernet using Ethernet_XYZ Library"
-#else
-#define USE_ETHERNET          true
-#include "Ethernet.h"
-#warning Using Ethernet lib
-#define SHIELD_TYPE           "W5x00 using Ethernet Library"
-#endif
-
-// Ethernet_Shield_W5200, EtherCard, EtherSia not supported
-// Select just 1 of the following #include if uncomment #define USE_CUSTOM_ETHERNET
-// Otherwise, standard Ethernet library will be used for W5x00
-
-#endif    //  USE_ETHERNET_WRAPPER
-#elif USE_UIP_ETHERNET
-#include "UIPEthernet.h"
-#warning Using UIPEthernet library
-#define SHIELD_TYPE           "ENC28J60 using UIPEthernet Library"
-#endif      // #if !USE_UIP_ETHERNET
-
-#include <EthernetWebServer.h>
-
-#ifndef SHIELD_TYPE
-#define SHIELD_TYPE     "Unknown Ethernet shield/library"
-#endif
-
-// Enter a MAC address and IP address for your controller below.
-#define NUMBER_OF_MAC      20
-
-byte mac[][NUMBER_OF_MAC] =
-{
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x01 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x02 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x03 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x04 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x05 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x06 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x07 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x08 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x09 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x0A },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x0B },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x0C },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x0D },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x0E },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x0F },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x10 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x11 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x12 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x13 },
-  { 0xDE, 0xAD, 0xBE, 0xEF, 0xBE, 0x14 },
-};
-
-// Select the IP address according to your local network
-IPAddress ip(192, 168, 2, 222);
-
-#endif    //defines_h
-```
 
 ---
 ---
@@ -1495,7 +793,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on NRF52840_FEATHER with ENC28J60 using EthernetENC Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] =========================
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 25
@@ -1546,7 +844,7 @@ Following is the debug terminal output when running example [**NINA_NTPClient_Ad
 
 ```
 Starting NINA_NTPClient_Advanced on SAMD_NANO_33_IOT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 Connecting to: HueNet1
 
 NTPClient_Advanced started @ IP address: 192.168.2.98
@@ -1583,7 +881,7 @@ Following is the debug terminal output when running example [**TZ_NTP_WorldClock
 
 ```
 Start TZ_NTP_WorldClock_Ethernet on NRF52840_FEATHER with W5x00 using Ethernet2 Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] =========== USE_ETHERNET2 ===========
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 25
@@ -1635,7 +933,7 @@ Following is the debug terminal output when running example [**TZ_NTP_WorldClock
 
 ```
 Start TZ_NTP_WorldClock_STM32_Ethernet on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 11
@@ -1680,7 +978,7 @@ Following is the debug terminal output when running example [**RTC_Ethernet_NTPC
 
 ```
 Start RTC_Ethernet_NTPClient on NRF52840_FEATHER with ENC28J60 using EthernetENC Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] =========================
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 25
@@ -1720,7 +1018,7 @@ Following is the debug terminal output when running example [**RTC_Ethernet_NTPC
 
 ```
 Start RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 11
@@ -1748,7 +1046,7 @@ Following is the debug terminal output when running example [**ESP_NTPClient_Adv
 
 ```
 Starting ESP_NTPClient_Advanced on ESP8266_NODEMCU_ESP12E
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 Connecting to: HueNet1
 ....
 ESP_NTPClient_Advanced started @ IP address: 192.168.2.69
@@ -1785,7 +1083,7 @@ Following is the debug terminal output when running example [**ESP_NTPClient_Adv
 
 ```
 Starting ESP_NTPClient_Advanced on ESP32_DEV
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 Connecting to: HueNet1
 ....
 ESP_NTPClient_Advanced started @ IP address: 192.168.2.101
@@ -1822,7 +1120,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on SAM DUE with W5x00 using EthernetLarge Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] =========== USE_ETHERNET_LARGE ===========
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 75
@@ -1876,7 +1174,7 @@ Following is the debug terminal output when running example [**BI_RTC_Ethernet_N
 
 ```
 Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 11
@@ -1906,7 +1204,7 @@ Following is the debug terminal output when running example [**BI_RTC_Ethernet_N
 
 ```
 Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using ENC28J60 & EthernetENC Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 11
@@ -1935,7 +1233,7 @@ Following is the debug terminal output when running example [**BI_RTC_Alarm_Ethe
 
 ```
 Start BI_RTC_Alarm_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
 [ETHERNET_WEBSERVER] Default SPI pinout:
 [ETHERNET_WEBSERVER] MOSI: 11
@@ -1980,7 +1278,7 @@ Following is the debug terminal output when running example [**NINA_NTPClient_Ba
 
 ```
 Starting NINA_NTPClient_Basic on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 Connecting to: HueNet1
 
 NINA_NTPClient_Basic started @ IP address: 192.168.2.153
@@ -2017,7 +1315,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [EWS] =========== USE_ETHERNET2 ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 19
@@ -2068,7 +1366,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 [EWS] =========== USE_ETHERNET2 ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 3
@@ -2119,7 +1417,7 @@ Following is the debug terminal output when running example [**NINA_TZ_NTP_World
 
 ```
 Starting NINA_TZ_NTP_WorldClock on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 Connecting to WPA SSID: HueNet1
 You're connected to the network, IP = 192.168.2.153
 ********UPDATED********
@@ -2157,7 +1455,7 @@ Following is the debug terminal output when running example [**WT32_ETH01_TZ_NTP
 ```
 Starting WT32_ETH01_TZ_NTP_WorldClock on ESP32_DEV with ETH_PHY_LAN8720
 WebServer_WT32_ETH01 v1.4.1
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
 WT32_ETH01_TZ_NTP_WorldClock started @ IP address: 192.168.2.232
@@ -2196,7 +1494,7 @@ Following is the debug terminal output when running example [**WT32_ETH01_NTPCli
 ```
 Starting WT32_ETH01_NTPClient_Advanced on ESP32_DEV with ETH_PHY_LAN8720
 WebServer_WT32_ETH01 v1.4.1
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
 WT32_ETH01_NTPClient_Advanced started @ IP address: 192.168.2.232
@@ -2235,7 +1533,7 @@ Following is the debug terminal output when running example [**RTL8720DN_TZ_NTP_
 ```
 Starting RTL8720DN_TZ_NTP_WorldClock on Rtlduino RTL8720DN
 WiFiWebServer_RTL8720 v1.1.1
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 Current Firmware Version = 1.0.0
 Attempting to connect to SSID: HueNet_5G
 TZ_NTP_Clock_RTL8720DN started @ IP address: 192.168.2.111
@@ -2274,7 +1572,7 @@ Following is the debug terminal output when running example [**Portenta_H7_NTPCl
 
 ```
 Starting Portenta_H7_NTPClient_Advanced on PORTENTA_H7_M7
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 Connecting to: HueNet1
 Portenta_H7_NTPClient_Advanced started @ IP address: 192.168.2.104
 Using NTP Server 0.ca.pool.ntp.org
@@ -2310,7 +1608,7 @@ Following is the debug terminal output when running example [**Portenta_H7_NTPCl
 
 ```
 Starting Portenta_H7_NTPClient_Advanced using Ethernet on PORTENTA_H7_M7
-NTPClient_Generic v3.7.1
+NTPClient_Generic v3.7.2
 Portenta_H7_NTPClient_Basic started @ IP address: 192.168.2.111
 Using NTP Server 0.ca.pool.ntp.org
 ******NOT UPDATED******
@@ -2336,6 +1634,188 @@ UTC : 03:55:36 Tue 25/1/2022 or 25 Jan 2022
 LOC : 22:55:36 Mon 24/1/2022 or 24 Jan 2022
 LOC : 22:55:36 Mon 24/1/2022 or 24 Jan 2022
 ```
+
+---
+
+#### 22. [**ESP_WiFi_ETH_NTPClient_Advanced**](examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) on ESP32_DEV with W5x00 using EthernetLarge Library
+
+Following is the debug terminal output when running example [**WT32_ETH01_NTPClient_Advanced**](examples/WT32_ETH01/WT32_ETH01_NTPClient_Advanced) on ESP32_DEV with W5x00 using EthernetLarge Library to demonstrate how to to use the new `setUDP()` function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
+
+
+```
+Starting ESP_WiFi_ETH_NTPClient_Advanced on ESP32_DEV with W5x00 using EthernetLarge Library
+EthernetWebServer v2.0.0
+NTPClient_Generic v3.7.2
+Connecting to: HueNet1
+...................
+WiFi failed to connect      <=====  Start without WiFi to use Ethernet UDP
+.[EWS] =========== USE_ETHERNET_LARGE ===========
+[EWS] Default SPI pinout:
+[EWS] MOSI: 23
+[EWS] MISO: 19
+[EWS] SCK: 18
+[EWS] SS: 5
+[EWS] =========================
+[EWS] ESP32 setCsPin: 22
+_pinCS = 0
+W5100 init, using SS_PIN_DEFAULT = 22, new ss_pin = 10, W5100Class::ss_pin = 22
+W5100::init: W5500, SSIZE =8192
+=========================
+Currently Used SPI pinout:
+MOSI:23
+MISO:19
+SCK:18
+CS/SS:22
+=========================
+Using mac index = 11
+Connected! IP address: 192.168.2.125
+Using NTP Server 0.ca.pool.ntp.org
+****WIFI Status****
+WiFi Failed
+******NOT UPDATED******
+UTC : 00:00:13
+UTC :  0: 0:13 Thu  1 Jan 1970
+LOC : 02:28:29
+LOC :  2:28:29 Sun  7 Feb 2106
+UTC EPOCH : 13
+LOC EPOCH : 4294952909
+UTC : 0:0:13 Thu 1/1/1970 or 1 Jan 1970
+UTC : 00:00:13 Thu 1/1/1970 or 1 Jan 1970
+LOC : 2:28:29 Sun 7/2/2106 or 7 Feb 2106
+LOC : 02:28:29 Sun 7/2/2106 or 7 Feb 2106
+****WIFI Status****
+WiFi Failed
+********UPDATED********       <=====  Updated using Ethernet UDP
+UTC : 04:14:00
+UTC :  4:14: 0 Thu 24 Feb 2022
+LOC : 00:14:00
+LOC :  0:14: 0 Thu 24 Feb 2022
+UTC EPOCH : 1645676040
+LOC EPOCH : 1645661640
+UTC : 4:14:0 Thu 24/2/2022 or 24 Feb 2022
+UTC : 04:14:00 Thu 24/2/2022 or 24 Feb 2022
+LOC : 0:14:0 Thu 24/2/2022 or 24 Feb 2022
+LOC : 00:14:00 Thu 24/2/2022 or 24 Feb 2022
+****WIFI Status****
+WiFi Failed
+****WIFI Status****
+WiFi Failed
+****WIFI Status****
+WiFi Failed
+****WIFI Status****
+WiFi Failed
+****WIFI Status****
+WiFi Failed
+********UPDATED********
+UTC : 04:15:00
+UTC :  4:15: 0 Thu 24 Feb 2022
+LOC : 00:15:00
+LOC :  0:15: 0 Thu 24 Feb 2022
+UTC EPOCH : 1645676100
+LOC EPOCH : 1645661700
+UTC : 4:15:0 Thu 24/2/2022 or 24 Feb 2022
+UTC : 04:15:00 Thu 24/2/2022 or 24 Feb 2022
+LOC : 0:15:0 Thu 24/2/2022 or 24 Feb 2022
+LOC : 00:15:00 Thu 24/2/2022 or 24 Feb 2022
+****WIFI Status****
+WiFi OK
+NTP => WiFi          <=====  Switch back to use WiFi UDP as WiFi is OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+********UPDATED********    <=====  Updated using WiFi UDP
+UTC : 04:16:00
+UTC :  4:16: 0 Thu 24 Feb 2022
+LOC : 00:16:00
+LOC :  0:16: 0 Thu 24 Feb 2022
+UTC EPOCH : 1645676160
+LOC EPOCH : 1645661760
+UTC : 4:16:0 Thu 24/2/2022 or 24 Feb 2022
+UTC : 04:16:00 Thu 24/2/2022 or 24 Feb 2022
+LOC : 0:16:0 Thu 24/2/2022 or 24 Feb 2022
+LOC : 00:16:00 Thu 24/2/2022 or 24 Feb 2022
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+********UPDATED********
+UTC : 04:16:10
+UTC :  4:16:10 Thu 24 Feb 2022
+LOC : 00:16:10
+LOC :  0:16:10 Thu 24 Feb 2022
+UTC EPOCH : 1645676170
+LOC EPOCH : 1645661770
+UTC : 4:16:10 Thu 24/2/2022 or 24 Feb 2022
+UTC : 04:16:10 Thu 24/2/2022 or 24 Feb 2022
+LOC : 0:16:10 Thu 24/2/2022 or 24 Feb 2022
+LOC : 00:16:10 Thu 24/2/2022 or 24 Feb 2022
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+********UPDATED********
+UTC : 04:17:10
+UTC :  4:17:10 Thu 24 Feb 2022
+LOC : 00:17:10
+LOC :  0:17:10 Thu 24 Feb 2022
+UTC EPOCH : 1645676230
+LOC EPOCH : 1645661830
+UTC : 4:17:10 Thu 24/2/2022 or 24 Feb 2022
+UTC : 04:17:10 Thu 24/2/2022 or 24 Feb 2022
+LOC : 0:17:10 Thu 24/2/2022 or 24 Feb 2022
+LOC : 00:17:10 Thu 24/2/2022 or 24 Feb 2022
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+********UPDATED********
+UTC : 04:18:10
+UTC :  4:18:10 Thu 24 Feb 2022
+LOC : 00:18:10
+LOC :  0:18:10 Thu 24 Feb 2022
+UTC EPOCH : 1645676290
+LOC EPOCH : 1645661890
+UTC : 4:18:10 Thu 24/2/2022 or 24 Feb 2022
+UTC : 04:18:10 Thu 24/2/2022 or 24 Feb 2022
+LOC : 0:18:10 Thu 24/2/2022 or 24 Feb 2022
+LOC : 00:18:10 Thu 24/2/2022 or 24 Feb 2022
+****WIFI Status****
+WiFi OK
+****WIFI Status****
+WiFi OK
+```
+
 
 ---
 ---
@@ -2397,6 +1877,8 @@ Submit issues to: [NTPClient_Generic issues](https://github.com/khoih-prog/NTPCl
 17. Add support to **Add support to Potenta_H7 using Murata WiFi of Vision-Shield Ethernet**
 18. Fix `multiple-definitions` linker error.
 19. Fix getUTCEpochMillis() bug
+20. Add setUDP() function to enable auto-switching between `WiFi` and `Ethernet` UDP instances.
+21. Add new examples [ESP_WiFi_ETH_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) and [WT32_WiFi_ETH01_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/WT32_ETH01/WT32_WiFi_ETH01_NTPClient_Advanced) to use the new setUDP() function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
 
 ---
 ---
@@ -2407,8 +1889,9 @@ Many thanks for everyone for bug reporting, new feature suggesting, testing and 
 
 1. Based on and modified from the [**Fabrice Weinberg's NTPClient Library**](https://github.com/arduino-libraries/NTPClient).
 2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing.
-3. Thanks to [bmcdonnell](https://github.com/bmcdonnell) to make pull request in [Add packet validity checks #4](https://github.com/khoih-prog/NTPClient_Generic/pull/4) leading to v3.3.0
+3. Thanks to [bmcdonnell](https://github.com/bmcdonnell) to make PR in [Add packet validity checks #4](https://github.com/khoih-prog/NTPClient_Generic/pull/4) leading to v3.3.0
 4. Thanks to [DavidSteinmann](https://github.com/DavidSteinmann) to report the `getUTCEpochMillis()` bug and propose the bug fix in [getUTCEpochMillis() not returning correct value #7](https://github.com/khoih-prog/NTPClient_Generic/issues/7) leading to v3.7.1
+5. Thanks to [argo9](https://github.com/argo9) to make PR in [added setUDP function #8](https://github.com/khoih-prog/NTPClient_Generic/pull/8) leading to v3.3.0
 
 
 <table>
@@ -2417,6 +1900,7 @@ Many thanks for everyone for bug reporting, new feature suggesting, testing and 
     <td align="center"><a href="https://github.com/tcpipchip"><img src="https://github.com/tcpipchip.png" width="100px;" alt="tcpipchip"/><br /><sub><b>Miguel Wisintainer</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/bmcdonnell"><img src="https://github.com/bmcdonnell.png" width="100px;" alt="bmcdonnell"/><br /><sub><b>bmcdonnell</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/DavidSteinmann"><img src="https://github.com/DavidSteinmann.png" width="100px;" alt="DavidSteinmann"/><br /><sub><b>DavidSteinmann</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/argo9"><img src="https://github.com/argo9.png" width="100px;" alt="argo9"/><br /><sub><b>argo9</b></sub></a><br /></td>
   </tr> 
 </table>
 
