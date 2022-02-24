@@ -106,9 +106,20 @@ class NTPClient
     bool          checkResponse();
 
   public:
+	NTPClient(const long& timeOffset = 0);
     NTPClient(UDP& udp, const long& timeOffset = 0);
     NTPClient(UDP& udp, const char* poolServerName, const long& timeOffset = 0, const unsigned long& updateInterval = 60000);
     NTPClient(UDP& udp, const IPAddress& poolServerIP, const long& timeOffset = 0, const unsigned long& updateInterval = 60000);
+
+	//Bleb marco adds
+	/**
+       Set UDP socket
+
+       @param UDPsocket
+    */
+	void setUDP(UDP& udp){
+		this->_udp = &udp;
+	}
 
     /**
        Set time server name

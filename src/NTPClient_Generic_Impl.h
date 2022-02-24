@@ -43,6 +43,15 @@
 
 /////////////////////////////
 
+NTPClient::NTPClient(const long& timeOffset)
+{
+	this->_timeOffset     = timeOffset;
+}
+
+/////////////////////////////
+
+/////////////////////////////
+
 NTPClient::NTPClient(UDP& udp, const long& timeOffset)
 {
   this->_udp            = &udp;
