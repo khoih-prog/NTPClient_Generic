@@ -1639,7 +1639,7 @@ LOC : 22:55:36 Mon 24/1/2022 or 24 Jan 2022
 
 #### 22. [**ESP_WiFi_ETH_NTPClient_Advanced**](examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) on ESP32_DEV with W5x00 using EthernetLarge Library
 
-Following is the debug terminal output when running example [**WT32_ETH01_NTPClient_Advanced**](examples/WT32_ETH01/WT32_ETH01_NTPClient_Advanced) on ESP32_DEV with W5x00 using EthernetLarge Library to demonstrate how to to use the new `setUDP()` function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
+Following is the debug terminal output when running example [**ESP_WiFi_ETH_NTPClient_Advanced**](examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) on ESP32_DEV with W5x00 using EthernetLarge Library to demonstrate how to to use the new `setUDP()` function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
 
 
 ```
