@@ -6,6 +6,9 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/NTPClient_Generic.svg)](http://github.com/khoih-prog/NTPClient_Generic/issues)
 
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
+<a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+
 ---
 ---
 
@@ -40,6 +43,8 @@
     * [8.2. To avoid compile error relating to microsecondsToClockCycles](#82-to-avoid-compile-error-relating-to-microsecondstoclockcycles)
   * [9. For Portenta_H7 boards using Arduino IDE in Linux](#9-for-portenta_h7-boards-using-arduino-ide-in-linux)
   * [10. For RTL8720DN boards using AmebaD core](#10-for-rtl8720dn-boards-using-amebad-core)
+  * [11. For SAMD21 and SAMD51 boards using ArduinoCore-fab-sam core](#11-For-SAMD21-and-SAMD51-boards-using-ArduinoCore-fab-sam-core)
+  * [12. For Seeeduino RP2040 boards](#12-For-Seeeduino-RP2040-boards)
 * [Libraries' Patches](#libraries-patches)
   * [1. For application requiring 2K+ HTML page](#1-for-application-requiring-2k-html-page)
   * [2. For Ethernet library](#2-for-ethernet-library)
@@ -64,32 +69,33 @@
   * [RTL8720DN Boards](#rtl8720dn-boards)
   * [Portenta_H7 Boards with WiFi](#Portenta_H7-Boards-with-WiFi)
   * [Portenta_H7 Boards with Ethernet](#Portenta_H7-Boards-with-Ethernet)
+  * [General](#General)
 * [Example RTC_Ethernet_NTPClient](#example-rtc_ethernet_ntpclient)
   * [ 1. File RTC_Ethernet_NTPClient.ino](#1-file-rtc_ethernet_ntpclientino)
   * [ 2. File defines.h](#2-file-definesh)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
   * [ 1. Ethernet_NTPClient_Advanced on Adafruit NRF52840_FEATHER_EXPRESS with ENC28J60 using EthernetENC Library](#1-ethernet_ntpclient_advanced-on-adafruit-nrf52840_feather_express-with-enc28J60-using-ethernetenc-library)
   * [ 2. NINA_NTPClient_Advanced on Arduino SAMD21 SAMD_NANO_33_IOT with WiFiNINA using WiFiNINA_Generic Library](#2-nina_ntpclient_advanced-on-arduino-samd21-samd_nano_33_iot-with-wifinina-using-wifinina_generic-library)
-  * [ 3. TZ_NTP_WorldClock_Ethernet on Adafruit NRF52840_FEATHER_EXPRESS with W5500 using Ethernet2 Library](#3-tz_ntp_worldclock_ethernet-on-adafruit-nrf52840_feather_express-with-w5500-using-ethernet2-library)
+  * [ 3. TZ_NTP_WorldClock_Ethernet on Adafruit NRF52840_FEATHER_EXPRESS with W5500 using Ethernet_Generic Library](#3-tz_ntp_worldclock_ethernet-on-adafruit-nrf52840_feather_express-with-w5500-using-Ethernet_Generic-library)
   * [ 4. TZ_NTP_WorldClock_STM32_Ethernet on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library](#4-tz_ntp_worldclock_stm32_ethernet-on-stm32f7-nucleo-144-nucleo_f767zi-with-lan8742a-using-stm32ethernet-library)
   * [ 5. RTC_Ethernet_NTPClient on Adafruit NRF52840_FEATHER_EXPRESS with ENC28J60 using EthernetENC Library](#5-rtc_ethernet_ntpclient-on-adafruit-nrf52840_feather_express-with-enc28J60-using-ethernetenc-library)
   * [ 6. RTC_Ethernet_NTPClient_STM32 on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library](#6-rtc_ethernet_ntpclient_stm32-on-stm32f7-nucleo-144-nucleo_f767zi-with-lan8742a-using-stm32ethernet-library)
   * [ 7. ESP_NTPClient_Advanced on ESP8266_NODEMCU_ESP12E](#7-esp_ntpclient_advanced-on-esp8266_nodemcu_esp12e)
   * [ 8. ESP_NTPClient_Advanced on ESP32_DEV](#8-esp_ntpclient_advanced-on-esp32_dev)
-  * [ 9. Ethernet_NTPClient_Advanced on SAM DUE with W5100 using EthernetLarge Library](#9-ethernet_ntpclient_advanced-on-sam-due-with-w5100-using-ethernetlarge-library)
+  * [ 9. Ethernet_NTPClient_Advanced on SAM DUE with W5100 using Ethernet_Generic Library](#9-ethernet_ntpclient_advanced-on-sam-due-with-w5100-using-Ethernet_Generic-library)
   * [10. BI_RTC_Ethernet_NTPClient_STM32 on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library](#10-bi_rtc_ethernet_ntpclient_stm32-on-stm32f7-nucleo-144-nucleo_f767zi-with-lan8742a-using-stm32ethernet-library)
   * [11. BI_RTC_Ethernet_NTPClient_STM32 on STM32F7 Nucleo-144 NUCLEO_F767ZI with ENC28J60 using EthernetENC Library](#11-bi_rtc_ethernet_ntpclient_stm32-on-stm32f7-nucleo-144-nucleo_f767zi-with-enc28J60-using-ethernetenc-library)
   * [12. BI_RTC_Alarm_Ethernet_NTPClient_STM32 on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library](#12-bi_rtc_alarm_ethernet_ntpclient_stm32-on-stm32f7-nucleo-144-nucleo_f767zi-with-lan8742a-using-stm32ethernet-library)
   * [13. NINA_NTPClient_Basic on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library](#13-nina_ntpclient_basic-on-mbed-nano_rp2040_connect-with-wifinina-using-wifinina_generic-library)
-  * [14. Ethernet_NTPClient_Advanced on RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library](#14-ethernet_ntpclient_advanced-on-raspberry_pi_pico-with-w5x00-using-ethernet2-library)
-  * [15. Ethernet_NTPClient_Advanced on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library](#15-ethernet_ntpclient_advanced-on-mbed-raspberry_pi_pico-with-w5x00-using-ethernet2-library)
+  * [14. Ethernet_NTPClient_Advanced on RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library](#14-ethernet_ntpclient_advanced-on-raspberry_pi_pico-with-w5x00-using-Ethernet_Generic-library)
+  * [15. Ethernet_NTPClient_Advanced on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library](#15-ethernet_ntpclient_advanced-on-mbed-raspberry_pi_pico-with-w5x00-using-Ethernet_Generic-library)
   * [16. NINA_TZ_NTP_WorldClock on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library](#16-nina_tz_ntp_worldclock-on-mbed-nano_rp2040_connect-with-wifinina-using-wifinina_generic-library)
   * [17. WT32_ETH01_TZ_NTP_WorldClock on ESP32_DEV with ETH_PHY_LAN8720](#17-wt32_eth01_tz_ntp_worldclock-on-esp32_dev-with-eth_phy_lan8720)
   * [18. WT32_ETH01_NTPClient_Advanced on ESP32_DEV with ETH_PHY_LAN8720](#18-wt32_eth01_ntpclient_advanced-on-esp32_dev-with-eth_phy_lan8720)
   * [19. RTL8720DN_TZ_NTP_WorldClock on Rtlduino RTL8720DN](#19-rtl8720dn_tz_ntp_worldclock-on-rtlduino-rtl8720dn)
   * [20. Portenta_H7_NTPClient_Advanced on PORTENTA_H7_M7 with WiFi](#20-Portenta_H7_NTPClient_Advanced-on-PORTENTA_H7_M7-with-WiFi)
   * [21. Portenta_H7_NTPClient_Advanced on PORTENTA_H7_M7 with Ethernet](#21-Portenta_H7_NTPClient_Advanced-on-PORTENTA_H7_M7-with-Ethernet)
-  * [22. ESP_WiFi_ETH_NTPClient_Advanced on ESP32_DEV with W5x00 using EthernetLarge Library](#22-ESP_WiFi_ETH_NTPClient_Advanced-on-ESP32_DEV-with-W5x00-using-EthernetLarge-Library)
+  * [22. ESP_WiFi_ETH_NTPClient_Advanced on ESP32_DEV with W5x00 using Ethernet_Generic Library](#22-ESP_WiFi_ETH_NTPClient_Advanced-on-ESP32_DEV-with-W5x00-using-Ethernet_Generic-Library)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [TO DO](#to-do)
@@ -190,12 +196,15 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
 
 #### Currently supported Ethernet shields/modules
 
-1. W5x00 using [`Ethernet`](https://www.arduino.cc/en/Reference/Ethernet), [`EthernetLarge`](https://github.com/OPEnSLab-OSU/EthernetLarge), [`Ethernet2`](https://github.com/adafruit/Ethernet2) or [`Ethernet3`](https://github.com/sstaub/Ethernet3) library
-2. ENC28J60 using [`EthernetENC`](https://github.com/jandrassy/EthernetENC) or [`UIPEthernet`](https://github.com/UIPEthernet/UIPEthernet) library
-3. Teensy 4.1 built-in NativeEthernet using [NativeEthernet Library](https://github.com/vjmuzik/NativeEthernet)
-4. LAN8742A using [`STM32Ethernet`](https://github.com/stm32duino/STM32Ethernet) / [STM32 LwIP](https://github.com/stm32duino/LwIP) libraries.
-5. LAN8720A in WT32-ETH01 using [`WebServer_WT32_ETH01`](https://github.com/khoih-prog/WebServer_WT32_ETH01)
-6. **Portenta_H7 Vision-shield Ethernet**
+1. W5x00 using [`Ethernet_Generic`](https://github.com/khoih-prog/Ethernet_Generic) library
+2. W5x00 using [`Ethernet`](https://www.arduino.cc/en/Reference/Ethernet), [`EthernetLarge`](https://github.com/OPEnSLab-OSU/EthernetLarge), [`Ethernet2`](https://github.com/adafruit/Ethernet2) or [`Ethernet3`](https://github.com/sstaub/Ethernet3) library
+3. ENC28J60 using [`EthernetENC`](https://github.com/jandrassy/EthernetENC) or [`UIPEthernet`](https://github.com/UIPEthernet/UIPEthernet) library
+4. Teensy 4.1 built-in Ethernet using [`NativeEthernet`](https://github.com/vjmuzik/NativeEthernet) library
+5. Teensy 4.1 built-in Ethernet using [`QNEthernet`](https://github.com/ssilverman/QNEthernet) library
+6. LAN8742A using [`STM32Ethernet`](https://github.com/stm32duino/STM32Ethernet) / [STM32 LwIP](https://github.com/stm32duino/LwIP) libraries.
+7. LAN8720A in WT32-ETH01 using [`WebServer_WT32_ETH01`](https://github.com/khoih-prog/WebServer_WT32_ETH01)
+8. Portenta_H7 Ethernet using [`Portenta_Ethernet`](https://github.com/arduino/ArduinoCore-mbed/tree/master/libraries/Ethernet) library
+
 
 ---
 ---
@@ -209,12 +218,12 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
  5. [`Teensy core v1.56+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
  6. [`Arduino SAM DUE core v1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards.
  7. [`Arduino SAMD core 1.8.13+`](https://github.com/arduino/ArduinoCore-samd) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
- 8. [`Adafruit SAMD core 1.7.9+`](https://github.com/adafruit/ArduinoCore-samd) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
+ 8. [`Adafruit SAMD core 1.7.10+`](https://github.com/adafruit/ArduinoCore-samd) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
  9. [`Seeeduino SAMD core 1.8.2+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
 10. [`Adafruit nRF52 v1.3.0+`](https://github.com/adafruit/Adafruit_nRF52_Arduino) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest) 
 11. [`Arduino Core for STM32 v2.2.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
-12. [`Arduino mbed_rp2040 core 2.7.2+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-13. [`Earle Philhower's arduino-pico core v1.12.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+12. [`ArduinoCore-mbed mbed_rp2040, mbed_nano, mbed_portenta core 3.0.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) **Portenta_H7, RP2040-based boards, such as Nano_RP2040_Connect, RASPBERRY_PI_PICO**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+13. [`Earle Philhower's arduino-pico core v1.13.1+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
 14. [`Arduino AmebaD core 3.1.2+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTL8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
 
 15. [`Time v1.6.1+`](https://github.com/PaulStoffregen/Time). [![GitHub release](https://img.shields.io/github/release/PaulStoffregen/Time.svg)](https://github.com/PaulStoffregen/Time/releases/latest)
@@ -222,20 +231,17 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
    - [`STM32Ethernet library v1.2.0+`](https://github.com/stm32duino/STM32Ethernet) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32Ethernet.svg)](https://github.com/stm32duino/STM32Ethernet/releases/latest)
    - [`LwIP library v2.1.2+`](https://github.com/stm32duino/LwIP) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/LwIP.svg)](https://github.com/stm32duino/LwIP/releases/latest)
 17. For W5x00 Ethernet:
-   - [`Ethernet library v2.0.0+`](https://github.com/arduino-libraries/Ethernet) for W5100, W5200 and W5500.  [![GitHub release](https://img.shields.io/github/release/arduino-libraries/Ethernet.svg)](https://github.com/arduino-libraries/Ethernet/releases/latest)
-   - [`EthernetLarge library v2.0.0+`](https://github.com/OPEnSLab-OSU/EthernetLarge) for W5100, W5200 and W5500.
-   - [`Ethernet2 library v1.0.4+`](https://github.com/khoih-prog/Ethernet2) for W5500. [![GitHub release](https://img.shields.io/github/release/adafruit/Ethernet2.svg)](https://github.com/adafruit/Ethernet2/releases/latest)
-   - [`Ethernet3 library v1.5.5+`](https://github.com/sstaub/Ethernet3) for W5500/WIZ550io/WIZ850io/USR-ES1 with Wiznet W5500 chip. [![GitHub release](https://img.shields.io/github/release/sstaub/Ethernet3.svg)](https://github.com/sstaub/Ethernet3/releases/latest)
+   - [`Ethernet_Generic library v2.0.1+`](https://github.com/khoih-prog/Ethernet_Generic) for W5100, W5200 and W5500/WIZ550io/WIZ850io/USR-ES1 with Wiznet W5500 chip.  [![GitHub release](https://img.shields.io/github/release/khoih-prog/Ethernet_Generic.svg)](https://github.com/khoih-prog/Ethernet_Generic/releases/latest)
 18. For ENC28J60 Ethernet:
    - [`EthernetENC library v2.0.2+`](https://github.com/jandrassy/EthernetENC) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/jandrassy/EthernetENC.svg)](https://github.com/jandrassy/EthernetENC/releases/latest). **New and Better**
    - [`UIPEthernet library v2.0.11+`](https://github.com/UIPEthernet/UIPEthernet) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/UIPEthernet/UIPEthernet.svg)](https://github.com/UIPEthernet/UIPEthernet/releases/latest)
 19. [`WiFiNINA_Generic library v1.8.14-3+`](https://github.com/khoih-prog/WiFiNINA_Generic) to use WiFiNINA modules/shields. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) if using WiFiNINA for boards such as Nano 33 IoT, nRF52, Teensy, etc.
 20. [`WiFiWebServer library v1.6.2+`](https://github.com/khoih-prog/WiFiWebServer) to use WiFi/WiFiNINA modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
-21. [`EthernetWebServer library v2.0.0+`](https://github.com/khoih-prog/EthernetWebServer) to use Ethernet modules/shields on boards other than STM32F/L/H/G/WB/MP1. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer.svg?)](https://www.ardu-badge.com/EthernetWebServer).
-22. [`EthernetWebServer_STM32 library v1.3.3+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
+21. [`EthernetWebServer library v2.1.2+`](https://github.com/khoih-prog/EthernetWebServer) to use Ethernet modules/shields on boards other than STM32F/L/H/G/WB/MP1. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer.svg?)](https://www.ardu-badge.com/EthernetWebServer).
+22. [`EthernetWebServer_STM32 library v1.4.0+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
 23. [`ESP8266_AT_WebServer library v1.5.3+`](https://github.com/khoih-prog/ESP8266_AT_WebServer) to use ESP8266-AT/ESP32-AT WiFi modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_AT_WebServer.svg?)](https://www.ardu-badge.com/ESP8266_AT_WebServer)
-24. [`DS323x_Generic library v1.2.3+`](https://github.com/khoih-prog/DS323x_Generic) to use examples using DS323x RTC modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DS323x_Generic.svg?)](https://www.ardu-badge.com/DS323x_Generic)
-25. [`Timezone_Generic library v1.9.1+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
+24. [`DS323x_Generic library v1.3.1+`](https://github.com/khoih-prog/DS323x_Generic) to use examples using DS323x RTC modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DS323x_Generic.svg?)](https://www.ardu-badge.com/DS323x_Generic)
+25. [`Timezone_Generic library v1.10.0+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
 26. [`STM32RTC library v1.2.0+`](https://github.com/stm32duino/STM32RTC) to use STM32 examples using built-in STM32 RTC. [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32RTC.svg)](https://github.com/stm32duino/STM32RTC/releases/latest).
 27. [`WebServer_WT32_ETH01 library v1.4.1+`](https://github.com/khoih-prog/WebServer_WT32_ETH01) to use WT32_ETH01 (ESP32 + LAN8720). To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WebServer_WT32_ETH01.svg?)](https://www.ardu-badge.com/WebServer_WT32_ETH01).
 28. [`WiFiWebServer_RTL8720 library v1.1.1+`](https://github.com/khoih-prog/WiFiWebServer_RTL8720) to use Realtek RTL8720DN, etc. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer_RTL8720.svg?)](https://www.ardu-badge.com/WiFiWebServer_RTL8720).
@@ -342,13 +348,13 @@ This file must be copied into the directory:
 
 #### 4. For Arduino SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD Packages_Patches](Packages_Patches/arduino/hardware/samd/1.8.12) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.12).
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD Packages_Patches](Packages_Patches/arduino/hardware/samd/1.8.13) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.13).
  
 #### For core version v1.8.10+
 
-Supposing the Arduino SAMD version is 1.8.12. Now only one file must be copied into the directory:
+Supposing the Arduino SAMD version is 1.8.13. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/samd/1.8.12/platform.txt`
+- `~/.arduino15/packages/arduino/hardware/samd/1.8.13/platform.txt`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -381,13 +387,13 @@ Whenever the above-mentioned compiler error issue is fixed with the new Arduino 
 
 #### 5. For Adafruit SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.10) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.10). 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.9) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.9). 
 
-Supposing the Adafruit SAMD core version is 1.7.10. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.7.9. This file must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/platform.txt`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/cores/arduino/Print.h`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/cores/arduino/Print.cpp`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/cores/arduino/Print.h`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/cores/arduino/Print.cpp`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -489,12 +495,12 @@ With core after v1.5.0, this step is not necessary anymore thanks to the PR [Add
 
 #### 9. For Portenta_H7 boards using Arduino IDE in Linux
 
-  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/2.7.2/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/2.7.2/portenta_post_install.sh). 
+  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh). 
   
   Then run the following command using `sudo`
   
 ```
-$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/2.7.2
+$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0
 $ chmod 755 portenta_post_install.sh
 $ sudo ./portenta_post_install.sh
 ```
@@ -507,9 +513,9 @@ This will create the file `/etc/udev/rules.d/49-portenta_h7.rules` as follows:
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="035b", GROUP="plugdev", MODE="0666"
 ```
 
-Supposing the ArduinoCore-mbed core version is 2.7.2. Now only one file must be copied into the directory:
+Supposing the ArduinoCore-mbed core version is 3.0.0. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/mbed_portenta/2.7.2/portenta_post_install.sh`
+- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -518,19 +524,48 @@ This file must be copied into the directory:
 - `~/.arduino15/packages/arduino/hardware/mbed_portenta/x.yy.zz/portenta_post_install.sh`
 
 
-
 #### 10. For RTL8720DN boards using AmebaD core
  
- To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.1/cores/arduino/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.1/cores/arduino/avr/pgmspace.h). 
+ To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h). 
 
-Supposing the Realtek AmebaD core version is 3.1.1. This file must be copied into the directory:
+Supposing the Realtek AmebaD core version is 3.1.2. This file must be copied into the directory:
 
-- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.1/cores/arduino/avr/pgmspace.h`
+- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
 
 - `~/.arduino15/packages/realtek/hardware/AmebaD/x.yy.zz/cores/arduino/avr/pgmspace.h`
+
+
+#### 11. For SAMD21 and SAMD51 boards using ArduinoCore-fab-sam core
+ 
+ To avoid compile error relating to SAMD21/SAMD51, you have to copy the file [ArduinoCore-fab-sam core pgmspace.h](Packages_Patches/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt) into `ArduinoCore-fab-sam` samd directory (~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt). 
+
+Supposing the `ArduinoCore-fab-sam` samd core version is 1.6.18-alpha2. This file must be copied into the directory:
+
+- `~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt`
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
+This file must be copied into the directory:
+
+- `~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/x.yy.zz/boards.txt`
+
+
+#### 12. For Seeeduino RP2040 boards
+ 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino RP2040 (XIAO RP2040, Wio RP2040 Mini) boards***, you have to copy the whole [Seeeduino RP2040 Packages_Patches](Packages_Patches/Seeeduino/hardware/rp2040/2.7.2) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2). 
+
+Supposing the Seeeduino SAMD core version is 2.7.2. This file must be copied into the directory:
+
+- `~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2/boards.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2/variants/Seeed_XIAO_RP2040/pins_arduino.h`
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
+This file must be copied into the directory:
+
+- `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/boards.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/variants/Seeed_XIAO_RP2040/pins_arduino.h`
 
 ---
 ---
@@ -625,6 +660,8 @@ in many files. But be sure to use the following `#include <NTPClient_Generic.h>`
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include <NTPClient_Generic.h>                //https://github.com/khoih-prog/NTPClient_Generic
 ```
+
+Check [multiFileProject](examples/multiFileProject) for a demo how to avoid `multiple-definitions` linker error for multiple-file project
 
 ---
 ---
@@ -764,7 +801,10 @@ To know the default CS/SS pins of not listed boards, check the related `variant.
  1. [Portenta_H7_NTPClient_Advanced](examples/Portenta_H7/Ethernet/Portenta_H7_NTPClient_Advanced)
  2. [Portenta_H7_NTPClient_Basic](examples/Portenta_H7/Ethernet/Portenta_H7_NTPClient_Basic)
 
- 
+### General
+
+ 1. [multiFileProject](examples/multiFileProject) **New**
+  
 ---
 ---
 
@@ -772,14 +812,14 @@ To know the default CS/SS pins of not listed boards, check the related `variant.
 
 #### 1. File [RTC_Ethernet_NTPClient.ino](examples/Generic/Ethernet/RTC_Ethernet_NTPClient/RTC_Ethernet_NTPClient.ino)
 
-https://github.com/khoih-prog/NTPClient_Generic/blob/fff8aa9fd304b4db766341767f202dd08c2da8d6/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/RTC_Ethernet_NTPClient.ino#L24-L390
+https://github.com/khoih-prog/NTPClient_Generic/blob/1c2b9f16b0a30a78bf3e586fadfd149a712fa798/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/RTC_Ethernet_NTPClient.ino#L24-L394
 
 
 ---
 
 #### 2. File [defines.h](examples/Generic/Ethernet/RTC_Ethernet_NTPClient/defines.h)
 
-https://github.com/khoih-prog/NTPClient_Generic/blob/fff8aa9fd304b4db766341767f202dd08c2da8d6/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/defines.h#L20-L420
+https://github.com/khoih-prog/NTPClient_Generic/blob/1c2b9f16b0a30a78bf3e586fadfd149a712fa798/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/defines.h#L20-L494
 
 
 ---
@@ -793,15 +833,15 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on NRF52840_FEATHER with ENC28J60 using EthernetENC Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] =========================
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 25
-[ETHERNET_WEBSERVER] MISO: 24
-[ETHERNET_WEBSERVER] SCK: 26
-[ETHERNET_WEBSERVER] SS: 5
-[ETHERNET_WEBSERVER] =========================
-[ETHERNET_WEBSERVER] Board : NRF52840_FEATHER , setCsPin: 10
+NTPClient_Generic v3.7.3
+[EWS] =========================
+[EWS] Default SPI pinout:
+[EWS] MOSI: 25
+[EWS] MISO: 24
+[EWS] SCK: 26
+[EWS] SS: 5
+[EWS] =========================
+[EWS] Board : NRF52840_FEATHER , setCsPin: 10
 =========================
 Currently Used SPI pinout:
 MOSI:25
@@ -824,16 +864,16 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:43:16
-UTC :  3:43:16 Tue 25 Jan 2022
-LOC : 22:43:16
-LOC : 22:43:16 Mon 24 Jan 2022
-UTC EPOCH : 1643082196
-LOC EPOCH : 1643064196
-UTC : 3:43:16 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:43:16 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:43:16 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:43:16 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
@@ -844,7 +884,7 @@ Following is the debug terminal output when running example [**NINA_NTPClient_Ad
 
 ```
 Starting NINA_NTPClient_Advanced on SAMD_NANO_33_IOT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 Connecting to: HueNet1
 
 NTPClient_Advanced started @ IP address: 192.168.2.98
@@ -861,35 +901,35 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:43:36
-UTC :  3:43:36 Tue 25 Jan 2022
-LOC : 22:43:36
-LOC : 22:43:36 Mon 24 Jan 2022
-UTC EPOCH : 1643082216
-LOC EPOCH : 1643064216
-UTC : 3:43:36 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:43:36 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:43:36 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:43:36 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
 
-#### 3. [**TZ_NTP_WorldClock_Ethernet**](examples/Generic/Ethernet/TZ_NTP_WorldClock_Ethernet) on Adafruit NRF52840_FEATHER_EXPRESS with W5500 using Ethernet2 Library
+#### 3. [**TZ_NTP_WorldClock_Ethernet**](examples/Generic/Ethernet/TZ_NTP_WorldClock_Ethernet) on Adafruit NRF52840_FEATHER_EXPRESS with W5500 using Ethernet_Generic Library
 
-Following is the debug terminal output when running example [**TZ_NTP_WorldClock_Ethernet**](examples/Generic/Ethernet/TZ_NTP_WorldClock_Ethernet) on Adafruit NRF52840_FEATHER_EXPRESS with W5500 using Ethernet2 Library
+Following is the debug terminal output when running example [**TZ_NTP_WorldClock_Ethernet**](examples/Generic/Ethernet/TZ_NTP_WorldClock_Ethernet) on Adafruit NRF52840_FEATHER_EXPRESS with W5500 using Ethernet_Generic Library
 
 ```
-Start TZ_NTP_WorldClock_Ethernet on NRF52840_FEATHER with W5x00 using Ethernet2 Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] =========== USE_ETHERNET2 ===========
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 25
-[ETHERNET_WEBSERVER] MISO: 24
-[ETHERNET_WEBSERVER] SCK: 26
-[ETHERNET_WEBSERVER] SS: 5
-[ETHERNET_WEBSERVER] =========================
-[ETHERNET_WEBSERVER] Board : NRF52840_FEATHER , setCsPin: 10
+Start TZ_NTP_WorldClock_Ethernet on NRF52840_FEATHER with W5x00 using Ethernet_Generic Library
+NTPClient_Generic v3.7.3
+[EWS] =========== USE_ETHERNET_GENERIC ===========
+[EWS] Default SPI pinout:
+[EWS] MOSI: 25
+[EWS] MISO: 24
+[EWS] SCK: 26
+[EWS] SS: 5
+[EWS] =========================
+[EWS] Board : NRF52840_FEATHER , setCsPin: 10
 =========================
 Currently Used SPI pinout:
 MOSI:25
@@ -902,27 +942,16 @@ You're connected to the network, IP = 192.168.2.80
 ********UPDATED********
 Time updated. Next update in seconds : 3600
 
-06:08:20 Thu 02 Dec 2021 AEDT Sydney
-22:08:20 Wed 01 Dec 2021 MSK  Moscow
-20:08:20 Wed 01 Dec 2021 CET  Paris
-19:08:20 Wed 01 Dec 2021 GMT  London
-19:08:20 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-14:08:20 Wed 01 Dec 2021 EST  New York
-13:08:20 Wed 01 Dec 2021 CST  Chicago
-12:08:20 Wed 01 Dec 2021 MST  Denver
-12:08:20 Wed 01 Dec 2021 MST  Phoenix
-11:08:20 Wed 01 Dec 2021 PST  Los Angeles
-
-06:08:30 Thu 02 Dec 2021 AEDT Sydney
-22:08:30 Wed 01 Dec 2021 MSK  Moscow
-20:08:30 Wed 01 Dec 2021 CET  Paris
-19:08:30 Wed 01 Dec 2021 GMT  London
-19:08:30 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-14:08:30 Wed 01 Dec 2021 EST  New York
-13:08:30 Wed 01 Dec 2021 CST  Chicago
-12:08:30 Wed 01 Dec 2021 MST  Denver
-12:08:30 Wed 01 Dec 2021 MST  Phoenix
-11:08:30 Wed 01 Dec 2021 PST  Los Angeles
+04:05:18 Sun 10 Apr 2022 AEST Sydney
+21:05:18 Sat 09 Apr 2022 MSK  Moscow
+20:05:18 Sat 09 Apr 2022 CEST Paris
+19:05:18 Sat 09 Apr 2022 BST  London
+18:05:18 Sat 09 Apr 2022 UTC  Universal Coordinated Time
+14:05:18 Sat 09 Apr 2022 EDT  New York
+13:05:18 Sat 09 Apr 2022 CDT  Chicago
+12:05:18 Sat 09 Apr 2022 MDT  Denver
+11:05:18 Sat 09 Apr 2022 MST  Phoenix
+11:05:18 Sat 09 Apr 2022 PDT  Los Angeles
 ```
 
 ---
@@ -933,40 +962,23 @@ Following is the debug terminal output when running example [**TZ_NTP_WorldClock
 
 ```
 Start TZ_NTP_WorldClock_STM32_Ethernet on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 11
-[ETHERNET_WEBSERVER] MISO: 12
-[ETHERNET_WEBSERVER] SCK: 13
-[ETHERNET_WEBSERVER] SS: 10
-[ETHERNET_WEBSERVER] =========================
+EthernetWebServer_STM32 v1.4.0
+NTPClient_Generic v3.7.3
 You're connected to the network, IP = 192.168.2.96
 Retry Time update in seconds : 3
 ********UPDATED********
 Time updated. Next update in seconds : 3600
 
-06:08:20 Thu 02 Dec 2021 AEDT Sydney
-22:08:20 Wed 01 Dec 2021 MSK  Moscow
-20:08:20 Wed 01 Dec 2021 CET  Paris
-19:08:20 Wed 01 Dec 2021 GMT  London
-19:08:20 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-14:08:20 Wed 01 Dec 2021 EST  New York
-13:08:20 Wed 01 Dec 2021 CST  Chicago
-12:08:20 Wed 01 Dec 2021 MST  Denver
-12:08:20 Wed 01 Dec 2021 MST  Phoenix
-11:08:20 Wed 01 Dec 2021 PST  Los Angeles
-
-06:08:30 Thu 02 Dec 2021 AEDT Sydney
-22:08:30 Wed 01 Dec 2021 MSK  Moscow
-20:08:30 Wed 01 Dec 2021 CET  Paris
-19:08:30 Wed 01 Dec 2021 GMT  London
-19:08:30 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-14:08:30 Wed 01 Dec 2021 EST  New York
-13:08:30 Wed 01 Dec 2021 CST  Chicago
-12:08:30 Wed 01 Dec 2021 MST  Denver
-12:08:30 Wed 01 Dec 2021 MST  Phoenix
-11:08:30 Wed 01 Dec 2021 PST  Los Angeles
+04:05:18 Sun 10 Apr 2022 AEST Sydney
+21:05:18 Sat 09 Apr 2022 MSK  Moscow
+20:05:18 Sat 09 Apr 2022 CEST Paris
+19:05:18 Sat 09 Apr 2022 BST  London
+18:05:18 Sat 09 Apr 2022 UTC  Universal Coordinated Time
+14:05:18 Sat 09 Apr 2022 EDT  New York
+13:05:18 Sat 09 Apr 2022 CDT  Chicago
+12:05:18 Sat 09 Apr 2022 MDT  Denver
+11:05:18 Sat 09 Apr 2022 MST  Phoenix
+11:05:18 Sat 09 Apr 2022 PDT  Los Angeles
 ```
 
 
@@ -978,15 +990,15 @@ Following is the debug terminal output when running example [**RTC_Ethernet_NTPC
 
 ```
 Start RTC_Ethernet_NTPClient on NRF52840_FEATHER with ENC28J60 using EthernetENC Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] =========================
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 25
-[ETHERNET_WEBSERVER] MISO: 24
-[ETHERNET_WEBSERVER] SCK: 26
-[ETHERNET_WEBSERVER] SS: 5
-[ETHERNET_WEBSERVER] =========================
-[ETHERNET_WEBSERVER] Board : NRF52840_FEATHER , setCsPin: 10
+NTPClient_Generic v3.7.3
+[EWS] =========================
+[EWS] Default SPI pinout:
+[EWS] MOSI: 25
+[EWS] MISO: 24
+[EWS] SCK: 26
+[EWS] SS: 5
+[EWS] =========================
+[EWS] Board : NRF52840_FEATHER , setCsPin: 10
 =========================
 Currently Used SPI pinout:
 MOSI:25
@@ -997,16 +1009,16 @@ SS:5
 Using mac index = 0
 You're connected to the network, IP = 192.168.2.94
 ============================
-17:19:07 Wed 01 Dec 2021 UTC
-13:19:07 Wed 01 Dec 2021 EDT
+18:15:32 Sat 09 Apr 2022 UTC
+14:15:32 Sat 09 Apr 2022 EDT
 ********UPDATED********
 RTC updated. Next update in seconds : 3600
 ============================
-17:19:17 Wed 01 Dec 2021 UTC
-13:19:17 Wed 01 Dec 2021 EDT
+18:15:41 Sat 09 Apr 2022 UTC
+14:15:41 Sat 09 Apr 2022 EDT
 ============================
-17:19:27 Wed 01 Dec 2021 UTC
-13:19:27 Wed 01 Dec 2021 EDT
+18:15:50 Sat 09 Apr 2022 UTC
+14:15:50 Sat 09 Apr 2022 EDT
 ============================
 ```
 
@@ -1018,24 +1030,18 @@ Following is the debug terminal output when running example [**RTC_Ethernet_NTPC
 
 ```
 Start RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 11
-[ETHERNET_WEBSERVER] MISO: 12
-[ETHERNET_WEBSERVER] SCK: 13
-[ETHERNET_WEBSERVER] SS: 10
-[ETHERNET_WEBSERVER] =========================
+EthernetWebServer_STM32 v1.4.0
+NTPClient_Generic v3.7.3
 You're connected to the network, IP = 192.168.2.105
 Retry RTC update in seconds : 3
 ********UPDATED********
 RTC updated. Next update in seconds : 3600
 ============================
-17:19:17 Wed 01 Dec 2021 UTC
-13:19:17 Wed 01 Dec 2021 EDT
+18:15:32 Sat 09 Apr 2022 UTC
+14:15:32 Sat 09 Apr 2022 EDT
 ============================
-17:19:27 Wed 01 Dec 2021 UTC
-13:19:27 Wed 01 Dec 2021 EDT
+18:15:41 Sat 09 Apr 2022 UTC
+14:15:41 Sat 09 Apr 2022 EDT
 ```
 
 ---
@@ -1046,7 +1052,7 @@ Following is the debug terminal output when running example [**ESP_NTPClient_Adv
 
 ```
 Starting ESP_NTPClient_Advanced on ESP8266_NODEMCU_ESP12E
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 Connecting to: HueNet1
 ....
 ESP_NTPClient_Advanced started @ IP address: 192.168.2.69
@@ -1063,16 +1069,16 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:44:06
-UTC :  3:44: 6 Tue 25 Jan 2022
-LOC : 22:44:06
-LOC : 22:44: 6 Mon 24 Jan 2022
-UTC EPOCH : 1643082246
-LOC EPOCH : 1643064246
-UTC : 3:44:6 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:44:06 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:44:6 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:44:06 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
@@ -1083,7 +1089,7 @@ Following is the debug terminal output when running example [**ESP_NTPClient_Adv
 
 ```
 Starting ESP_NTPClient_Advanced on ESP32_DEV
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 Connecting to: HueNet1
 ....
 ESP_NTPClient_Advanced started @ IP address: 192.168.2.101
@@ -1100,35 +1106,35 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:43:46
-UTC :  3:43:46 Tue 25 Jan 2022
-LOC : 22:43:46
-LOC : 22:43:46 Mon 24 Jan 2022
-UTC EPOCH : 1643082226
-LOC EPOCH : 1643064226
-UTC : 3:43:46 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:43:46 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:43:46 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:43:46 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
 
-#### 9. [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on SAM DUE with W5100 using EthernetLarge Library
+#### 9. [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on SAM DUE with W5100 using Ethernet_Generic Library
 
-Following is the debug terminal output when running example [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on SAM DUE with W5100 using EthernetLarge Library
+Following is the debug terminal output when running example [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on SAM DUE with W5100 using Ethernet_Generic Library
 
 ```
-Starting Ethernet_NTPClient_Advanced on SAM DUE with W5x00 using EthernetLarge Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] =========== USE_ETHERNET_LARGE ===========
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 75
-[ETHERNET_WEBSERVER] MISO: 74
-[ETHERNET_WEBSERVER] SCK: 76
-[ETHERNET_WEBSERVER] SS: 10
-[ETHERNET_WEBSERVER] =========================
-[ETHERNET_WEBSERVER] Board : SAM DUE , setCsPin: 10
+Starting Ethernet_NTPClient_Advanced on SAM DUE with W5x00 using Ethernet_Generic Library
+NTPClient_Generic v3.7.3
+[EWS] =========== USE_ETHERNET_GENERIC ===========
+[EWS] Default SPI pinout:
+[EWS] MOSI: 75
+[EWS] MISO: 74
+[EWS] SCK: 76
+[EWS] SS: 10
+[EWS] =========================
+[EWS] Board : SAM DUE , setCsPin: 10
 _pinCS = 0
 W5100 init, using SS_PIN_DEFAULT = 10, new ss_pin = 10, W5100Class::ss_pin = 10
 W5100::init: W5100, SSIZE =4096
@@ -1154,16 +1160,16 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:45:49
-UTC :  3:45:49 Tue 25 Jan 2022
-LOC : 22:45:49
-LOC : 22:45:49 Mon 24 Jan 2022
-UTC EPOCH : 1643082349
-LOC EPOCH : 1643064349
-UTC : 3:45:49 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:45:49 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:45:49 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:45:49 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
@@ -1174,14 +1180,8 @@ Following is the debug terminal output when running example [**BI_RTC_Ethernet_N
 
 ```
 Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 11
-[ETHERNET_WEBSERVER] MISO: 12
-[ETHERNET_WEBSERVER] SCK: 13
-[ETHERNET_WEBSERVER] SS: 10
-[ETHERNET_WEBSERVER] =========================
+EthernetWebServer_STM32 v1.4.0
+NTPClient_Generic v3.7.3
 You're connected to the network, IP = 192.168.2.96
 Retry RTC update in seconds : 3
 
@@ -1189,11 +1189,11 @@ Updating Time for STM32 RTC
 ********UPDATED********
 RTC updated. Next update in seconds : 3600
 ============================
-20:35:36 Wed 01 Dec 2021 UTC
-16:35:36 Wed 01 Dec 2021 EDT
+18:15:41 Sat 09 Apr 2022 UTC
+14:15:41 Sat 09 Apr 2022 EDT
 ============================
-20:35:45 Wed 01 Dec 2021 UTC
-16:35:45 Wed 01 Dec 2021 EDT
+18:15:50 Sat 09 Apr 2022 UTC
+14:15:50 Sat 09 Apr 2022 EDT
 ```
 
 ---
@@ -1204,25 +1204,25 @@ Following is the debug terminal output when running example [**BI_RTC_Ethernet_N
 
 ```
 Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using ENC28J60 & EthernetENC Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 11
-[ETHERNET_WEBSERVER] MISO: 12
-[ETHERNET_WEBSERVER] SCK: 13
-[ETHERNET_WEBSERVER] SS: 10
-[ETHERNET_WEBSERVER] =========================
+NTPClient_Generic v3.7.3
+[EWS] Board : NUCLEO_F767ZI , setCsPin: 10
+[EWS] Default SPI pinout:
+[EWS] MOSI: 11
+[EWS] MISO: 12
+[EWS] SCK: 13
+[EWS] SS: 10
+[EWS] =========================
 BYou're connected to the network, IP = 192.168.2.97
 
 Updating Time for STM32 RTC
 ********UPDATED********
 RTC updated. Next update in seconds : 3600
 ============================
-20:40:14 Wed 01 Dec 2021 UTC
-16:40:14 Wed 01 Dec 2021 EDT
+18:15:41 Sat 09 Apr 2022 UTC
+14:15:41 Sat 09 Apr 2022 EDT
 ============================
-20:40:24 Wed 01 Dec 2021 UTC
-16:40:24 Wed 01 Dec 2021 EDT
+18:15:50 Sat 09 Apr 2022 UTC
+14:15:50 Sat 09 Apr 2022 EDT
 ```
 
 ---
@@ -1232,42 +1232,36 @@ RTC updated. Next update in seconds : 3600
 Following is the debug terminal output when running example [**BI_RTC_Alarm_Ethernet_NTPClient_STM32**](examples/Generic/Ethernet/BI_RTC_Alarm_Ethernet_NTPClient_STM32) on STM32F7 Nucleo-144 NUCLEO_F767ZI with LAN8742A using STM32Ethernet Library to demonstrate the usage of STM32 built-in RTC Alarm function
 
 ```
-Start BI_RTC_Alarm_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-NTPClient_Generic v3.7.2
-[ETHERNET_WEBSERVER] Board : NUCLEO_F767ZI , setCsPin: 10
-[ETHERNET_WEBSERVER] Default SPI pinout:
-[ETHERNET_WEBSERVER] MOSI: 11
-[ETHERNET_WEBSERVER] MISO: 12
-[ETHERNET_WEBSERVER] SCK: 13
-[ETHERNET_WEBSERVER] SS: 10
-[ETHERNET_WEBSERVER] =========================
-You're connected to the network, IP = 192.168.2.111
+Start BI_RTC_Alarm_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI with LAN8742A Ethernet & STM32Ethernet Library
+EthernetWebServer_STM32 v1.4.0
+NTPClient_Generic v3.7.3
+You're connected to the network, IP = 192.168.2.88
 Retry RTC update in seconds : 3
 
 Updating Time for STM32 RTC
 ********UPDATED********
 =======RTC ALARM SET========
-20:47:55 Wed 01 Dec 2021 UTC
-16:47:55 Wed 01 Dec 2021 EDT
+18:13:52 Sat 09 Apr 2022 UTC
+14:13:52 Sat 09 Apr 2022 EDT
 ============================
 RTC updated. Next update in seconds : 3600
 ============================
-20:47:31 Wed 01 Dec 2021 UTC
-16:47:31 Wed 01 Dec 2021 EDT
+18:13:28 Sat 09 Apr 2022 UTC
+14:13:28 Sat 09 Apr 2022 EDT
 ============================
-20:47:40 Wed 01 Dec 2021 UTC
-16:47:40 Wed 01 Dec 2021 EDT
+18:13:37 Sat 09 Apr 2022 UTC
+14:13:37 Sat 09 Apr 2022 EDT
 ============================
-20:47:50 Wed 01 Dec 2021 UTC
-16:47:50 Wed 01 Dec 2021 EDT
+18:13:47 Sat 09 Apr 2022 UTC
+14:13:47 Sat 09 Apr 2022 EDT
 *****RTC ALARM ACTIVATED*****
 *****RTC ALARM ACTIVATED*****
 ============================
-20:47:59 Wed 01 Dec 2021 UTC
-16:47:59 Wed 01 Dec 2021 EDT
+18:13:56 Sat 09 Apr 2022 UTC
+14:13:56 Sat 09 Apr 2022 EDT
 ============================
-20:48:08 Wed 01 Dec 2021 UTC
-16:48:08 Wed 01 Dec 2021 EDT
+18:14:05 Sat 09 Apr 2022 UTC
+14:14:05 Sat 09 Apr 2022 EDT
 ```
 
 ---
@@ -1278,7 +1272,7 @@ Following is the debug terminal output when running example [**NINA_NTPClient_Ba
 
 ```
 Starting NINA_NTPClient_Basic on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 Connecting to: HueNet1
 
 NINA_NTPClient_Basic started @ IP address: 192.168.2.153
@@ -1295,28 +1289,28 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:47:39
-UTC :  3:47:39 Tue 25 Jan 2022
-LOC : 22:47:39
-LOC : 22:47:39 Mon 24 Jan 2022
-UTC EPOCH : 1643082459
-LOC EPOCH : 1643064459
-UTC : 3:47:39 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:47:39 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:47:39 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:47:39 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
 
-#### 14. [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library
+#### 14. [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
 
-Following is the debug terminal output when running example [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library
+Following is the debug terminal output when running example [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
 
 ```
-Starting Ethernet_NTPClient_Advanced on RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library
-NTPClient_Generic v3.7.2
-[EWS] =========== USE_ETHERNET2 ===========
+Starting Ethernet_NTPClient_Advanced on RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
+NTPClient_Generic v3.7.3
+[EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 19
 [EWS] MISO: 16
@@ -1330,6 +1324,7 @@ MOSI:19
 MISO:16
 SCK:18
 SS:17
+========
 =========================
 Using mac index = 10
 You're connected to the network, IP = 192.168.2.94
@@ -1346,41 +1341,41 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:49:38
-UTC :  3:49:38 Tue 25 Jan 2022
-LOC : 22:49:38
-LOC : 22:49:38 Mon 24 Jan 2022
-UTC EPOCH : 1643082578
-LOC EPOCH : 1643064578
-UTC : 3:49:38 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:49:38 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:49:38 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:49:38 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
 
-#### 15. [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library
+#### 15. [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
 
-Following is the debug terminal output when running example [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library
+Following is the debug terminal output when running example [**Ethernet_NTPClient_Advanced**](examples/Generic/Ethernet/Ethernet_NTPClient_Advanced) on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
 
 ```
-Starting Ethernet_NTPClient_Advanced on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet2 Library
-NTPClient_Generic v3.7.2
-[EWS] =========== USE_ETHERNET2 ===========
+Starting Ethernet_NTPClient_Advanced on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
+NTPClient_Generic v3.7.3
+[EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
-[EWS] MOSI: 3
-[EWS] MISO: 4
-[EWS] SCK: 2
-[EWS] SS: 5
+[EWS] MOSI: 19
+[EWS] MISO: 16
+[EWS] SCK: 18
+[EWS] SS: 17
 [EWS] =========================
-[EWS] RPIPICO setCsPin: 5
+[EWS] RPIPICO setCsPin: 17
 =========================
 Currently Used SPI pinout:
-MOSI:3
-MISO:4
-SCK:2
-SS:5
+MOSI:19
+MISO:16
+SCK:18
+SS:17
 =========================
 Using mac index = 5
 You're connected to the network, IP = 192.168.2.123
@@ -1397,16 +1392,16 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:50:38
-UTC :  3:50:38 Tue 25 Jan 2022
-LOC : 22:50:38
-LOC : 22:50:38 Mon 24 Jan 2022
-UTC EPOCH : 1643082638
-LOC EPOCH : 1643064638
-UTC : 3:50:38 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:50:38 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:50:38 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:50:38 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
@@ -1417,33 +1412,22 @@ Following is the debug terminal output when running example [**NINA_TZ_NTP_World
 
 ```
 Starting NINA_TZ_NTP_WorldClock on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 Connecting to WPA SSID: HueNet1
 You're connected to the network, IP = 192.168.2.153
 ********UPDATED********
 Time updated. Next update in seconds : 3600
 
-04:14:20 Thu 02 Dec 2021 AEDT Sydney
-20:14:20 Wed 01 Dec 2021 MSK  Moscow
-18:14:20 Wed 01 Dec 2021 CET  Paris
-17:14:20 Wed 01 Dec 2021 GMT  London
-17:14:20 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-12:14:20 Wed 01 Dec 2021 EST  New York
-11:14:20 Wed 01 Dec 2021 CST  Chicago
-10:14:20 Wed 01 Dec 2021 MST  Denver
-10:14:20 Wed 01 Dec 2021 MST  Phoenix
-09:14:20 Wed 01 Dec 2021 PST  Los Angeles
-
-04:14:30 Thu 02 Dec 2021 AEDT Sydney
-20:14:30 Wed 01 Dec 2021 MSK  Moscow
-18:14:30 Wed 01 Dec 2021 CET  Paris
-17:14:30 Wed 01 Dec 2021 GMT  London
-17:14:30 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-12:14:30 Wed 01 Dec 2021 EST  New York
-11:14:30 Wed 01 Dec 2021 CST  Chicago
-10:14:30 Wed 01 Dec 2021 MST  Denver
-10:14:30 Wed 01 Dec 2021 MST  Phoenix
-09:14:30 Wed 01 Dec 2021 PST  Los Angeles
+04:05:18 Sun 10 Apr 2022 AEST Sydney
+21:05:18 Sat 09 Apr 2022 MSK  Moscow
+20:05:18 Sat 09 Apr 2022 CEST Paris
+19:05:18 Sat 09 Apr 2022 BST  London
+18:05:18 Sat 09 Apr 2022 UTC  Universal Coordinated Time
+14:05:18 Sat 09 Apr 2022 EDT  New York
+13:05:18 Sat 09 Apr 2022 CDT  Chicago
+12:05:18 Sat 09 Apr 2022 MDT  Denver
+11:05:18 Sat 09 Apr 2022 MST  Phoenix
+11:05:18 Sat 09 Apr 2022 PDT  Los Angeles
 ```
 
 ---
@@ -1455,34 +1439,23 @@ Following is the debug terminal output when running example [**WT32_ETH01_TZ_NTP
 ```
 Starting WT32_ETH01_TZ_NTP_WorldClock on ESP32_DEV with ETH_PHY_LAN8720
 WebServer_WT32_ETH01 v1.4.1
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
 WT32_ETH01_TZ_NTP_WorldClock started @ IP address: 192.168.2.232
 ********UPDATED********
 Time updated. Next update in seconds : 3600
 
-04:14:20 Thu 02 Dec 2021 AEDT Sydney
-20:14:20 Wed 01 Dec 2021 MSK  Moscow
-18:14:20 Wed 01 Dec 2021 CET  Paris
-17:14:20 Wed 01 Dec 2021 GMT  London
-17:14:20 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-12:14:20 Wed 01 Dec 2021 EST  New York
-11:14:20 Wed 01 Dec 2021 CST  Chicago
-10:14:20 Wed 01 Dec 2021 MST  Denver
-10:14:20 Wed 01 Dec 2021 MST  Phoenix
-09:14:20 Wed 01 Dec 2021 PST  Los Angeles
-
-04:14:30 Thu 02 Dec 2021 AEDT Sydney
-20:14:30 Wed 01 Dec 2021 MSK  Moscow
-18:14:30 Wed 01 Dec 2021 CET  Paris
-17:14:30 Wed 01 Dec 2021 GMT  London
-17:14:30 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-12:14:30 Wed 01 Dec 2021 EST  New York
-11:14:30 Wed 01 Dec 2021 CST  Chicago
-10:14:30 Wed 01 Dec 2021 MST  Denver
-10:14:30 Wed 01 Dec 2021 MST  Phoenix
-09:14:30 Wed 01 Dec 2021 PST  Los Angeles
+04:05:18 Sun 10 Apr 2022 AEST Sydney
+21:05:18 Sat 09 Apr 2022 MSK  Moscow
+20:05:18 Sat 09 Apr 2022 CEST Paris
+19:05:18 Sat 09 Apr 2022 BST  London
+18:05:18 Sat 09 Apr 2022 UTC  Universal Coordinated Time
+14:05:18 Sat 09 Apr 2022 EDT  New York
+13:05:18 Sat 09 Apr 2022 CDT  Chicago
+12:05:18 Sat 09 Apr 2022 MDT  Denver
+11:05:18 Sat 09 Apr 2022 MST  Phoenix
+11:05:18 Sat 09 Apr 2022 PDT  Los Angeles
 ```
 
 ---
@@ -1494,7 +1467,7 @@ Following is the debug terminal output when running example [**WT32_ETH01_NTPCli
 ```
 Starting WT32_ETH01_NTPClient_Advanced on ESP32_DEV with ETH_PHY_LAN8720
 WebServer_WT32_ETH01 v1.4.1
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
 WT32_ETH01_NTPClient_Advanced started @ IP address: 192.168.2.232
@@ -1511,16 +1484,16 @@ UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
 LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
 LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:51:47
-UTC :  3:51:47 Tue 25 Jan 2022
-LOC : 22:51:47
-LOC : 22:51:47 Mon 24 Jan 2022
-UTC EPOCH : 1643082707
-LOC EPOCH : 1643064707
-UTC : 3:51:47 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:51:47 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:51:47 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:51:47 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 
@@ -1533,7 +1506,7 @@ Following is the debug terminal output when running example [**RTL8720DN_TZ_NTP_
 ```
 Starting RTL8720DN_TZ_NTP_WorldClock on Rtlduino RTL8720DN
 WiFiWebServer_RTL8720 v1.1.1
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 Current Firmware Version = 1.0.0
 Attempting to connect to SSID: HueNet_5G
 TZ_NTP_Clock_RTL8720DN started @ IP address: 192.168.2.111
@@ -1541,27 +1514,16 @@ Retry Time update in seconds : 3
 ********UPDATED********
 Time updated. Next update in seconds : 3600
 
-04:14:20 Thu 02 Dec 2021 AEDT Sydney
-20:14:20 Wed 01 Dec 2021 MSK  Moscow
-18:14:20 Wed 01 Dec 2021 CET  Paris
-17:14:20 Wed 01 Dec 2021 GMT  London
-17:14:20 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-12:14:20 Wed 01 Dec 2021 EST  New York
-11:14:20 Wed 01 Dec 2021 CST  Chicago
-10:14:20 Wed 01 Dec 2021 MST  Denver
-10:14:20 Wed 01 Dec 2021 MST  Phoenix
-09:14:20 Wed 01 Dec 2021 PST  Los Angeles
-
-04:14:30 Thu 02 Dec 2021 AEDT Sydney
-20:14:30 Wed 01 Dec 2021 MSK  Moscow
-18:14:30 Wed 01 Dec 2021 CET  Paris
-17:14:30 Wed 01 Dec 2021 GMT  London
-17:14:30 Wed 01 Dec 2021 UTC  Universal Coordinated Time
-12:14:30 Wed 01 Dec 2021 EST  New York
-11:14:30 Wed 01 Dec 2021 CST  Chicago
-10:14:30 Wed 01 Dec 2021 MST  Denver
-10:14:30 Wed 01 Dec 2021 MST  Phoenix
-09:14:30 Wed 01 Dec 2021 PST  Los Angeles
+04:05:18 Sun 10 Apr 2022 AEST Sydney
+21:05:18 Sat 09 Apr 2022 MSK  Moscow
+20:05:18 Sat 09 Apr 2022 CEST Paris
+19:05:18 Sat 09 Apr 2022 BST  London
+18:05:18 Sat 09 Apr 2022 UTC  Universal Coordinated Time
+14:05:18 Sat 09 Apr 2022 EDT  New York
+13:05:18 Sat 09 Apr 2022 CDT  Chicago
+12:05:18 Sat 09 Apr 2022 MDT  Denver
+11:05:18 Sat 09 Apr 2022 MST  Phoenix
+11:05:18 Sat 09 Apr 2022 PDT  Los Angeles
 ```
 
 ---
@@ -1572,32 +1534,32 @@ Following is the debug terminal output when running example [**Portenta_H7_NTPCl
 
 ```
 Starting Portenta_H7_NTPClient_Advanced on PORTENTA_H7_M7
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 Connecting to: HueNet1
 Portenta_H7_NTPClient_Advanced started @ IP address: 192.168.2.104
 Using NTP Server 0.ca.pool.ntp.org
 ******NOT UPDATED******
-UTC : 00:00:10
-UTC :  0: 0:10 Thu  1 Jan 1970
-LOC : 01:28:26
-LOC :  1:28:26 Sun  7 Feb 2106
-UTC EPOCH : 10
-LOC EPOCH : 4294949306
-UTC : 0:0:10 Thu 1/1/1970 or 1 Jan 1970
-UTC : 00:00:10 Thu 1/1/1970 or 1 Jan 1970
-LOC : 1:28:26 Sun 7/2/2106 or 7 Feb 2106
-LOC : 01:28:26 Sun 7/2/2106 or 7 Feb 2106
+UTC : 00:00:01
+UTC :  0: 0: 1 Thu  1 Jan 1970
+LOC : 02:28:17
+LOC :  2:28:17 Sun  7 Feb 2106
+UTC EPOCH : 1
+LOC EPOCH : 4294952897
+UTC : 0:0:1 Thu 1/1/1970 or 1 Jan 1970
+UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
+LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
+LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:54:06
-UTC :  3:54: 6 Tue 25 Jan 2022
-LOC : 22:54:06
-LOC : 22:54: 6 Mon 24 Jan 2022
-UTC EPOCH : 1643082846
-LOC EPOCH : 1643064846
-UTC : 3:54:6 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:54:06 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:54:6 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:54:06 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
@@ -1608,48 +1570,48 @@ Following is the debug terminal output when running example [**Portenta_H7_NTPCl
 
 ```
 Starting Portenta_H7_NTPClient_Advanced using Ethernet on PORTENTA_H7_M7
-NTPClient_Generic v3.7.2
+NTPClient_Generic v3.7.3
 Portenta_H7_NTPClient_Basic started @ IP address: 192.168.2.111
 Using NTP Server 0.ca.pool.ntp.org
 ******NOT UPDATED******
-UTC : 00:00:04
-UTC :  0: 0: 4 Thu  1 Jan 1970
-LOC : 01:28:20
-LOC :  1:28:20 Sun  7 Feb 2106
-UTC EPOCH : 4
-LOC EPOCH : 4294949300
-UTC : 0:0:4 Thu 1/1/1970 or 1 Jan 1970
-UTC : 00:00:04 Thu 1/1/1970 or 1 Jan 1970
-LOC : 1:28:20 Sun 7/2/2106 or 7 Feb 2106
-LOC : 01:28:20 Sun 7/2/2106 or 7 Feb 2106
+UTC : 00:00:01
+UTC :  0: 0: 1 Thu  1 Jan 1970
+LOC : 02:28:17
+LOC :  2:28:17 Sun  7 Feb 2106
+UTC EPOCH : 1
+LOC EPOCH : 4294952897
+UTC : 0:0:1 Thu 1/1/1970 or 1 Jan 1970
+UTC : 00:00:01 Thu 1/1/1970 or 1 Jan 1970
+LOC : 2:28:17 Sun 7/2/2106 or 7 Feb 2106
+LOC : 02:28:17 Sun 7/2/2106 or 7 Feb 2106
 ********UPDATED********
-UTC : 03:55:36
-UTC :  3:55:36 Tue 25 Jan 2022
-LOC : 22:55:36
-LOC : 22:55:36 Mon 24 Jan 2022
-UTC EPOCH : 1643082936
-LOC EPOCH : 1643064936
-UTC : 3:55:36 Tue 25/1/2022 or 25 Jan 2022
-UTC : 03:55:36 Tue 25/1/2022 or 25 Jan 2022
-LOC : 22:55:36 Mon 24/1/2022 or 24 Jan 2022
-LOC : 22:55:36 Mon 24/1/2022 or 24 Jan 2022
+UTC : 17:51:56
+UTC : 17:51:56 Sat  9 Apr 2022
+LOC : 13:51:56
+LOC : 13:51:56 Sat  9 Apr 2022
+UTC EPOCH : 1649526716
+LOC EPOCH : 1649512316
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+UTC : 17:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
+LOC : 13:51:56 Sat 9/4/2022 or 9 Apr 2022
 ```
 
 ---
 
-#### 22. [**ESP_WiFi_ETH_NTPClient_Advanced**](examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) on ESP32_DEV with W5x00 using EthernetLarge Library
+#### 22. [**ESP_WiFi_ETH_NTPClient_Advanced**](examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) on ESP32_DEV with W5x00 using Ethernet_Generic Library
 
-Following is the debug terminal output when running example [**ESP_WiFi_ETH_NTPClient_Advanced**](examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) on ESP32_DEV with W5x00 using EthernetLarge Library to demonstrate how to to use the new `setUDP()` function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
+Following is the debug terminal output when running example [**ESP_WiFi_ETH_NTPClient_Advanced**](examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) on ESP32_DEV with W5x00 using Ethernet_Generic Library to demonstrate how to to use the new `setUDP()` function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
 
 
 ```
-Starting ESP_WiFi_ETH_NTPClient_Advanced on ESP32_DEV with W5x00 using EthernetLarge Library
-EthernetWebServer v2.0.0
-NTPClient_Generic v3.7.2
+Starting ESP_WiFi_ETH_NTPClient_Advanced on ESP32_DEV with W5x00 using Ethernet_Generic Library
+EthernetWebServer v2.1.2
+NTPClient_Generic v3.7.3
 Connecting to: HueNet1
 ...................
 WiFi failed to connect      <=====  Start without WiFi to use Ethernet UDP
-.[EWS] =========== USE_ETHERNET_LARGE ===========
+.[EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 23
 [EWS] MISO: 19
@@ -1879,6 +1841,10 @@ Submit issues to: [NTPClient_Generic issues](https://github.com/khoih-prog/NTPCl
 19. Fix getUTCEpochMillis() bug
 20. Add setUDP() function to enable auto-switching between `WiFi` and `Ethernet` UDP instances.
 21. Add new examples [ESP_WiFi_ETH_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/ESP/ESP_WiFi_ETH_NTPClient_Advanced) and [WT32_WiFi_ETH01_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/WT32_ETH01/WT32_WiFi_ETH01_NTPClient_Advanced) to use the new setUDP() function for auto-switching between `WiFi` and `Ethernet` UDP to update NTP time.
+22. Use [Ethernet_Generic](https://github.com/khoih-prog/Ethernet_Generic) library as default for W5x00 Ethernet.
+23. Support **SPI2 for ESP32**
+24. Add support to **SPI1 for RP2040** using [arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+25. Add example [multiFileProject](examples/multiFileProject) to demo how to avoid `multiple-definitions` linker error for multiple-file project
 
 ---
 ---

@@ -18,7 +18,8 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
-  Version: 3.7.2
+  
+  Version: 3.7.3
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -34,6 +35,7 @@
   3.7.0   K Hoang      20/01/2022 Make compatible to old code
   3.7.1   K Hoang      20/01/2022 Fix getUTCEpochMillis() bug
   3.7.2   K Hoang      23/02/2022 Add setUDP() function to enable auto-switching between WiFi and Ethernet UDP
+  3.7.3   K Hoang      05/04/2022 Use Ethernet_Generic library as default. Support SPI1/SPI2 for RP2040/ESP32
  *****************************************************************************************************************************/
  
 #pragma once
