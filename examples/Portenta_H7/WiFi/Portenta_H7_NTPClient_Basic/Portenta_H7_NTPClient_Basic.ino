@@ -64,9 +64,9 @@ NTPClient timeClient(ntpUDP);
 void setup() 
 {
   Serial.begin(115200);
-  while (!Serial);
-  
-  Serial.println("\nStarting Portenta_H7_NTPClient_Basic on " + String(BOARD_NAME));
+  while (!Serial && millis() < 5000);
+
+  Serial.print(F("\nStart Portenta_H7_NTPClient_Basic on ")); Serial.println(BOARD_NAME);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
   Serial.println("Connecting to: " + String(ssid));

@@ -161,7 +161,7 @@ void check_status(void)
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print("\nStarting RTL8720DN_TZ_NTP_Clock on "); Serial.println(BOARD_NAME);
   Serial.println(WIFI_WEBSERVER_RTL8720_VERSION);

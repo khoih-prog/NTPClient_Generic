@@ -67,7 +67,7 @@ NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDA
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print("\nStarting WT32_ETH01_NTPClient_Advanced on "); Serial.print(ARDUINO_BOARD);
   Serial.print(" with "); Serial.println(SHIELD_TYPE);

@@ -66,7 +66,7 @@ NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDA
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.println("\nStarting ESP_NTPClient_Advanced on " + String(ARDUINO_BOARD));
   Serial.println(NTPCLIENT_GENERIC_VERSION);

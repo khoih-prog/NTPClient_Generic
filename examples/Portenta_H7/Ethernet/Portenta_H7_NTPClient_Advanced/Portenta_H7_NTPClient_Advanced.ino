@@ -77,9 +77,9 @@ NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDA
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
-  Serial.println("\nStarting Portenta_H7_NTPClient_Advanced using Ethernet on " + String(BOARD_NAME));
+  Serial.print(F("\nStart Portenta_H7_NTPClient_Advanced on ")); Serial.println(BOARD_NAME);
   Serial.println(NTPCLIENT_GENERIC_VERSION);
 
   // start the ethernet connection and the server using DHCP dynamic IP

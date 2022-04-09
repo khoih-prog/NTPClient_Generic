@@ -52,7 +52,7 @@ NTPClient timeClient(ntpUDP);
 void setup() 
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
   
   Serial.print("\nStarting WT32_ETH01_NTPClient_Basic on "); Serial.print(ARDUINO_BOARD);
   Serial.print(" with "); Serial.println(SHIELD_TYPE);

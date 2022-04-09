@@ -157,10 +157,12 @@ void check_status(void)
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
-
-  Serial.print("\nStarting NINA_TZ_NTP_Clock on " + String(BOARD_NAME));
-  Serial.println(" with " + String(SHIELD_TYPE));
+  while (!Serial && millis() < 5000);
+  
+  Serial.print(F("\nStart NINA_TZ_NTP_Clock on ")); Serial.print(BOARD_NAME);
+  Serial.print(F(" with ")); Serial.println(SHIELD_TYPE);
+  Serial.println(WIFI_WEBSERVER_VERSION);
+  Serial.println(NTPCLIENT_GENERIC_VERSION);
 
   // check for the presence of the shield
 #if USE_WIFI_NINA

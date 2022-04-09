@@ -173,7 +173,7 @@ void check_status()
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print("\nStarting WT32_WiFi_ETH01_NTPClient_Advanced on "); Serial.print(ARDUINO_BOARD);
   Serial.print(" with "); Serial.println(SHIELD_TYPE);

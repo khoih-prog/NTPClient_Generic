@@ -49,10 +49,12 @@ NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDA
 void setup() 
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
   
-  Serial.print("\nStarting NINA_NTPClient_Advanced on " + String(BOARD_NAME));
-  Serial.println(" with " + String(SHIELD_TYPE));
+  Serial.print(F("\nStart NINA_NTPClient_Advanced on ")); Serial.print(BOARD_NAME);
+  Serial.print(F(" with ")); Serial.println(SHIELD_TYPE);
+  Serial.println(WIFI_WEBSERVER_VERSION);
+  Serial.println(NTPCLIENT_GENERIC_VERSION);
 
   Serial.println("Connecting to: " + String(ssid));
 

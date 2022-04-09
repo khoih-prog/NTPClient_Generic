@@ -157,7 +157,7 @@ void check_status(void)
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print("\nStarting WT32_ETH01_TZ_NTP_Clock on "); Serial.print(ARDUINO_BOARD);
   Serial.print(" with "); Serial.println(SHIELD_TYPE);
