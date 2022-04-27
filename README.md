@@ -223,23 +223,23 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
 10. [`Adafruit nRF52 v1.3.0+`](https://github.com/adafruit/Adafruit_nRF52_Arduino) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest) 
 11. [`Arduino Core for STM32 v2.2.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
 12. [`ArduinoCore-mbed mbed_rp2040, mbed_nano, mbed_portenta core 3.0.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) **Portenta_H7, RP2040-based boards, such as Nano_RP2040_Connect, RASPBERRY_PI_PICO**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-13. [`Earle Philhower's arduino-pico core v1.13.1+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+13. [`Earle Philhower's arduino-pico core v2.0.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
 14. [`Arduino AmebaD core 3.1.2+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTL8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
 
 15. [`Time v1.6.1+`](https://github.com/PaulStoffregen/Time). [![GitHub release](https://img.shields.io/github/release/PaulStoffregen/Time.svg)](https://github.com/PaulStoffregen/Time/releases/latest)
 16. For built-in LAN8742A Ethernet:
-   - [`STM32Ethernet library v1.2.0+`](https://github.com/stm32duino/STM32Ethernet) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32Ethernet.svg)](https://github.com/stm32duino/STM32Ethernet/releases/latest)
+   - [`STM32Ethernet library v1.3.0+`](https://github.com/stm32duino/STM32Ethernet) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32Ethernet.svg)](https://github.com/stm32duino/STM32Ethernet/releases/latest)
    - [`LwIP library v2.1.2+`](https://github.com/stm32duino/LwIP) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/LwIP.svg)](https://github.com/stm32duino/LwIP/releases/latest)
 17. For W5x00 Ethernet:
-   - [`Ethernet_Generic library v2.0.1+`](https://github.com/khoih-prog/Ethernet_Generic) for W5100, W5200 and W5500/WIZ550io/WIZ850io/USR-ES1 with Wiznet W5500 chip.  [![GitHub release](https://img.shields.io/github/release/khoih-prog/Ethernet_Generic.svg)](https://github.com/khoih-prog/Ethernet_Generic/releases/latest)
+   - [`Ethernet_Generic library v2.1.0+`](https://github.com/khoih-prog/Ethernet_Generic) for W5100, W5200 and W5500/WIZ550io/WIZ850io/USR-ES1 with Wiznet W5500 chip.  [![GitHub release](https://img.shields.io/github/release/khoih-prog/Ethernet_Generic.svg)](https://github.com/khoih-prog/Ethernet_Generic/releases/latest)
 18. For ENC28J60 Ethernet:
    - [`EthernetENC library v2.0.2+`](https://github.com/jandrassy/EthernetENC) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/jandrassy/EthernetENC.svg)](https://github.com/jandrassy/EthernetENC/releases/latest). **New and Better**
    - [`UIPEthernet library v2.0.11+`](https://github.com/UIPEthernet/UIPEthernet) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/UIPEthernet/UIPEthernet.svg)](https://github.com/UIPEthernet/UIPEthernet/releases/latest)
 19. [`WiFiNINA_Generic library v1.8.14-3+`](https://github.com/khoih-prog/WiFiNINA_Generic) to use WiFiNINA modules/shields. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) if using WiFiNINA for boards such as Nano 33 IoT, nRF52, Teensy, etc.
-20. [`WiFiWebServer library v1.6.2+`](https://github.com/khoih-prog/WiFiWebServer) to use WiFi/WiFiNINA modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
-21. [`EthernetWebServer library v2.1.2+`](https://github.com/khoih-prog/EthernetWebServer) to use Ethernet modules/shields on boards other than STM32F/L/H/G/WB/MP1. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer.svg?)](https://www.ardu-badge.com/EthernetWebServer).
-22. [`EthernetWebServer_STM32 library v1.4.0+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
-23. [`ESP8266_AT_WebServer library v1.5.3+`](https://github.com/khoih-prog/ESP8266_AT_WebServer) to use ESP8266-AT/ESP32-AT WiFi modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_AT_WebServer.svg?)](https://www.ardu-badge.com/ESP8266_AT_WebServer)
+20. [`WiFiWebServer library v1.8.0+`](https://github.com/khoih-prog/WiFiWebServer) to use WiFi/WiFiNINA modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
+21. [`EthernetWebServer library v2.1.3+`](https://github.com/khoih-prog/EthernetWebServer) to use Ethernet modules/shields on boards other than STM32F/L/H/G/WB/MP1. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer.svg?)](https://www.ardu-badge.com/EthernetWebServer).
+22. [`EthernetWebServer_STM32 library v1.4.1+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
+23. [`ESP8266_AT_WebServer library v1.5.4+`](https://github.com/khoih-prog/ESP8266_AT_WebServer) to use ESP8266-AT/ESP32-AT WiFi modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_AT_WebServer.svg?)](https://www.ardu-badge.com/ESP8266_AT_WebServer)
 24. [`DS323x_Generic library v1.3.1+`](https://github.com/khoih-prog/DS323x_Generic) to use examples using DS323x RTC modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DS323x_Generic.svg?)](https://www.ardu-badge.com/DS323x_Generic)
 25. [`Timezone_Generic library v1.10.0+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
 26. [`STM32RTC library v1.2.0+`](https://github.com/stm32duino/STM32RTC) to use STM32 examples using built-in STM32 RTC. [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32RTC.svg)](https://github.com/stm32duino/STM32RTC/releases/latest).
@@ -833,7 +833,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on NRF52840_FEATHER with ENC28J60 using EthernetENC Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 [EWS] =========================
 [EWS] Default SPI pinout:
 [EWS] MOSI: 25
@@ -884,7 +884,7 @@ Following is the debug terminal output when running example [**NINA_NTPClient_Ad
 
 ```
 Starting NINA_NTPClient_Advanced on SAMD_NANO_33_IOT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 Connecting to: HueNet1
 
 NTPClient_Advanced started @ IP address: 192.168.2.98
@@ -921,7 +921,7 @@ Following is the debug terminal output when running example [**TZ_NTP_WorldClock
 
 ```
 Start TZ_NTP_WorldClock_Ethernet on NRF52840_FEATHER with W5x00 using Ethernet_Generic Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 [EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 25
@@ -962,8 +962,8 @@ Following is the debug terminal output when running example [**TZ_NTP_WorldClock
 
 ```
 Start TZ_NTP_WorldClock_STM32_Ethernet on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-EthernetWebServer_STM32 v1.4.0
-NTPClient_Generic v3.7.3
+EthernetWebServer_STM32 v1.4.1
+NTPClient_Generic v3.7.4
 You're connected to the network, IP = 192.168.2.96
 Retry Time update in seconds : 3
 ********UPDATED********
@@ -990,7 +990,7 @@ Following is the debug terminal output when running example [**RTC_Ethernet_NTPC
 
 ```
 Start RTC_Ethernet_NTPClient on NRF52840_FEATHER with ENC28J60 using EthernetENC Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 [EWS] =========================
 [EWS] Default SPI pinout:
 [EWS] MOSI: 25
@@ -1030,18 +1030,18 @@ Following is the debug terminal output when running example [**RTC_Ethernet_NTPC
 
 ```
 Start RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-EthernetWebServer_STM32 v1.4.0
-NTPClient_Generic v3.7.3
+EthernetWebServer_STM32 v1.4.1
+NTPClient_Generic v3.7.4
 You're connected to the network, IP = 192.168.2.105
 Retry RTC update in seconds : 3
 ********UPDATED********
 RTC updated. Next update in seconds : 3600
 ============================
-18:15:32 Sat 09 Apr 2022 UTC
-14:15:32 Sat 09 Apr 2022 EDT
+22:17:23 Wed 27 Apr 2022 UTC
+18:17:23 Wed 27 Apr 2022 EDT
 ============================
-18:15:41 Sat 09 Apr 2022 UTC
-14:15:41 Sat 09 Apr 2022 EDT
+22:17:33 Wed 27 Apr 2022 UTC
+18:17:33 Wed 27 Apr 2022 EDT
 ```
 
 ---
@@ -1052,7 +1052,7 @@ Following is the debug terminal output when running example [**ESP_NTPClient_Adv
 
 ```
 Starting ESP_NTPClient_Advanced on ESP8266_NODEMCU_ESP12E
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 Connecting to: HueNet1
 ....
 ESP_NTPClient_Advanced started @ IP address: 192.168.2.69
@@ -1089,7 +1089,7 @@ Following is the debug terminal output when running example [**ESP_NTPClient_Adv
 
 ```
 Starting ESP_NTPClient_Advanced on ESP32_DEV
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 Connecting to: HueNet1
 ....
 ESP_NTPClient_Advanced started @ IP address: 192.168.2.101
@@ -1126,7 +1126,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on SAM DUE with W5x00 using Ethernet_Generic Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 [EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 75
@@ -1180,8 +1180,8 @@ Following is the debug terminal output when running example [**BI_RTC_Ethernet_N
 
 ```
 Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-EthernetWebServer_STM32 v1.4.0
-NTPClient_Generic v3.7.3
+EthernetWebServer_STM32 v1.4.1
+NTPClient_Generic v3.7.4
 You're connected to the network, IP = 192.168.2.96
 Retry RTC update in seconds : 3
 
@@ -1204,7 +1204,7 @@ Following is the debug terminal output when running example [**BI_RTC_Ethernet_N
 
 ```
 Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using ENC28J60 & EthernetENC Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 [EWS] Board : NUCLEO_F767ZI , setCsPin: 10
 [EWS] Default SPI pinout:
 [EWS] MOSI: 11
@@ -1218,11 +1218,11 @@ Updating Time for STM32 RTC
 ********UPDATED********
 RTC updated. Next update in seconds : 3600
 ============================
-18:15:41 Sat 09 Apr 2022 UTC
-14:15:41 Sat 09 Apr 2022 EDT
+22:18:43 Wed 27 Apr 2022 UTC
+18:18:43 Wed 27 Apr 2022 EDT
 ============================
-18:15:50 Sat 09 Apr 2022 UTC
-14:15:50 Sat 09 Apr 2022 EDT
+22:18:53 Wed 27 Apr 2022 UTC
+18:18:53 Wed 27 Apr 2022 EDT
 ```
 
 ---
@@ -1233,8 +1233,8 @@ Following is the debug terminal output when running example [**BI_RTC_Alarm_Ethe
 
 ```
 Start BI_RTC_Alarm_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI with LAN8742A Ethernet & STM32Ethernet Library
-EthernetWebServer_STM32 v1.4.0
-NTPClient_Generic v3.7.3
+EthernetWebServer_STM32 v1.4.1
+NTPClient_Generic v3.7.4
 You're connected to the network, IP = 192.168.2.88
 Retry RTC update in seconds : 3
 
@@ -1272,7 +1272,7 @@ Following is the debug terminal output when running example [**NINA_NTPClient_Ba
 
 ```
 Starting NINA_NTPClient_Basic on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 Connecting to: HueNet1
 
 NINA_NTPClient_Basic started @ IP address: 192.168.2.153
@@ -1309,7 +1309,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 [EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 19
@@ -1361,7 +1361,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 [EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 19
@@ -1412,7 +1412,7 @@ Following is the debug terminal output when running example [**NINA_TZ_NTP_World
 
 ```
 Starting NINA_TZ_NTP_WorldClock on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 Connecting to WPA SSID: HueNet1
 You're connected to the network, IP = 192.168.2.153
 ********UPDATED********
@@ -1439,7 +1439,7 @@ Following is the debug terminal output when running example [**WT32_ETH01_TZ_NTP
 ```
 Starting WT32_ETH01_TZ_NTP_WorldClock on ESP32_DEV with ETH_PHY_LAN8720
 WebServer_WT32_ETH01 v1.4.1
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
 WT32_ETH01_TZ_NTP_WorldClock started @ IP address: 192.168.2.232
@@ -1467,7 +1467,7 @@ Following is the debug terminal output when running example [**WT32_ETH01_NTPCli
 ```
 Starting WT32_ETH01_NTPClient_Advanced on ESP32_DEV with ETH_PHY_LAN8720
 WebServer_WT32_ETH01 v1.4.1
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
 WT32_ETH01_NTPClient_Advanced started @ IP address: 192.168.2.232
@@ -1506,7 +1506,7 @@ Following is the debug terminal output when running example [**RTL8720DN_TZ_NTP_
 ```
 Starting RTL8720DN_TZ_NTP_WorldClock on Rtlduino RTL8720DN
 WiFiWebServer_RTL8720 v1.1.1
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 Current Firmware Version = 1.0.0
 Attempting to connect to SSID: HueNet_5G
 TZ_NTP_Clock_RTL8720DN started @ IP address: 192.168.2.111
@@ -1534,7 +1534,7 @@ Following is the debug terminal output when running example [**Portenta_H7_NTPCl
 
 ```
 Starting Portenta_H7_NTPClient_Advanced on PORTENTA_H7_M7
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 Connecting to: HueNet1
 Portenta_H7_NTPClient_Advanced started @ IP address: 192.168.2.104
 Using NTP Server 0.ca.pool.ntp.org
@@ -1570,7 +1570,7 @@ Following is the debug terminal output when running example [**Portenta_H7_NTPCl
 
 ```
 Starting Portenta_H7_NTPClient_Advanced using Ethernet on PORTENTA_H7_M7
-NTPClient_Generic v3.7.3
+NTPClient_Generic v3.7.4
 Portenta_H7_NTPClient_Basic started @ IP address: 192.168.2.111
 Using NTP Server 0.ca.pool.ntp.org
 ******NOT UPDATED******
@@ -1606,8 +1606,8 @@ Following is the debug terminal output when running example [**ESP_WiFi_ETH_NTPC
 
 ```
 Starting ESP_WiFi_ETH_NTPClient_Advanced on ESP32_DEV with W5x00 using Ethernet_Generic Library
-EthernetWebServer v2.1.2
-NTPClient_Generic v3.7.3
+EthernetWebServer v2.1.3
+NTPClient_Generic v3.7.4
 Connecting to: HueNet1
 ...................
 WiFi failed to connect      <=====  Start without WiFi to use Ethernet UDP
@@ -1845,6 +1845,8 @@ Submit issues to: [NTPClient_Generic issues](https://github.com/khoih-prog/NTPCl
 23. Support **SPI2 for ESP32**
 24. Add support to **SPI1 for RP2040** using [arduino-pico core](https://github.com/earlephilhower/arduino-pico)
 25. Add example [multiFileProject](examples/multiFileProject) to demo how to avoid `multiple-definitions` linker error for multiple-file project
+26. Sync with [NTPClient releases v3.2.1](https://github.com/arduino-libraries/NTPClient/releases/tag/3.2.1)
+
 
 ---
 ---

@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v3.7.4](#releases-v374)
   * [Releases v3.7.3](#releases-v373)
   * [Releases v3.7.2](#releases-v372)
   * [Releases v3.7.1](#releases-v371)
@@ -30,6 +31,11 @@
 ---
 
 ## Changelog
+
+### Releases v3.7.4
+
+1. Sync with [NTPClient releases v3.2.1](https://github.com/arduino-libraries/NTPClient/releases/tag/3.2.1)
+
 
 ### Releases v3.7.3
 

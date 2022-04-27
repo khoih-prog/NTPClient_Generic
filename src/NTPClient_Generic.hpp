@@ -19,7 +19,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
   
-  Version: 3.7.3
+  Version: 3.7.4
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -36,6 +36,7 @@
   3.7.1   K Hoang      20/01/2022 Fix getUTCEpochMillis() bug
   3.7.2   K Hoang      23/02/2022 Add setUDP() function to enable auto-switching between WiFi and Ethernet UDP
   3.7.3   K Hoang      05/04/2022 Use Ethernet_Generic library as default. Support SPI1/SPI2 for RP2040/ESP32
+  3.7.4   K Hoang      27/04/2022 Sync with NTPClient releases v3.2.1
  *****************************************************************************************************************************/
  
 #pragma once
@@ -44,13 +45,13 @@
 #ifndef NTPCLIENT_GENERIC_HPP
 #define NTPCLIENT_GENERIC_HPP
 
-#define NTPCLIENT_GENERIC_VERSION             "NTPClient_Generic v3.7.3"
+#define NTPCLIENT_GENERIC_VERSION             "NTPClient_Generic v3.7.4"
 
 #define NTPCLIENT_GENERIC_VERSION_MAJOR       3
 #define NTPCLIENT_GENERIC_VERSION_MINOR       7
-#define NTPCLIENT_GENERIC_VERSION_PATCH       3
+#define NTPCLIENT_GENERIC_VERSION_PATCH       4
 
-#define NTPCLIENT_GENERIC_VERSION_INT        3007003
+#define NTPCLIENT_GENERIC_VERSION_INT        3007004
 
 #include "Arduino.h"
 
@@ -166,6 +167,15 @@ class NTPClient
     {
       return (this->_poolServerIP);
     }
+    
+    /**
+     * Set random local port
+     */
+    void setRandomPort(uint16_t minValue = 49152, uint16_t maxValue = 65535)
+    {
+      randomSeed(millis());
+      this->_port = random(minValue, maxValue);
+    }
 
     /**
        Starts the underlying UDP client with the specified local port
@@ -187,6 +197,11 @@ class NTPClient
     bool updated() 
     {
       return (this->_currentEpoc != 0);
+    }
+    
+    bool isTimeSet() const 
+    {
+      return (this->_lastUpdate != 0); // returns true if the time has been set, else false
     }
 
     /**

@@ -13,11 +13,13 @@ setPoolServerName	KEYWORD2
 getPoolServerName KEYWORD2
 setPoolServerIP KEYWORD2
 getPoolServerIP KEYWORD2
+setRandomPort	KEYWORD2
 begin	KEYWORD2
 update	KEYWORD2
 updated	KEYWORD2
 setUpdateCallback KEYWORD2
 forceUpdate	KEYWORD2
+isTimeSet	KEYWORD2
 getUTCYear  KEYWORD2
 getUTCMonthStr  KEYWORD2
 getUTCMonth KEYWORD2
