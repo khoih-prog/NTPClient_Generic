@@ -37,7 +37,7 @@
 
 1. Fix bug causing time jumping back or forth when network has problem. Check [Time jumping back when connection is lost and forward when up #9](https://github.com/khoih-prog/NTPClient_Generic/issues/9) and [Time jumping back 9 minutes #1](https://github.com/khoih-prog/NTPClient_Generic/issues/1)
 2. Modify example [ESP_NTPClient_Advanced](https://github.com/khoih-prog/NTPClient_Generic/tree/main/examples/ESP/ESP_NTPClient_Advanced) to demo the better way to use the library, without using long `delay()`
-3. Add support to `RP2040W` boards using CYW43439 WiF
+3. Add support to `RP2040W` boards using CYW43439 WiFi
 4. Optimize and clean up
 5. Modify `platformio.ini` and `library.json` to reduce error with PIO
 6. Update `Packages' Patches`
