@@ -181,6 +181,8 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
 
 14. **Portenta_H7** using Murata WiFi or Vision-shield Ethernet
 
+15. RP2040W boards using CYW43439 WiFi, such as **RASPBERRY_PI_PICO_W**, using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico).
+
 ---
 
 #### Currently supported WiFi shields/modules
@@ -193,6 +195,7 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
 6. ESP32 and ESP8266 WiFi
 7. **RTL8720DN, RTL8722DM, RTL8722CSM**
 8. **Portenta_H7 Murata WiFi**
+9. **RASPBERRY_PI_PICO_W CYW43439 WiFi**
 
 #### Currently supported Ethernet shields/modules
 
@@ -212,42 +215,42 @@ This [**NTPClient_Generic** library](https://github.com/khoih-prog/NTPClient_Gen
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
- 2. [`ESP32 Core 2.0.2+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
+ 2. [`ESP32 Core 2.0.5+`](https://github.com/espressif/arduino-esp32) for ESP32-based boards. [![Latest release](https://img.shields.io/github/release/espressif/arduino-esp32.svg)](https://github.com/espressif/arduino-esp32/releases/latest/)
  3. [`ESP8266 Core 3.0.2+`](https://github.com/esp8266/Arduino) for ESP8266-based boards. [![Latest release](https://img.shields.io/github/release/esp8266/Arduino.svg)](https://github.com/esp8266/Arduino/releases/latest/). To use ESP8266 core 2.7.1+ for LittleFS. 
  4. [`Arduino AVR core 1.8.5+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
- 5. [`Teensy core v1.56+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
+ 5. [`Teensy core v1.57+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
  6. [`Arduino SAM DUE core v1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards.
  7. [`Arduino SAMD core 1.8.13+`](https://github.com/arduino/ArduinoCore-samd) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
  8. [`Adafruit SAMD core 1.7.10+`](https://github.com/adafruit/ArduinoCore-samd) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
- 9. [`Seeeduino SAMD core 1.8.2+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
+ 9. [`Seeeduino SAMD core 1.8.3+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
 10. [`Adafruit nRF52 v1.3.0+`](https://github.com/adafruit/Adafruit_nRF52_Arduino) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest) 
-11. [`Arduino Core for STM32 v2.2.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
-12. [`ArduinoCore-mbed mbed_rp2040, mbed_nano, mbed_portenta core 3.0.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) **Portenta_H7, RP2040-based boards, such as Nano_RP2040_Connect, RASPBERRY_PI_PICO**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-13. [`Earle Philhower's arduino-pico core v2.0.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
-14. [`Arduino AmebaD core 3.1.2+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTL8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
+11. [`Arduino Core for STM32 v2.3.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
+12. [`ArduinoCore-mbed mbed_rp2040, mbed_nano, mbed_portenta core 3.4.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) **Portenta_H7, RP2040-based boards, such as Nano_RP2040_Connect, RASPBERRY_PI_PICO**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+13. [`Earle Philhower's arduino-pico core v2.6.1+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+14. [`Arduino AmebaD core 3.1.4+`](https://github.com/ambiot/ambd_arduino) for Realtek RTL8720DN, RTL8722DM and RTL8722CSM. [![GitHub release](https://img.shields.io/github/release/ambiot/ambd_arduino.svg)](https://github.com/ambiot/ambd_arduino/releases/latest)
 
 15. [`Time v1.6.1+`](https://github.com/PaulStoffregen/Time). [![GitHub release](https://img.shields.io/github/release/PaulStoffregen/Time.svg)](https://github.com/PaulStoffregen/Time/releases/latest)
 16. For built-in LAN8742A Ethernet:
    - [`STM32Ethernet library v1.3.0+`](https://github.com/stm32duino/STM32Ethernet) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32Ethernet.svg)](https://github.com/stm32duino/STM32Ethernet/releases/latest)
    - [`LwIP library v2.1.2+`](https://github.com/stm32duino/LwIP) for built-in LAN8742A Ethernet on (Nucleo-144, Discovery). [![GitHub release](https://img.shields.io/github/release/stm32duino/LwIP.svg)](https://github.com/stm32duino/LwIP/releases/latest)
 17. For W5x00 Ethernet:
-   - [`Ethernet_Generic library v2.1.0+`](https://github.com/khoih-prog/Ethernet_Generic) for W5100, W5200 and W5500/WIZ550io/WIZ850io/USR-ES1 with Wiznet W5500 chip.  [![GitHub release](https://img.shields.io/github/release/khoih-prog/Ethernet_Generic.svg)](https://github.com/khoih-prog/Ethernet_Generic/releases/latest)
+   - [`Ethernet_Generic library v2.6.1+`](https://github.com/khoih-prog/Ethernet_Generic) for W5100, W5200 and W5500/WIZ550io/WIZ850io/USR-ES1 with Wiznet W5500 chip.  [![GitHub release](https://img.shields.io/github/release/khoih-prog/Ethernet_Generic.svg)](https://github.com/khoih-prog/Ethernet_Generic/releases/latest)
 18. For ENC28J60 Ethernet:
-   - [`EthernetENC library v2.0.2+`](https://github.com/jandrassy/EthernetENC) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/jandrassy/EthernetENC.svg)](https://github.com/jandrassy/EthernetENC/releases/latest). **New and Better**
-   - [`UIPEthernet library v2.0.11+`](https://github.com/UIPEthernet/UIPEthernet) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/UIPEthernet/UIPEthernet.svg)](https://github.com/UIPEthernet/UIPEthernet/releases/latest)
-19. [`WiFiNINA_Generic library v1.8.14-3+`](https://github.com/khoih-prog/WiFiNINA_Generic) to use WiFiNINA modules/shields. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) if using WiFiNINA for boards such as Nano 33 IoT, nRF52, Teensy, etc.
-20. [`WiFiWebServer library v1.8.0+`](https://github.com/khoih-prog/WiFiWebServer) to use WiFi/WiFiNINA modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
-21. [`EthernetWebServer library v2.1.3+`](https://github.com/khoih-prog/EthernetWebServer) to use Ethernet modules/shields on boards other than STM32F/L/H/G/WB/MP1. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer.svg?)](https://www.ardu-badge.com/EthernetWebServer).
-22. [`EthernetWebServer_STM32 library v1.4.1+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
+   - [`EthernetENC library v2.0.3+`](https://github.com/jandrassy/EthernetENC) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/jandrassy/EthernetENC.svg)](https://github.com/jandrassy/EthernetENC/releases/latest). **New and Better**
+   - [`UIPEthernet library v2.0.12+`](https://github.com/UIPEthernet/UIPEthernet) for ENC28J60. [![GitHub release](https://img.shields.io/github/release/UIPEthernet/UIPEthernet.svg)](https://github.com/UIPEthernet/UIPEthernet/releases/latest)
+19. [`WiFiNINA_Generic library v1.8.14-6+`](https://github.com/khoih-prog/WiFiNINA_Generic) to use WiFiNINA modules/shields. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) if using WiFiNINA for boards such as Nano 33 IoT, nRF52, Teensy, etc.
+20. [`WiFiWebServer library v1.9.5+`](https://github.com/khoih-prog/WiFiWebServer) to use WiFi/WiFiNINA modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
+21. [`EthernetWebServer library v2.2.3+`](https://github.com/khoih-prog/EthernetWebServer) to use Ethernet modules/shields on boards other than STM32F/L/H/G/WB/MP1. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer.svg?)](https://www.ardu-badge.com/EthernetWebServer).
+22. [`EthernetWebServer_STM32 library v1.5.0+`](https://github.com/khoih-prog/EthernetWebServer_STM32) to use Ethernet modules/shields on STM32F/L/H/G/WB/MP1 boards. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/EthernetWebServer_STM32.svg?)](https://www.ardu-badge.com/EthernetWebServer_STM32).
 23. [`ESP8266_AT_WebServer library v1.5.4+`](https://github.com/khoih-prog/ESP8266_AT_WebServer) to use ESP8266-AT/ESP32-AT WiFi modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/ESP8266_AT_WebServer.svg?)](https://www.ardu-badge.com/ESP8266_AT_WebServer)
 24. [`DS323x_Generic library v1.3.1+`](https://github.com/khoih-prog/DS323x_Generic) to use examples using DS323x RTC modules/shields. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DS323x_Generic.svg?)](https://www.ardu-badge.com/DS323x_Generic)
-25. [`Timezone_Generic library v1.10.0+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
-26. [`STM32RTC library v1.2.0+`](https://github.com/stm32duino/STM32RTC) to use STM32 examples using built-in STM32 RTC. [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32RTC.svg)](https://github.com/stm32duino/STM32RTC/releases/latest).
-27. [`WebServer_WT32_ETH01 library v1.4.1+`](https://github.com/khoih-prog/WebServer_WT32_ETH01) to use WT32_ETH01 (ESP32 + LAN8720). To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WebServer_WT32_ETH01.svg?)](https://www.ardu-badge.com/WebServer_WT32_ETH01).
-28. [`WiFiWebServer_RTL8720 library v1.1.1+`](https://github.com/khoih-prog/WiFiWebServer_RTL8720) to use Realtek RTL8720DN, etc. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer_RTL8720.svg?)](https://www.ardu-badge.com/WiFiWebServer_RTL8720).
+25. [`Timezone_Generic library v1.10.1+`](https://github.com/khoih-prog/Timezone_Generic) to use examples using Timezone. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/Timezone_Generic.svg?)](https://www.ardu-badge.com/Timezone_Generic)
+26. [`STM32RTC library v1.3.2+`](https://github.com/stm32duino/STM32RTC) to use STM32 examples using built-in STM32 RTC. [![GitHub release](https://img.shields.io/github/release/stm32duino/STM32RTC.svg)](https://github.com/stm32duino/STM32RTC/releases/latest).
+27. [`WebServer_WT32_ETH01 library v1.5.1+`](https://github.com/khoih-prog/WebServer_WT32_ETH01) to use WT32_ETH01 (ESP32 + LAN8720). To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WebServer_WT32_ETH01.svg?)](https://www.ardu-badge.com/WebServer_WT32_ETH01).
+28. [`WiFiWebServer_RTL8720 library v1.1.2+`](https://github.com/khoih-prog/WiFiWebServer_RTL8720) to use Realtek RTL8720DN, etc. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer_RTL8720.svg?)](https://www.ardu-badge.com/WiFiWebServer_RTL8720).
 
 29. [`Modified WiFi101 Library v0.16.1+`](https://github.com/khoih-prog/WiFi101) to use SAMD MKR1000, etc. boards with WiFi101.
-30. [`WiFiEspAT library v1.3.2+`](https://github.com/jandrassy/WiFiEspAT) if using ESP8288/ESP32-AT shields. [![GitHub release](https://img.shields.io/github/release/jandrassy/WiFiEspAT.svg)](https://github.com/jandrassy/WiFiEspAT/releases/latest)
+30. [`WiFiEspAT library v1.4.1+`](https://github.com/jandrassy/WiFiEspAT) if using ESP8288/ESP32-AT shields. [![GitHub release](https://img.shields.io/github/release/jandrassy/WiFiEspAT.svg)](https://github.com/jandrassy/WiFiEspAT/releases/latest)
 31. [`FlashStorage_SAMD library v1.3.2+`](https://github.com/khoih-prog/FlashStorage_SAMD) for SAMD21 and SAMD51 boards (ZERO, MKR, NANO_33_IOT, M0, M0 Pro, AdaFruit Itsy-Bitsy M4, etc.). [![GitHub release](https://img.shields.io/github/release/khoih-prog/FlashStorage_SAMD.svg)](https://github.com/khoih-prog/FlashStorage_SAMD/releases/latest)
 32. [`FlashStorage_STM32F1 library v1.1.0+`](https://github.com/khoih-prog/FlashStorage_STM32F1) for STM32F1/F3 boards. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/FlashStorage_STM32F1.svg?)](https://www.ardu-badge.com/FlashStorage_STM32F1)
 33. [`FlashStorage_STM32 library v1.2.0+`](https://github.com/khoih-prog/FlashStorage_STM32) for STM32F/L/H/G/WB/MP1 boards. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/FlashStorage_STM32.svg?)](https://www.ardu-badge.com/FlashStorage_STM32)
@@ -267,9 +270,9 @@ You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/
 Another way to install is to:
 
 1. Navigate to [**NTPClient_Generic**](https://github.com/khoih-prog/NTPClient_Generic) page.
-2. Download the latest release `NTPClient_Generic-master.zip`.
-3. Extract the zip file to `NTPClient_Generic-master` directory 
-4. Copy whole `NTPClient_Generic-master/src` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
+2. Download the latest release `NTPClient_Generic-main.zip`.
+3. Extract the zip file to `NTPClient_Generic-main` directory 
+4. Copy whole `NTPClient_Generic-main/src` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
 
 ### VS Code & PlatformIO
 
@@ -387,13 +390,13 @@ Whenever the above-mentioned compiler error issue is fixed with the new Arduino 
 
 #### 5. For Adafruit SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.9) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.9). 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.10) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.10). 
 
-Supposing the Adafruit SAMD core version is 1.7.9. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.7.10. This file must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/platform.txt`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/cores/arduino/Print.h`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.9/cores/arduino/Print.cpp`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/cores/arduino/Print.h`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/cores/arduino/Print.cpp`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -404,14 +407,14 @@ This file must be copied into the directory:
 
 #### 6. For Seeeduino SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the whole [Seeeduino SAMD Packages_Patches](Packages_Patches/Seeeduino/hardware/samd/1.8.2) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2). 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the whole [Seeeduino SAMD Packages_Patches](Packages_Patches/Seeeduino/hardware/samd/1.8.3) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3). 
 
-Supposing the Seeeduino SAMD core version is 1.8.2. This file must be copied into the directory:
+Supposing the Seeeduino SAMD core version is 1.8.3. This file must be copied into the directory:
 
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/platform.txt`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Arduino.h`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Print.h`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Print.cpp`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/platform.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Arduino.h`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Print.h`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Print.cpp`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -431,12 +434,12 @@ To use LAN8720 on some STM32 boards
 - **Discovery (DISCO_F746NG)**
 - **STM32F4 boards (BLACK_F407VE, BLACK_F407VG, BLACK_F407ZE, BLACK_F407ZG, BLACK_F407VE_Mini, DIYMORE_F407VGT, FK407M1)**
 
-you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.2.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.2.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system) to overwrite the old files.
+you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system) to overwrite the old files.
 
-Supposing the STM32 stm32 core version is 2.2.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
 theses files must be copied into the corresponding directory:
@@ -447,12 +450,12 @@ theses files must be copied into the corresponding directory:
 
 #### 7.2 For STM32 boards to use Serial1
 
-**To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/2.2.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.2.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
+**To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/2.3.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
 
-Supposing the STM32 stm32 core version is 2.2.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/variants/STM32F7xx/F765Z(G-I)T_F767Z(G-I)T_F777ZIT/NUCLEO_F767ZI/variant.h` for Nucleo-144 NUCLEO_F767ZI.
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/variants/STM32L0xx/L052R(6-8)T_L053R(6-8)T_L063R8T/NUCLEO_L053R8/variant.h` for Nucleo-64 NUCLEO_L053R8.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/variants/STM32F7xx/F765Z(G-I)T_F767Z(G-I)T_F777ZIT/NUCLEO_F767ZI/variant.h` for Nucleo-144 NUCLEO_F767ZI.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/variants/STM32L0xx/L052R(6-8)T_L053R(6-8)T_L063R8T/NUCLEO_L053R8/variant.h` for Nucleo-64 NUCLEO_L053R8.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
 theses files must be copied into the corresponding directory:
@@ -495,12 +498,12 @@ With core after v1.5.0, this step is not necessary anymore thanks to the PR [Add
 
 #### 9. For Portenta_H7 boards using Arduino IDE in Linux
 
-  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh). 
+  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh). 
   
   Then run the following command using `sudo`
   
 ```
-$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0
+$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1
 $ chmod 755 portenta_post_install.sh
 $ sudo ./portenta_post_install.sh
 ```
@@ -513,9 +516,9 @@ This will create the file `/etc/udev/rules.d/49-portenta_h7.rules` as follows:
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="035b", GROUP="plugdev", MODE="0666"
 ```
 
-Supposing the ArduinoCore-mbed core version is 3.0.0. Now only one file must be copied into the directory:
+Supposing the ArduinoCore-mbed core version is 3.4.1. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh`
+- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.4.1/portenta_post_install.sh`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -526,11 +529,11 @@ This file must be copied into the directory:
 
 #### 10. For RTL8720DN boards using AmebaD core
  
- To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h). 
+ To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.4/cores/ambd/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.4/cores/arduino/avr/pgmspace.h). 
 
-Supposing the Realtek AmebaD core version is 3.1.2. This file must be copied into the directory:
+Supposing the Realtek AmebaD core version is 3.1.4. This file must be copied into the directory:
 
-- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h`
+- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.4/cores/arduino/avr/pgmspace.h`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -540,11 +543,11 @@ This file must be copied into the directory:
 
 #### 11. For SAMD21 and SAMD51 boards using ArduinoCore-fab-sam core
  
- To avoid compile error relating to SAMD21/SAMD51, you have to copy the file [ArduinoCore-fab-sam core pgmspace.h](Packages_Patches/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt) into `ArduinoCore-fab-sam` samd directory (~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt). 
+ To avoid compile error relating to SAMD21/SAMD51, you have to copy the file [ArduinoCore-fab-sam core pgmspace.h](Packages_Patches/Fab_SAM_Arduino/hardware/samd/1.7.0/boards.txt) into `ArduinoCore-fab-sam` samd directory (~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.7.0/boards.txt). 
 
-Supposing the `ArduinoCore-fab-sam` samd core version is 1.6.18-alpha2. This file must be copied into the directory:
+Supposing the `ArduinoCore-fab-sam` samd core version is 1.7.0. This file must be copied into the directory:
 
-- `~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt`
+- `~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.7.0/boards.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -631,7 +634,7 @@ To fix [`ESP32 compile error`](https://github.com/espressif/arduino-esp32), just
 
 To fix `ESP8266 compile error` such as
 
-```
+```cpp
 error: 'class EthernetClass' has no member named 'init'
 Ethernet.init (USE_THIS_SS_PIN);
 ```
@@ -650,13 +653,13 @@ The current library implementation, using `xyz-Impl.h` instead of standard `xyz.
 
 You can use
 
-```
+```cpp
 #include <NTPClient_Generic.hpp>               //https://github.com/khoih-prog/NTPClient_Generic
 ```
 
 in many files. But be sure to use the following `#include <NTPClient_Generic.h>` **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
 
-```
+```cpp
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include <NTPClient_Generic.h>                //https://github.com/khoih-prog/NTPClient_Generic
 ```
@@ -812,14 +815,14 @@ To know the default CS/SS pins of not listed boards, check the related `variant.
 
 #### 1. File [RTC_Ethernet_NTPClient.ino](examples/Generic/Ethernet/RTC_Ethernet_NTPClient/RTC_Ethernet_NTPClient.ino)
 
-https://github.com/khoih-prog/NTPClient_Generic/blob/1c2b9f16b0a30a78bf3e586fadfd149a712fa798/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/RTC_Ethernet_NTPClient.ino#L24-L394
+https://github.com/khoih-prog/NTPClient_Generic/blob/bf50ed80564ea39a2475eb2053e48734777d7131/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/RTC_Ethernet_NTPClient.ino#L24-L394
 
 
 ---
 
 #### 2. File [defines.h](examples/Generic/Ethernet/RTC_Ethernet_NTPClient/defines.h)
 
-https://github.com/khoih-prog/NTPClient_Generic/blob/1c2b9f16b0a30a78bf3e586fadfd149a712fa798/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/defines.h#L20-L494
+https://github.com/khoih-prog/NTPClient_Generic/blob/bf50ed80564ea39a2475eb2053e48734777d7131/examples/Generic/Ethernet/RTC_Ethernet_NTPClient/defines.h#L20-L494
 
 
 ---
@@ -833,7 +836,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on NRF52840_FEATHER with ENC28J60 using EthernetENC Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 [EWS] =========================
 [EWS] Default SPI pinout:
 [EWS] MOSI: 25
@@ -884,7 +887,7 @@ Following is the debug terminal output when running example [**NINA_NTPClient_Ad
 
 ```
 Starting NINA_NTPClient_Advanced on SAMD_NANO_33_IOT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 Connecting to: HueNet1
 
 NTPClient_Advanced started @ IP address: 192.168.2.98
@@ -921,7 +924,7 @@ Following is the debug terminal output when running example [**TZ_NTP_WorldClock
 
 ```
 Start TZ_NTP_WorldClock_Ethernet on NRF52840_FEATHER with W5x00 using Ethernet_Generic Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 [EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 25
@@ -962,8 +965,8 @@ Following is the debug terminal output when running example [**TZ_NTP_WorldClock
 
 ```
 Start TZ_NTP_WorldClock_STM32_Ethernet on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-EthernetWebServer_STM32 v1.4.1
-NTPClient_Generic v3.7.4
+EthernetWebServer_STM32 v1.5.0
+NTPClient_Generic v3.7.5
 You're connected to the network, IP = 192.168.2.96
 Retry Time update in seconds : 3
 ********UPDATED********
@@ -990,7 +993,7 @@ Following is the debug terminal output when running example [**RTC_Ethernet_NTPC
 
 ```
 Start RTC_Ethernet_NTPClient on NRF52840_FEATHER with ENC28J60 using EthernetENC Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 [EWS] =========================
 [EWS] Default SPI pinout:
 [EWS] MOSI: 25
@@ -1030,8 +1033,8 @@ Following is the debug terminal output when running example [**RTC_Ethernet_NTPC
 
 ```
 Start RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-EthernetWebServer_STM32 v1.4.1
-NTPClient_Generic v3.7.4
+EthernetWebServer_STM32 v1.5.0
+NTPClient_Generic v3.7.5
 You're connected to the network, IP = 192.168.2.105
 Retry RTC update in seconds : 3
 ********UPDATED********
@@ -1052,7 +1055,7 @@ Following is the debug terminal output when running example [**ESP_NTPClient_Adv
 
 ```
 Starting ESP_NTPClient_Advanced on ESP8266_NODEMCU_ESP12E
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 Connecting to: HueNet1
 ....
 ESP_NTPClient_Advanced started @ IP address: 192.168.2.69
@@ -1089,7 +1092,7 @@ Following is the debug terminal output when running example [**ESP_NTPClient_Adv
 
 ```
 Starting ESP_NTPClient_Advanced on ESP32_DEV
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 Connecting to: HueNet1
 ....
 ESP_NTPClient_Advanced started @ IP address: 192.168.2.101
@@ -1126,7 +1129,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on SAM DUE with W5x00 using Ethernet_Generic Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 [EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 75
@@ -1180,8 +1183,8 @@ Following is the debug terminal output when running example [**BI_RTC_Ethernet_N
 
 ```
 Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using LAN8742A Ethernet & STM32Ethernet Library
-EthernetWebServer_STM32 v1.4.1
-NTPClient_Generic v3.7.4
+EthernetWebServer_STM32 v1.5.0
+NTPClient_Generic v3.7.5
 You're connected to the network, IP = 192.168.2.96
 Retry RTC update in seconds : 3
 
@@ -1204,7 +1207,7 @@ Following is the debug terminal output when running example [**BI_RTC_Ethernet_N
 
 ```
 Start BI_RTC_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI, using ENC28J60 & EthernetENC Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 [EWS] Board : NUCLEO_F767ZI , setCsPin: 10
 [EWS] Default SPI pinout:
 [EWS] MOSI: 11
@@ -1233,8 +1236,8 @@ Following is the debug terminal output when running example [**BI_RTC_Alarm_Ethe
 
 ```
 Start BI_RTC_Alarm_Ethernet_NTPClient_STM32 on NUCLEO_F767ZI with LAN8742A Ethernet & STM32Ethernet Library
-EthernetWebServer_STM32 v1.4.1
-NTPClient_Generic v3.7.4
+EthernetWebServer_STM32 v1.5.0
+NTPClient_Generic v3.7.5
 You're connected to the network, IP = 192.168.2.88
 Retry RTC update in seconds : 3
 
@@ -1272,7 +1275,7 @@ Following is the debug terminal output when running example [**NINA_NTPClient_Ba
 
 ```
 Starting NINA_NTPClient_Basic on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 Connecting to: HueNet1
 
 NINA_NTPClient_Basic started @ IP address: 192.168.2.153
@@ -1309,7 +1312,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 [EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 19
@@ -1361,7 +1364,7 @@ Following is the debug terminal output when running example [**Ethernet_NTPClien
 
 ```
 Starting Ethernet_NTPClient_Advanced on MBED RASPBERRY_PI_PICO with W5x00 using Ethernet_Generic Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 [EWS] =========== USE_ETHERNET_GENERIC ===========
 [EWS] Default SPI pinout:
 [EWS] MOSI: 19
@@ -1412,7 +1415,7 @@ Following is the debug terminal output when running example [**NINA_TZ_NTP_World
 
 ```
 Starting NINA_TZ_NTP_WorldClock on MBED NANO_RP2040_CONNECT with WiFiNINA using WiFiNINA_Generic Library
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 Connecting to WPA SSID: HueNet1
 You're connected to the network, IP = 192.168.2.153
 ********UPDATED********
@@ -1438,8 +1441,8 @@ Following is the debug terminal output when running example [**WT32_ETH01_TZ_NTP
 
 ```
 Starting WT32_ETH01_TZ_NTP_WorldClock on ESP32_DEV with ETH_PHY_LAN8720
-WebServer_WT32_ETH01 v1.4.1
-NTPClient_Generic v3.7.4
+WebServer_WT32_ETH01 v1.5.1
+NTPClient_Generic v3.7.5
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
 WT32_ETH01_TZ_NTP_WorldClock started @ IP address: 192.168.2.232
@@ -1466,8 +1469,8 @@ Following is the debug terminal output when running example [**WT32_ETH01_NTPCli
 
 ```
 Starting WT32_ETH01_NTPClient_Advanced on ESP32_DEV with ETH_PHY_LAN8720
-WebServer_WT32_ETH01 v1.4.1
-NTPClient_Generic v3.7.4
+WebServer_WT32_ETH01 v1.5.1
+NTPClient_Generic v3.7.5
 ETH MAC: A8:03:2A:A1:61:73, IPv4: 192.168.2.232
 FULL_DUPLEX, 100Mbps
 WT32_ETH01_NTPClient_Advanced started @ IP address: 192.168.2.232
@@ -1506,7 +1509,7 @@ Following is the debug terminal output when running example [**RTL8720DN_TZ_NTP_
 ```
 Starting RTL8720DN_TZ_NTP_WorldClock on Rtlduino RTL8720DN
 WiFiWebServer_RTL8720 v1.1.1
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 Current Firmware Version = 1.0.0
 Attempting to connect to SSID: HueNet_5G
 TZ_NTP_Clock_RTL8720DN started @ IP address: 192.168.2.111
@@ -1534,7 +1537,7 @@ Following is the debug terminal output when running example [**Portenta_H7_NTPCl
 
 ```
 Starting Portenta_H7_NTPClient_Advanced on PORTENTA_H7_M7
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 Connecting to: HueNet1
 Portenta_H7_NTPClient_Advanced started @ IP address: 192.168.2.104
 Using NTP Server 0.ca.pool.ntp.org
@@ -1570,7 +1573,7 @@ Following is the debug terminal output when running example [**Portenta_H7_NTPCl
 
 ```
 Starting Portenta_H7_NTPClient_Advanced using Ethernet on PORTENTA_H7_M7
-NTPClient_Generic v3.7.4
+NTPClient_Generic v3.7.5
 Portenta_H7_NTPClient_Basic started @ IP address: 192.168.2.111
 Using NTP Server 0.ca.pool.ntp.org
 ******NOT UPDATED******
@@ -1606,8 +1609,8 @@ Following is the debug terminal output when running example [**ESP_WiFi_ETH_NTPC
 
 ```
 Starting ESP_WiFi_ETH_NTPClient_Advanced on ESP32_DEV with W5x00 using Ethernet_Generic Library
-EthernetWebServer v2.1.3
-NTPClient_Generic v3.7.4
+EthernetWebServer v2.2.3
+NTPClient_Generic v3.7.5
 Connecting to: HueNet1
 ...................
 WiFi failed to connect      <=====  Start without WiFi to use Ethernet UDP
@@ -1846,6 +1849,7 @@ Submit issues to: [NTPClient_Generic issues](https://github.com/khoih-prog/NTPCl
 24. Add support to **SPI1 for RP2040** using [arduino-pico core](https://github.com/earlephilhower/arduino-pico)
 25. Add example [multiFileProject](examples/multiFileProject) to demo how to avoid `multiple-definitions` linker error for multiple-file project
 26. Sync with [NTPClient releases v3.2.1](https://github.com/arduino-libraries/NTPClient/releases/tag/3.2.1)
+27. Fix bug causing time jumping back or forth when network has problem
 
 
 ---
@@ -1860,6 +1864,7 @@ Many thanks for everyone for bug reporting, new feature suggesting, testing and 
 3. Thanks to [bmcdonnell](https://github.com/bmcdonnell) to make PR in [Add packet validity checks #4](https://github.com/khoih-prog/NTPClient_Generic/pull/4) leading to v3.3.0
 4. Thanks to [DavidSteinmann](https://github.com/DavidSteinmann) to report the `getUTCEpochMillis()` bug and propose the bug fix in [getUTCEpochMillis() not returning correct value #7](https://github.com/khoih-prog/NTPClient_Generic/issues/7) leading to v3.7.1
 5. Thanks to [argo9](https://github.com/argo9) to make PR in [added setUDP function #8](https://github.com/khoih-prog/NTPClient_Generic/pull/8) leading to v3.7.2
+6. Thanks to [iBuilderBY](https://github.com/iBuilderBY) to report the bug with steps to duplicate in [Time jumping back when connection is lost and forward when up #9](https://github.com/khoih-prog/NTPClient_Generic/issues/9) leading to v3.7.5
 
 
 <table>
@@ -1869,6 +1874,7 @@ Many thanks for everyone for bug reporting, new feature suggesting, testing and 
     <td align="center"><a href="https://github.com/bmcdonnell"><img src="https://github.com/bmcdonnell.png" width="100px;" alt="bmcdonnell"/><br /><sub><b>bmcdonnell</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/DavidSteinmann"><img src="https://github.com/DavidSteinmann.png" width="100px;" alt="DavidSteinmann"/><br /><sub><b>DavidSteinmann</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/argo9"><img src="https://github.com/argo9.png" width="100px;" alt="argo9"/><br /><sub><b>argo9</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/iBuilderBY"><img src="https://github.com/iBuilderBY.png" width="100px;" alt="iBuilderBY"/><br /><sub><b>iBuilderBY</b></sub></a><br /></td>
   </tr> 
 </table>
 
