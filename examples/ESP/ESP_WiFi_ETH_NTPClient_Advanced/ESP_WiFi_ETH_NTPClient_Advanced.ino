@@ -1,13 +1,15 @@
 /****************************************************************************************************************************
   ESP_WiFi_ETH_NTPClient_Advanced.ino
 
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01,  boards using
-  a) Ethernet W5x00, ENC28J60, LAN8742A
-  b) WiFiNINA
-  c) ESP8266/ESP32 WiFi
-  d) ESP8266/ESP32-AT-command WiFi
-  e) WT32_ETH01 (ESP32 + LAN8720)
-  f) RTL8720DN
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN, RP2040 boards using 
+  1) Ethernet W5x00, ENC28J60, LAN8742A
+  2) WiFiNINA
+  3) ESP8266/ESP32 WiFi
+  4) ESP8266/ESP32-AT-command WiFi
+  5) WT32_ETH01 (ESP32 + LAN8720)
+  6) RTL8720DN
+  7) Portenta_H7
+  8) RP2040W WiFi
 
   Based on and modified from Arduino NTPClient Library (https://github.com/arduino-libraries/NTPClient)
   to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, RTL8720DN, etc.

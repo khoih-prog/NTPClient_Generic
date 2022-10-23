@@ -1,13 +1,15 @@
 /****************************************************************************************************************************
   ESP_NTPClient_Advanced.ino
 
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN boards using 
-  a) Ethernet W5x00, ENC28J60, LAN8742A
-  b) WiFiNINA
-  c) ESP8266/ESP32 WiFi
-  d) ESP8266/ESP32-AT-command WiFi
-  e) WT32_ETH01 (ESP32 + LAN8720)
-  f) RTL8720DN
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN, RP2040 boards using 
+  1) Ethernet W5x00, ENC28J60, LAN8742A
+  2) WiFiNINA
+  3) ESP8266/ESP32 WiFi
+  4) ESP8266/ESP32-AT-command WiFi
+  5) WT32_ETH01 (ESP32 + LAN8720)
+  6) RTL8720DN
+  7) Portenta_H7
+  8) RP2040W WiFi
 
   Based on and modified from Arduino NTPClient Library (https://github.com/arduino-libraries/NTPClient)
   to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, RTL8720DN, etc.
@@ -63,6 +65,8 @@ char timeServer[] = "0.ca.pool.ntp.org";
 // update interval (in milliseconds, can be changed using setUpdateInterval() ).
 NTPClient timeClient(ntpUDP, timeServer, (3600 * TIME_ZONE_OFFSET_HRS), NTP_UPDATE_INTERVAL_MS);
 
+int WiFiStatus = WL_IDLE_STATUS;
+
 void setup()
 {
   Serial.begin(115200);
@@ -81,6 +85,8 @@ void setup()
     Serial.print ( "." );
   }
 
+  WiFiStatus = WL_CONNECTED;
+
   Serial.print(F("\nESP_NTPClient_Advanced started @ IP address: "));
   Serial.println(WiFi.localIP());
 
@@ -89,40 +95,79 @@ void setup()
   Serial.println("Using NTP Server " + timeClient.getPoolServerName());
 }
 
+void updateStatus()
+{
+  static unsigned long wifiStatus_timeout   = 0;
+  static unsigned long updateStatus_timeout = 0;
+
+#define WIFI_CHECK_INTERVAL       1000L
+#define UPDATE_INTERVAL           10000L
+
+  if ((millis() > wifiStatus_timeout) || (wifiStatus_timeout == 0))
+  {
+    if (WiFi.status() != WiFiStatus)
+    {
+      WiFiStatus = WiFi.status();
+  
+      if (WiFiStatus == WL_CONNECTED)
+        Serial.println("Changed, WiFiStatus = Connected");
+      else if (WiFiStatus == WL_DISCONNECTED)
+        Serial.println("Changed, WiFiStatus = Disconnected");
+      else if (WiFiStatus == WL_IDLE_STATUS)
+        Serial.println("Changed, WiFiStatus = Idle");
+      else if (WiFiStatus == WL_NO_SSID_AVAIL)
+        Serial.println("Changed, WiFiStatus = lost WiFi SSID");
+      else if (WiFiStatus == WL_CONNECTION_LOST)
+        Serial.println("Changed, WiFiStatus = lost WiFi connection");
+      else
+      {
+        Serial.print("Changed, WiFiStatus = "); Serial.println(WiFiStatus);
+      }
+    }
+   
+    wifiStatus_timeout = millis() + WIFI_CHECK_INTERVAL;
+  }
+  
+  // Send update request every UPDATE_INTERVAL (10) seconds: we don't need to send update request frequently
+  if ((millis() > updateStatus_timeout) || (updateStatus_timeout == 0))
+  {
+    timeClient.update();
+  
+    if (timeClient.updated())
+      Serial.println("********UPDATED********");
+    else
+      Serial.println("******NOT UPDATED******");
+  
+    Serial.println("UTC : " + timeClient.getFormattedUTCTime());
+    Serial.println("UTC : " + timeClient.getFormattedUTCDateTime());
+    Serial.println("LOC : " + timeClient.getFormattedTime());
+    Serial.println("LOC : " + timeClient.getFormattedDateTime());
+    Serial.println("UTC EPOCH : " + String(timeClient.getUTCEpochTime()));
+    Serial.println("LOC EPOCH : " + String(timeClient.getEpochTime()));
+  
+    // Function test
+    // Without leading 0
+    Serial.println(String("UTC : ") + timeClient.getUTCHours() + ":" + timeClient.getUTCMinutes() + ":" + timeClient.getUTCSeconds() + " " +
+                   timeClient.getUTCDoW() + " " + timeClient.getUTCDay() + "/" + timeClient.getUTCMonth() + "/" + timeClient.getUTCYear() + " or " +
+                   timeClient.getUTCDay() + " " + timeClient.getUTCMonthStr() + " " + timeClient.getUTCYear());
+    // With leading 0
+    Serial.println(String("UTC : ") + timeClient.getUTCStrHours() + ":" + timeClient.getUTCStrMinutes() + ":" + timeClient.getUTCStrSeconds() + " " +
+                   timeClient.getUTCDoW() + " " + timeClient.getUTCDay() + "/" + timeClient.getUTCMonth() + "/" + timeClient.getUTCYear() + " or " +
+                   timeClient.getUTCDay() + " " + timeClient.getUTCMonthStr() + " " + timeClient.getUTCYear());
+    // Without leading 0
+    Serial.println(String("LOC : ") + timeClient.getHours() + ":" + timeClient.getMinutes() + ":" + timeClient.getSeconds() + " " +
+                   timeClient.getDoW() + " " + timeClient.getDay() + "/" + timeClient.getMonth() + "/" + timeClient.getYear() + " or " +
+                   timeClient.getDay() + " " + timeClient.getMonthStr() + " " + timeClient.getYear());
+    // With leading 0
+    Serial.println(String("LOC : ") + timeClient.getStrHours() + ":" + timeClient.getStrMinutes() + ":" + timeClient.getStrSeconds() + " " +
+                   timeClient.getDoW() + " " + timeClient.getDay() + "/" + timeClient.getMonth() + "/" + timeClient.getYear() + " or " +
+                   timeClient.getDay() + " " + timeClient.getMonthStr() + " " + timeClient.getYear());
+    
+    updateStatus_timeout = millis() + UPDATE_INTERVAL;
+  }
+}
+
 void loop()
 {
-  timeClient.update();
-
-
-  if (timeClient.updated())
-    Serial.println("********UPDATED********");
-  else
-    Serial.println("******NOT UPDATED******");
-
-  Serial.println("UTC : " + timeClient.getFormattedUTCTime());
-  Serial.println("UTC : " + timeClient.getFormattedUTCDateTime());
-  Serial.println("LOC : " + timeClient.getFormattedTime());
-  Serial.println("LOC : " + timeClient.getFormattedDateTime());
-  Serial.println("UTC EPOCH : " + String(timeClient.getUTCEpochTime()));
-  Serial.println("LOC EPOCH : " + String(timeClient.getEpochTime()));
-
-  // Function test
-  // Without leading 0
-  Serial.println(String("UTC : ") + timeClient.getUTCHours() + ":" + timeClient.getUTCMinutes() + ":" + timeClient.getUTCSeconds() + " " +
-                 timeClient.getUTCDoW() + " " + timeClient.getUTCDay() + "/" + timeClient.getUTCMonth() + "/" + timeClient.getUTCYear() + " or " +
-                 timeClient.getUTCDay() + " " + timeClient.getUTCMonthStr() + " " + timeClient.getUTCYear());
-  // With leading 0
-  Serial.println(String("UTC : ") + timeClient.getUTCStrHours() + ":" + timeClient.getUTCStrMinutes() + ":" + timeClient.getUTCStrSeconds() + " " +
-                 timeClient.getUTCDoW() + " " + timeClient.getUTCDay() + "/" + timeClient.getUTCMonth() + "/" + timeClient.getUTCYear() + " or " +
-                 timeClient.getUTCDay() + " " + timeClient.getUTCMonthStr() + " " + timeClient.getUTCYear());
-  // Without leading 0
-  Serial.println(String("LOC : ") + timeClient.getHours() + ":" + timeClient.getMinutes() + ":" + timeClient.getSeconds() + " " +
-                 timeClient.getDoW() + " " + timeClient.getDay() + "/" + timeClient.getMonth() + "/" + timeClient.getYear() + " or " +
-                 timeClient.getDay() + " " + timeClient.getMonthStr() + " " + timeClient.getYear());
-  // With leading 0
-  Serial.println(String("LOC : ") + timeClient.getStrHours() + ":" + timeClient.getStrMinutes() + ":" + timeClient.getStrSeconds() + " " +
-                 timeClient.getDoW() + " " + timeClient.getDay() + "/" + timeClient.getMonth() + "/" + timeClient.getYear() + " or " +
-                 timeClient.getDay() + " " + timeClient.getMonthStr() + " " + timeClient.getYear());
-
-  delay(10000);
+  updateStatus();
 }

@@ -1,14 +1,15 @@
 /****************************************************************************************************************************
   NTPClient_Generic_Impl.h
  
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN boards using 
-  a) Ethernet W5x00, ENC28J60, LAN8742A
-  b) WiFiNINA
-  c) ESP8266/ESP32 WiFi
-  d) ESP8266/ESP32-AT-command WiFi
-  e) WT32_ETH01 (ESP32 + LAN8720)
-  f) RTL8720DN
-  g) Portenta_H7
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN, RP2040 boards using 
+  1) Ethernet W5x00, ENC28J60, LAN8742A
+  2) WiFiNINA
+  3) ESP8266/ESP32 WiFi
+  4) ESP8266/ESP32-AT-command WiFi
+  5) WT32_ETH01 (ESP32 + LAN8720)
+  6) RTL8720DN
+  7) Portenta_H7
+  8) RP2040W WiFi
 
   Based on and modified from Arduino NTPClient Library (https://github.com/arduino-libraries/NTPClient)
   to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, RTL8720DN, etc.
@@ -19,7 +20,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
   
-  Version: 3.7.4
+  Version: 3.7.5
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -37,6 +38,7 @@
   3.7.2   K Hoang      23/02/2022 Add setUDP() function to enable auto-switching between WiFi and Ethernet UDP
   3.7.3   K Hoang      05/04/2022 Use Ethernet_Generic library as default. Support SPI1/SPI2 for RP2040/ESP32
   3.7.4   K Hoang      27/04/2022 Sync with NTPClient releases v3.2.1
+  3.7.5   K Hoang      22/10/2022 Fix bug causing time jumping back or forth when network has problem
  *****************************************************************************************************************************/
 
 #pragma once
@@ -101,27 +103,30 @@ static bool isValid(byte const *ntpPacket)
 {
   unsigned long highWord = word(ntpPacket[16], ntpPacket[17]);
   unsigned long lowWord  = word(ntpPacket[18], ntpPacket[19]);
+
   unsigned long refTimeInt  = highWord << 16 | lowWord;
+
   highWord = word(ntpPacket[20], ntpPacket[21]);
   lowWord  = word(ntpPacket[22], ntpPacket[23]);
+
   unsigned long refTimeFrac = highWord << 16 | lowWord;
 
   byte leapIndicator = ((ntpPacket[0] & 0b11000000) >> 6);
   byte version       = ((ntpPacket[0] & 0b00111000) >> 3);
   byte stratum       =   ntpPacket[1];
-  
+
   NTP_LOGDEBUG3("isValid: leapIndicator (!=3) =", leapIndicator, ", version (>=1) =", version);
   NTP_LOGDEBUG3("stratum (1 <= stratum <= 15) =", stratum, ", refTimeInt (!= 0) =", refTimeInt);
   NTP_LOGDEBUG1("refTimeFrac (!= 0) =", refTimeFrac);
-  
+
   return
-  (
-    (leapIndicator !=  3) && // LI != UNSYNC
-    (version       >=  1) &&
-    (stratum       >=  1) &&
-    (stratum       <= 15) &&
-    ((refTimeInt != 0) || (refTimeFrac != 0))
-  );
+    (
+      (leapIndicator !=  3) && // LI != UNSYNC
+      (version       >=  1) &&
+      (stratum       >=  1) &&
+      (stratum       <= 15) &&
+      ((refTimeInt != 0) || (refTimeFrac != 0))
+    );
 }
 
 /////////////////////////////
@@ -132,7 +137,7 @@ bool NTPClient::checkResponse()
   {
     this->_lastRequest = 0; // no outstanding request
     int numBytesRead = this->_udp->read(this->_packetBuffer, NTP_PACKET_SIZE);
-    
+
     NTP_LOGDEBUG1("numBytesRead (48) =", numBytesRead);
 
     if ((numBytesRead == NTP_PACKET_SIZE) && isValid(this->_packetBuffer))
@@ -140,7 +145,7 @@ bool NTPClient::checkResponse()
       this->_lastUpdate = millis();
 
       unsigned long highWord = word(this->_packetBuffer[40], this->_packetBuffer[41]);
-      unsigned long lowWord = word(this->_packetBuffer[42], this->_packetBuffer[43]);
+      unsigned long lowWord  = word(this->_packetBuffer[42], this->_packetBuffer[43]);
 
       // combine the four bytes (two words) into a long integer
       // this is NTP time (seconds since Jan 1 1900):
@@ -149,7 +154,7 @@ bool NTPClient::checkResponse()
       this->_currentEpoc = secsSince1900 - SEVENTYYEARS;
 
       highWord = word(this->_packetBuffer[44], this->_packetBuffer[45]);
-      lowWord = word(this->_packetBuffer[46], this->_packetBuffer[47]);
+      lowWord  = word(this->_packetBuffer[46], this->_packetBuffer[47]);
       this->_currentFraction = highWord << 16 | lowWord;
 
       // if the user has set a callback function for when the time is updated, call it
@@ -177,57 +182,46 @@ bool NTPClient::forceUpdate()
 
   this->sendNTPPacket();
 
-  // Wait till data is there or timeout...
-  byte timeout  = 0;
-  bool  cb      = false;
+#define DELAY_BETWEEN_CHECK_RESPONSE      10      // In ms
 
-  do
+  for (uint16_t timeout = 0; timeout < TIMEOUT_WAITING_NTP_PACKET / DELAY_BETWEEN_CHECK_RESPONSE; timeout++)
   {
-    delay ( 10 );
-    cb = this->checkResponse();
+    delay ( DELAY_BETWEEN_CHECK_RESPONSE );
 
-    if (timeout > 100)
-      return false; // timeout after 1000 ms
+    if (this->checkResponse())
+      return true;
+  }
 
-    timeout++;
-  } while (cb == false);
-
-  return true;
+  return false;
 }
 
 /////////////////////////////
 
 bool NTPClient::update()
 {
-  bool updated = false;
   unsigned long now = millis();
-  
+
   NTP_LOGDEBUG("Update from NTP Server");
 
-  if ( ((_lastRequest == 0) && (_lastUpdate == 0))                              // Never requested or updated
-       || ((_lastRequest == 0) && ((now - _lastUpdate) >= _updateInterval))     // Update after _updateInterval
-       || ((_lastRequest != 0) && ((now - _lastRequest) > _retryInterval)) )    // Update if there was no response to the request
+  if ( ((_lastRequest == 0) && (_lastUpdate == 0)) ||                            // Never requested or updated
+       ((_lastRequest == 0) && ((now - _lastUpdate) >= _updateInterval)) ||      // Update after _updateInterval
+       ((_lastRequest != 0) && ((now - _lastRequest) > _retryInterval)) )        // Update if there was no response to the request
   {
     // setup the UDP client if needed
-    if (!this->_udpSetup) 
+    if ( !this->_udpSetup || (this->_port != NTP_DEFAULT_LOCAL_PORT) )
     {
       this->begin();
     }
 
-    this->sendNTPPacket();
+    return forceUpdate();
   }
-
-  if (_lastRequest) 
-  {
-    updated = checkResponse();
-  }
-
-  return updated;
+  else
+    return false;
 }
 
 /////////////////////////////
 
-unsigned long long NTPClient::getUTCEpochMillis() 
+unsigned long long NTPClient::getUTCEpochMillis()
 {
   unsigned long long epoch;
 
@@ -240,10 +234,10 @@ unsigned long long NTPClient::getUTCEpochMillis()
 
 /////////////////////////////
 
-unsigned long long NTPClient::getEpochMillis() 
+unsigned long long NTPClient::getEpochMillis()
 {
   unsigned long long epoch;
-  
+
   epoch = (this->_timeOffset * 1000) + getUTCEpochMillis();
 
   return epoch;
@@ -251,7 +245,7 @@ unsigned long long NTPClient::getEpochMillis()
 
 /////////////////////////////
 
-String NTPClient::createFormattedTime(const unsigned long& rawTime) const 
+String NTPClient::createFormattedTime(const unsigned long& rawTime) const
 {
   unsigned long tempo   = hour(rawTime);
   String hoursStr       = tempo < 10 ? "0" + String(tempo) : String(tempo);
@@ -267,70 +261,70 @@ String NTPClient::createFormattedTime(const unsigned long& rawTime) const
 
 /////////////////////////////
 
-String NTPClient::getFormattedTime() const 
+String NTPClient::getFormattedTime() const
 {
   return createFormattedTime(this->getEpochTime());
 }
 
 /////////////////////////////
 
-String NTPClient::getFormattedUTCTime() const 
+String NTPClient::getFormattedUTCTime() const
 {
   return createFormattedTime(this->getUTCEpochTime());
 }
 
 /////////////////////////////
 
-String NTPClient::getFormattedDateTime() const 
+String NTPClient::getFormattedDateTime() const
 {
   char buf[32];
   char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
-   
+
   time_t t = this->getEpochTime();
-  
+
   memset(buf, 0, sizeof(buf));
   memset(m, 0, sizeof(m));
-  
+
   strcpy(m, monthShortStr(month(t)));
-  sprintf(buf, "%2d:%2d:%2d %s %2d %s %d", hour(t), minute(t), second(t), 
-                                    dayShortStr(weekday(t)), day(t), m, year(t));
-  
+  sprintf(buf, "%2d:%2d:%2d %s %2d %s %d", hour(t), minute(t), second(t),
+          dayShortStr(weekday(t)), day(t), m, year(t));
+
   return String(buf);
 }
 
 /////////////////////////////
 
-String NTPClient::getFormattedUTCDateTime() const 
+String NTPClient::getFormattedUTCDateTime() const
 {
   char buf[32];
   char m[4];    // temporary storage for month string (DateStrings.cpp uses shared buffer)
-    
+
   time_t t = this->getEpochTime() - _timeOffset;
-  
+
   memset(buf, 0, sizeof(buf));
   memset(m, 0, sizeof(m));
-  
+
   strcpy(m, monthShortStr(month(t)));
-  sprintf(buf, "%2d:%2d:%2d %s %2d %s %d", hour(t), minute(t), second(t), 
-                                    dayShortStr(weekday(t)), day(t), m, year(t));
-  
+  sprintf(buf, "%2d:%2d:%2d %s %2d %s %d", hour(t), minute(t), second(t),
+          dayShortStr(weekday(t)), day(t), m, year(t));
+
   return String(buf);
 }
 
 /////////////////////////////
 
-void NTPClient::sendNTPPacket() 
+void NTPClient::sendNTPPacket()
 {
   // set all bytes in the buffer to 0
   memset(this->_packetBuffer, 0, NTP_PACKET_SIZE);
-  
+
   // Initialize values needed to form NTP request
   // (see URL above for details on the packets)
   this->_packetBuffer[0] = 0b11100011;   // LI, Version, Mode
   this->_packetBuffer[1] = 0;     // Stratum, or type of clock
   this->_packetBuffer[2] = 6;     // Polling Interval
   this->_packetBuffer[3] = 0xEC;  // Peer Clock Precision
-  
+
   // 8 bytes of zero for Root Delay & Root Dispersion
   this->_packetBuffer[12]  = 49;
   this->_packetBuffer[13]  = 0x4E;
@@ -339,15 +333,15 @@ void NTPClient::sendNTPPacket()
 
   // all NTP fields have been given values, now
   // you can send a packet requesting a timestamp:
-  if  (this->_poolServerName) 
+  if  (this->_poolServerName)
   {
     this->_udp->beginPacket(this->_poolServerName, NTP_SEVER_PORT);
-  } 
-  else 
+  }
+  else
   {
     this->_udp->beginPacket(this->_poolServerIP, NTP_SEVER_PORT);
   }
-  
+
   this->_udp->write(this->_packetBuffer, NTP_PACKET_SIZE);
   this->_udp->endPacket();
 

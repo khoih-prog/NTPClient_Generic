@@ -1,14 +1,15 @@
 /****************************************************************************************************************************
   NTPClient_Generic.hpp
  
-  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN boards using 
-  a) Ethernet W5x00, ENC28J60, LAN8742A
-  b) WiFiNINA
-  c) ESP8266/ESP32 WiFi
-  d) ESP8266/ESP32-AT-command WiFi
-  e) WT32_ETH01 (ESP32 + LAN8720)
-  f) RTL8720DN
-  g) Portenta_H7
+  For AVR, ESP8266/ESP32, SAMD21/SAMD51, nRF52, STM32, SAM DUE, WT32_ETH01, RTL8720DN, RP2040 boards using 
+  1) Ethernet W5x00, ENC28J60, LAN8742A
+  2) WiFiNINA
+  3) ESP8266/ESP32 WiFi
+  4) ESP8266/ESP32-AT-command WiFi
+  5) WT32_ETH01 (ESP32 + LAN8720)
+  6) RTL8720DN
+  7) Portenta_H7
+  8) RP2040W WiFi
 
   Based on and modified from Arduino NTPClient Library (https://github.com/arduino-libraries/NTPClient)
   to support other boards such as ESP8266/ESP32, SAMD21, SAMD51, Adafruit's nRF52 boards, SAM DUE, RTL8720DN, etc.
@@ -19,7 +20,7 @@
   Built by Khoi Hoang https://github.com/khoih-prog/NTPClient_Generic
   Licensed under MIT license
   
-  Version: 3.7.4
+  Version: 3.7.5
 
   Version Modified By  Date      Comments
   ------- -----------  ---------- -----------
@@ -37,6 +38,7 @@
   3.7.2   K Hoang      23/02/2022 Add setUDP() function to enable auto-switching between WiFi and Ethernet UDP
   3.7.3   K Hoang      05/04/2022 Use Ethernet_Generic library as default. Support SPI1/SPI2 for RP2040/ESP32
   3.7.4   K Hoang      27/04/2022 Sync with NTPClient releases v3.2.1
+  3.7.5   K Hoang      22/10/2022 Fix bug causing time jumping back or forth when network has problem
  *****************************************************************************************************************************/
  
 #pragma once
@@ -45,17 +47,23 @@
 #ifndef NTPCLIENT_GENERIC_HPP
 #define NTPCLIENT_GENERIC_HPP
 
-#define NTPCLIENT_GENERIC_VERSION             "NTPClient_Generic v3.7.4"
+////////////////////////////////////////
+
+#define NTPCLIENT_GENERIC_VERSION             "NTPClient_Generic v3.7.5"
 
 #define NTPCLIENT_GENERIC_VERSION_MAJOR       3
 #define NTPCLIENT_GENERIC_VERSION_MINOR       7
-#define NTPCLIENT_GENERIC_VERSION_PATCH       4
+#define NTPCLIENT_GENERIC_VERSION_PATCH       5
 
-#define NTPCLIENT_GENERIC_VERSION_INT        3007004
+#define NTPCLIENT_GENERIC_VERSION_INT        3007005
+
+////////////////////////////////////////
 
 #include "Arduino.h"
 
 #include <TimeLib.h>    // https://github.com/PaulStoffregen/Time
+
+////////////////////////////////////////
 
 #if ( defined(CONFIG_PLATFORM_8721D) || defined(BOARD_RTL8722D) || defined(BOARD_RTL8722DM_MINI) || defined(BOARD_RTL8720DN_BW16) ) 
   #include <wifi_Udp.h>
@@ -63,19 +71,34 @@
   #include <Udp.h>
 #endif
 
+////////////////////////////////////////
+
 #include "NTPClient_Generic_Debug.h"
+
+////////////////////////////////////////
 
 #define SECS_IN_DAY               (86400L)
 #define SECS_IN_HR                (3600L)
 #define SECS_IN_MIN               (60L)
 
-
 #define SEVENTYYEARS              (2208988800UL)
 #define FRACTIONSPERMILLI         (4294967UL)
 #define NTP_PACKET_SIZE           48
-#define NTP_DEFAULT_LOCAL_PORT    1337
 
+////////////////////////////////////////
+
+#define NTP_DEFAULT_LOCAL_PORT    1337
 #define NTP_SEVER_PORT            123
+
+////////////////////////////////////////
+
+//Timeout (ms) from sendNTPPacket() to checkResponse(). Use larger if slower network
+#if !defined(TIMEOUT_WAITING_PACKET)
+  #define TIMEOUT_WAITING_NTP_PACKET  1000
+#endif  
+
+////////////////////////////////////////
+
 
 class NTPClient;
 
@@ -116,25 +139,31 @@ class NTPClient
     NTPClient(UDP& udp, const char* poolServerName, const long& timeOffset = 0, const unsigned long& updateInterval = 60000);
     NTPClient(UDP& udp, const IPAddress& poolServerIP, const long& timeOffset = 0, const unsigned long& updateInterval = 60000);
 
+    ////////////////////////////////////////
+
     /**
       Set UDP socket. Used to switch between WiFi and Ethernet UDP in runtime
       
       @param UDPsocket
     */
-    void setUDP(UDP& udp)
+    inline void setUDP(UDP& udp)
     {
       this->_udp = &udp;
     }
+
+    ////////////////////////////////////////
     
     /**
        Set time server name
 
        @param poolServerName
     */
-    void setPoolServerName(const char* poolServerName) 
+    inline void setPoolServerName(const char* poolServerName) 
     {
       this->_poolServerName = poolServerName;
     }
+
+    ////////////////////////////////////////
    
     /**
        Get time server name
@@ -153,20 +182,24 @@ class NTPClient
 
        @param poolServerIP
     */
-    void setPoolServerIP(const IPAddress& poolServerIP)
+    inline void setPoolServerIP(const IPAddress& poolServerIP)
     {
       this->_poolServerIP = poolServerIP;
     }
+
+    ////////////////////////////////////////
     
     /**
        Get time server IP. Use only after setPoolServerIP()
 
        @param poolServerIP
     */
-    IPAddress getPoolServerIP()
+    inline IPAddress getPoolServerIP()
     {
       return (this->_poolServerIP);
     }
+
+    ////////////////////////////////////////
     
     /**
      * Set random local port
@@ -177,10 +210,14 @@ class NTPClient
       this->_port = random(minValue, maxValue);
     }
 
+    ////////////////////////////////////////
+
     /**
        Starts the underlying UDP client with the specified local port
     */
     void begin(int port = NTP_DEFAULT_LOCAL_PORT);
+
+    ////////////////////////////////////////
 
     /**
        This should be called in the main loop of your application. By default an update from the NTP Server is only
@@ -190,6 +227,8 @@ class NTPClient
     */
     bool update();
 
+    ////////////////////////////////////////
+
     /**
        Has the time ever been sucessfully updated
 
@@ -198,20 +237,26 @@ class NTPClient
     {
       return (this->_currentEpoc != 0);
     }
+
+    ////////////////////////////////////////
     
-    bool isTimeSet() const 
+    inline bool isTimeSet() const 
     {
       return (this->_lastUpdate != 0); // returns true if the time has been set, else false
     }
+
+    ////////////////////////////////////////
 
     /**
        Register a callback function for when the time gets updated
 
     */
-    void setUpdateCallback(NTPUpdateCallbackFunction f) 
+    inline void setUpdateCallback(NTPUpdateCallbackFunction f) 
     {
       _updateCallback = f;
     }
+
+    ////////////////////////////////////////
 
     /**
        This will force the update from the NTP Server.
@@ -219,46 +264,64 @@ class NTPClient
        @return true on success, false on failure
     */
     bool forceUpdate();
+
+    ////////////////////////////////////////
     
     int getUTCYear() const 
     {
       return ( year(this->getUTCEpochTime()) );      // Year, 20xy
     }
 
+    ////////////////////////////////////////
+
     String getUTCMonthStr() const 
     {
       return ( monthShortStr(month(this->getUTCEpochTime())) );      // Month, 1-12
     }
+
+    ////////////////////////////////////////
 
     int getUTCMonth() const 
     {
       return ( month(this->getUTCEpochTime()) );      // Month, 1-12
     }
 
+    ////////////////////////////////////////
+
     String getUTCDoW() const 
     {
       return ( dayShortStr(weekday(this->getUTCEpochTime())) );        // Day of Week, Sun-Mon-..-Sat
     }
+
+    ////////////////////////////////////////
 
     int getUTCDay() const 
     {
       return ( day(this->getUTCEpochTime()) );        // Day of Month, 1-31
     }
 
+    ////////////////////////////////////////
+
     int getUTCHours() const 
     {
       return ( hour(this->getUTCEpochTime()) );       // Hour, 0-23
     }
+
+    ////////////////////////////////////////
 
     int getUTCMinutes() const 
     {
       return ( minute(this->getUTCEpochTime()) );     // Min, 0-59
     }
 
+    ////////////////////////////////////////
+
     int getUTCSeconds() const 
     {
       return ( second(this->getUTCEpochTime()) );     // Sec, 0-59
     }
+
+    ////////////////////////////////////////
 
     // With leading 0
     String getUTCStrHours() const 
@@ -268,6 +331,8 @@ class NTPClient
       return ( tempo < 10 ? "0" + String(tempo) : String(tempo) );       // Hour, 00-23
     }
 
+    ////////////////////////////////////////
+
     // With leading 0
     String getUTCStrMinutes() const 
     {
@@ -275,6 +340,8 @@ class NTPClient
       
       return ( tempo < 10 ? "0" + String(tempo) : String(tempo) );      // Min, 00-59
     }
+
+    ////////////////////////////////////////
 
     // With leading 0
     String getUTCStrSeconds() const 
@@ -284,48 +351,63 @@ class NTPClient
       return ( tempo < 10 ? "0" + String(tempo) : String(tempo) );      // Sec, 0-59
     }
 
-
-//////////////////////////////////////////
+    ////////////////////////////////////////
 
     int getYear() const 
     {
       return ( year(this->getEpochTime()) );      // Year, 20xy
     }
 
+    ////////////////////////////////////////
+
     String getMonthStr() const 
     {
       return ( monthShortStr(month(this->getEpochTime())) );      // Month, 1-12
     }
+
+    ////////////////////////////////////////
 
     int getMonth() const 
     {
       return ( month(this->getEpochTime()) );      // Month, 1-12
     }
 
+    ////////////////////////////////////////
+
     String getDoW() const 
     {
       return ( dayShortStr(weekday(this->getEpochTime())) );        // Day of Week, Sun-Mon-..-Sat
     }
+
+    ////////////////////////////////////////
 
     int getDay() const 
     {
       return ( day(this->getEpochTime()) );        // Day of Month, 1-31
     }
 
+    ////////////////////////////////////////
+
     int getHours() const 
     {
       return ( hour(this->getEpochTime()) );       // Hour, 0-23
     }
+
+    ////////////////////////////////////////
 
     int getMinutes() const 
     {
       return ( minute(this->getEpochTime()) );     // Min, 0-59
     }
 
+    ////////////////////////////////////////
+
     int getSeconds() const 
     {
       return ( second(this->getEpochTime()) );     // Sec, 0-59
     }
+
+    ////////////////////////////////////////
 
     // With leading 0
     String getStrHours() const 
@@ -335,6 +417,8 @@ class NTPClient
       return ( tempo < 10 ? "0" + String(tempo) : String(tempo) );       // Hour, 00-23
     }
 
+    ////////////////////////////////////////
+
     // With leading 0
     String getStrMinutes() const 
     {
@@ -343,6 +427,8 @@ class NTPClient
       return ( tempo < 10 ? "0" + String(tempo) : String(tempo) );      // Min, 00-59
     }
 
+    ////////////////////////////////////////
+
     // With leading 0
     String getStrSeconds() const 
     {
@@ -350,31 +436,39 @@ class NTPClient
       
       return ( tempo < 10 ? "0" + String(tempo) : String(tempo) );      // Sec, 0-59
     }
+
+    ////////////////////////////////////////
     
     /**
        Changes the time offset. Useful for changing timezones dynamically
     */
-    void setTimeOffset(int timeOffset) 
+    inline void setTimeOffset(int timeOffset) 
     {
       this->_timeOffset     = timeOffset;
     }
+
+    ////////////////////////////////////////
 
     /**
        Set the update interval to another frequency. E.g. useful when the
        timeOffset should not be set in the constructor
     */
-    void setUpdateInterval(const unsigned long& updateInterval) 
+    inline void setUpdateInterval(const unsigned long& updateInterval) 
     {
       this->_updateInterval = updateInterval;
     }
 
+    ////////////////////////////////////////
+
     /**
        Set the retry interval to another frequency in ms
     */
-    void setRetryInterval(const int& retryInterval) 
+    inline void setRetryInterval(const int& retryInterval) 
     {
       _retryInterval = retryInterval;
     }
+
+    ////////////////////////////////////////
     
     /**
        @return time formatted like `hh:mm:ss` from rawTime input
@@ -401,14 +495,18 @@ class NTPClient
     */
     String getFormattedUTCDateTime() const;
 
+    ////////////////////////////////////////
+
     /**
        @return UTC time in seconds since Jan. 1, 1970
     */   
-    unsigned long getUTCEpochTime() const 
+    inline unsigned long getUTCEpochTime() const 
     {
       return this->_currentEpoc +     // Epoc returned by the NTP server
              ((millis() - this->_lastUpdate + (_currentFraction / FRACTIONSPERMILLI)) / 1000); // Time since last update
     }
+
+    ////////////////////////////////////////
    
     /**
        @return time in seconds since Jan. 1, 1970
@@ -417,6 +515,8 @@ class NTPClient
     {
       return (this->_timeOffset + this->getUTCEpochTime());
     }
+
+    ////////////////////////////////////////
     
     /**
        @return UTC time in milliseconds since Jan. 1, 1970
@@ -427,6 +527,8 @@ class NTPClient
        @return time in milliseconds since Jan. 1, 1970
     */
     unsigned long long getEpochMillis();
+
+    ////////////////////////////////////////
 
     /**
        Stops the underlying UDP client
