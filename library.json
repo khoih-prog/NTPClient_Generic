@@ -70,7 +70,7 @@
       "owner": "khoih-prog",
       "name": "FlashStorage_RTL8720",
       "version": ">=1.1.0",
-      "platforms": ["AmebaD"]
+      "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
@@ -106,7 +106,7 @@
       "owner": "khoih-prog",
       "name": "WiFiWebServer_RTL8720",
       "version": ">=1.1.2",
-      "platforms": ["AmebaD"]
+      "platforms": ["*"]
     },
     {
       "owner": "khoih-prog",
